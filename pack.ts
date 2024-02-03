@@ -1,41 +1,31 @@
-// This import statement gives you access to all parts of the Coda Packs SDK.
 import * as coda from "@codahq/packs-sdk";
+import {StudySchema} from "./gen-src/schemas";
 
-// This line creates your new Pack.
+const ApiBaseUrl = "https://clinicaltrials.gov/api/v2";
+
 export const pack = coda.newPack();
 
-// Here, we add a new formula to this Pack.
-pack.addFormula({
-  // This is the name that will be called in the formula builder.
-  // Remember, your formula name cannot have spaces in it.
-  name: "Hello",
-  description: "A Hello World example.",
+pack.addNetworkDomain("clinicaltrials.gov");
 
-  // If your formula requires one or more inputs, you’ll define them here.
-  // Here, we're creating a string input called “name”.
+pack.addFormula({
+  name: "Study",
+  description: "Returns data of a single study.",
   parameters: [
     coda.makeParameter({
       type: coda.ParameterType.String,
-      name: "name",
-      description: "The name you would like to say hello to.",
+      name: "nctId",
+      description: "NCT Number of a study.",
     }),
   ],
-
-  // The resultType defines what will be returned in your Coda doc. Here, we're
-  // returning a simple text string.
-  resultType: coda.ValueType.String,
-
-  // These examples are shown to the user, to help them understand how to use
-  // the formula.
-  examples: [
-    { params: ["World"], result: "Hello World!" },
-    { params: ["Coda"], result: "Hello Coda!" },
-  ],
-
-  // Everything inside this execute statement will happen anytime your Coda
-  // formula is called in a doc. An array of all user inputs is always the 1st
-  // parameter.
-  execute: async function ([name], context) {
-    return "Hello " + name + "!";
+  resultType: coda.ValueType.Object,
+  schema: StudySchema,
+  examples: [{params: ["NCT00841061"], result: "Hello World!"}],
+  execute: async function ([nctId], context) {
+    const url = coda.withQueryParams(`${ApiBaseUrl}/studies/${nctId}`, {
+      format: "json",
+      markupFormat: "markdown",
+    });
+    const response = await context.fetcher.fetch({method: "GET", url});
+    return response.body;
   },
 });

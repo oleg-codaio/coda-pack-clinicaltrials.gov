@@ -24,7 +24,6 @@ describe("Hello formula", () => {
   });
 });
 
-
 // Ensure all of the formula examples produce the correct output.
 describe("Examples", () => {
   for (let formula of pack.formulas) {
