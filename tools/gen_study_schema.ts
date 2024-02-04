@@ -24,6 +24,11 @@ function generateSchemaBody(context: Context, namePath: string[], field: FieldNo
     field.sourceType = "TEXT";
   }
 
+  const isList = field.type.endsWith("[]");
+  if (isList) {
+    output += "type: coda.ValueType.Array, items: {";
+  }
+
   switch (field.sourceType) {
     case "BOOLEAN":
       output += "type: coda.ValueType.Boolean";
@@ -72,10 +77,15 @@ function generateSchemaBody(context: Context, namePath: string[], field: FieldNo
         output += `${child.piece}: ${generateSchemaBody(context, [...namePath, child.name], child, propRequired)},`;
       }
       output += "}";
+
       break;
 
     default:
       ensureUnreachable(field.sourceType as never, `Unknown schema type: ${field.sourceType}`);
+  }
+
+  if (isList) {
+    output += "}";
   }
 
   output += `, fromKey: ${JSON.stringify(field.name)}`;

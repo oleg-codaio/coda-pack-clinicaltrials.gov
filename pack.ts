@@ -111,6 +111,7 @@ pack.addSyncTable({
         type: coda.ParameterType.String,
         name: "overallStatus",
         description: "Filter by comma- or pipe-separated list of statuses",
+        autocomplete: StudySchema.properties.ProtocolSection.properties.StatusModule.properties.OverallStatus.options,
         optional: true,
       }),
       coda.makeParameter({

@@ -17,7 +17,8 @@ export const StudySchema = coda.makeSchema({
                 'National Clinical Trial (NCT) Identification Number. The unique identification code given to each clinical study upon registration at ClinicalTrials.gov. The format is "NCT" followed by an 8-digit number. Also known as ClinicalTrials.gov Identifier.',
             },
             NCTIdAlias: {
-              type: coda.ValueType.String,
+              type: coda.ValueType.Array,
+              items: {type: coda.ValueType.String},
               fromKey: "nctIdAliases",
               description:
                 'Obsolete or duplicate NCT that\'s associated with a published NCT. Identifier(s) that are considered "Obsolete" or "Duplicate". No study is displayed on public site. Request is redirected/forwarded to another NCT Identifier.',
@@ -56,47 +57,50 @@ export const StudySchema = coda.makeSchema({
               fromKey: "orgStudyIdInfo",
             },
             SecondaryIdInfo: {
-              type: coda.ValueType.Object,
-              properties: {
-                SecondaryId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description:
-                    "Secondary ID. An identifier(s) (ID), if any, other than the organization's Unique Protocol Identification Number or the NCT number that is assigned to the clinical study. This includes any unique clinical study identifiers assigned by other publicly available clinical trial registries. If the clinical study is funded in whole or in part by a U.S. Federal Government agency, the complete grant or contract number must be submitted as a Secondary ID..",
-                },
-                SecondaryIdType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "U.S. NIH Grant/Contract", value: "NIH"},
-                    {display: "U.S. FDA Grant/Contract", value: "FDA"},
-                    {display: "U.S. VA Grant/Contract", value: "VA"},
-                    {display: "U.S. CDC Grant/Contract", value: "CDC"},
-                    {display: "U.S. AHRQ Grant/Contract", value: "AHRQ"},
-                    {display: "U.S. SAMHSA Grant/Contract", value: "SAMHSA"},
-                    {
-                      display: "Other Grant/Funding Number",
-                      value: "OTHER_GRANT",
-                    },
-                    {display: "EudraCT Number", value: "EUDRACT_NUMBER"},
-                    {display: "Registry Identifier", value: "REGISTRY"},
-                    {display: "Other Identifier", value: "OTHER"},
-                  ],
-                  fromKey: "type",
-                  description:
-                    "Secondary ID Type. A description of the type of Secondary ID\n•\tU.S. National Institutes of Health (NIH) Grant/Contract Award Number: In the Secondary ID field, include activity code, institute code, and 6-digit serial number. Other components of the full award number (type code, support year and suffix, if applicable) are optional.\n•\tOther Grant/Funding Number: Identifier assigned by a funding organization other than the U.S. NIH; also required to enter the name of the funding organization.\n•\tRegistry Identifier: Number assigned by a clinical trial registry (for example, a registry that is part of the World Health Organization [WHO] Registry Network); also required to enter the name of the clinical trial registry.\n•\tEudraCT Number: Identifier assigned by the European Medicines Agency Clinical Trials Database (EudraCT).\n•\tOther Identifier: Also required to enter a brief description of the identifier (for example, name of organization that issued the identifier)..",
-                },
-                SecondaryIdDomain: {
-                  type: coda.ValueType.String,
-                  fromKey: "domain",
-                  description:
-                    "Secondary ID Description based on ID Type selected. Description of Secondary ID.",
-                },
-                SecondaryIdLink: {
-                  type: coda.ValueType.String,
-                  fromKey: "link",
-                  description:
-                    "Secondary ID Link. URL link based on SecondaryId and SecondaryIdType, including system-generated links to NIH RePORTER, specifically (associated with the types of federal funding identified as SecondaryIdType).",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  SecondaryId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description:
+                      "Secondary ID. An identifier(s) (ID), if any, other than the organization's Unique Protocol Identification Number or the NCT number that is assigned to the clinical study. This includes any unique clinical study identifiers assigned by other publicly available clinical trial registries. If the clinical study is funded in whole or in part by a U.S. Federal Government agency, the complete grant or contract number must be submitted as a Secondary ID..",
+                  },
+                  SecondaryIdType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "U.S. NIH Grant/Contract", value: "NIH"},
+                      {display: "U.S. FDA Grant/Contract", value: "FDA"},
+                      {display: "U.S. VA Grant/Contract", value: "VA"},
+                      {display: "U.S. CDC Grant/Contract", value: "CDC"},
+                      {display: "U.S. AHRQ Grant/Contract", value: "AHRQ"},
+                      {display: "U.S. SAMHSA Grant/Contract", value: "SAMHSA"},
+                      {
+                        display: "Other Grant/Funding Number",
+                        value: "OTHER_GRANT",
+                      },
+                      {display: "EudraCT Number", value: "EUDRACT_NUMBER"},
+                      {display: "Registry Identifier", value: "REGISTRY"},
+                      {display: "Other Identifier", value: "OTHER"},
+                    ],
+                    fromKey: "type",
+                    description:
+                      "Secondary ID Type. A description of the type of Secondary ID\n•\tU.S. National Institutes of Health (NIH) Grant/Contract Award Number: In the Secondary ID field, include activity code, institute code, and 6-digit serial number. Other components of the full award number (type code, support year and suffix, if applicable) are optional.\n•\tOther Grant/Funding Number: Identifier assigned by a funding organization other than the U.S. NIH; also required to enter the name of the funding organization.\n•\tRegistry Identifier: Number assigned by a clinical trial registry (for example, a registry that is part of the World Health Organization [WHO] Registry Network); also required to enter the name of the clinical trial registry.\n•\tEudraCT Number: Identifier assigned by the European Medicines Agency Clinical Trials Database (EudraCT).\n•\tOther Identifier: Also required to enter a brief description of the identifier (for example, name of organization that issued the identifier)..",
+                  },
+                  SecondaryIdDomain: {
+                    type: coda.ValueType.String,
+                    fromKey: "domain",
+                    description:
+                      "Secondary ID Description based on ID Type selected. Description of Secondary ID.",
+                  },
+                  SecondaryIdLink: {
+                    type: coda.ValueType.String,
+                    fromKey: "link",
+                    description:
+                      "Secondary ID Link. URL link based on SecondaryId and SecondaryIdType, including system-generated links to NIH RePORTER, specifically (associated with the types of federal funding identified as SecondaryIdType).",
+                  },
                 },
               },
               fromKey: "secondaryIdInfos",
@@ -596,29 +600,32 @@ export const StudySchema = coda.makeSchema({
                 "Lead Sponsor. The organization or person who initiates the study and who has authority and control over the study..",
             },
             Collaborator: {
-              type: coda.ValueType.Object,
-              properties: {
-                CollaboratorName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Collaborator Name. Collaborator Name.",
-                },
-                CollaboratorClass: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "NIH", value: "NIH"},
-                    {display: "FED", value: "FED"},
-                    {display: "OTHER_GOV", value: "OTHER_GOV"},
-                    {display: "INDIV", value: "INDIV"},
-                    {display: "INDUSTRY", value: "INDUSTRY"},
-                    {display: "NETWORK", value: "NETWORK"},
-                    {display: "AMBIG", value: "AMBIG"},
-                    {display: "OTHER", value: "OTHER"},
-                    {display: "UNKNOWN", value: "UNKNOWN"},
-                  ],
-                  fromKey: "class",
-                  description: "Collaborator Type. Type of collaborator.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  CollaboratorName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Collaborator Name. Collaborator Name.",
+                  },
+                  CollaboratorClass: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "NIH", value: "NIH"},
+                      {display: "FED", value: "FED"},
+                      {display: "OTHER_GOV", value: "OTHER_GOV"},
+                      {display: "INDIV", value: "INDIV"},
+                      {display: "INDUSTRY", value: "INDUSTRY"},
+                      {display: "NETWORK", value: "NETWORK"},
+                      {display: "AMBIG", value: "AMBIG"},
+                      {display: "OTHER", value: "OTHER"},
+                      {display: "UNKNOWN", value: "UNKNOWN"},
+                    ],
+                    fromKey: "class",
+                    description: "Collaborator Type. Type of collaborator.",
+                  },
                 },
               },
               fromKey: "collaborators",
@@ -700,13 +707,15 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             Condition: {
-              type: coda.ValueType.String,
+              type: coda.ValueType.Array,
+              items: {type: coda.ValueType.String},
               fromKey: "conditions",
               description:
                 "Condition/Disease. Primary Disease or Condition Being Studied in the Trial, or the Focus of the Study. Usually valid condition terms from MeSH.\nThe disease, disorder, syndrome, illness, or injury that is being studied. On ClinicalTrials.gov, conditions may also include other health-related issues, such as lifespan, quality of life, and health risks..",
             },
             Keyword: {
-              type: coda.ValueType.String,
+              type: coda.ValueType.Array,
+              items: {type: coda.ValueType.String},
               fromKey: "keywords",
               description:
                 "Keyword. Words or phrases that best describe the protocol. Keywords help users find studies in the database. Use NLM's Medical Subject Heading (MeSH)-controlled vocabulary terms where appropriate..",
@@ -776,16 +785,19 @@ export const StudySchema = coda.makeSchema({
                 "Target Follow-Up Duration. For Patient Registries, the anticipated time period over which each participant is to be followed. Provide a number and select a Unit of Time (years, months, weeks, days)..",
             },
             Phase: {
-              type: coda.ValueType.String,
-              codaType: coda.ValueHintType.SelectList,
-              options: [
-                {display: "Not Applicable", value: "NA"},
-                {display: "Early Phase 1", value: "EARLY_PHASE1"},
-                {display: "Phase 1", value: "PHASE1"},
-                {display: "Phase 2", value: "PHASE2"},
-                {display: "Phase 3", value: "PHASE3"},
-                {display: "Phase 4", value: "PHASE4"},
-              ],
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.String,
+                codaType: coda.ValueHintType.SelectList,
+                options: [
+                  {display: "Not Applicable", value: "NA"},
+                  {display: "Early Phase 1", value: "EARLY_PHASE1"},
+                  {display: "Phase 1", value: "PHASE1"},
+                  {display: "Phase 2", value: "PHASE2"},
+                  {display: "Phase 3", value: "PHASE3"},
+                  {display: "Phase 4", value: "PHASE4"},
+                ],
+              },
               fromKey: "phases",
               description:
                 "Study Phase. For a clinical trial of a drug product (including a biological product), the numerical phase of such clinical trial, consistent with terminology in 21 CFR 312.21 and in 21 CFR 312.85 for phase 4 studies..",
@@ -913,17 +925,20 @@ export const StudySchema = coda.makeSchema({
                         "Masking Description. Information about other parties who may be masked in the clinical trial.",
                     },
                     DesignWhoMasked: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {display: "Participant", value: "PARTICIPANT"},
-                        {display: "Care Provider", value: "CARE_PROVIDER"},
-                        {display: "Investigator", value: "INVESTIGATOR"},
-                        {
-                          display: "Outcomes Assessor",
-                          value: "OUTCOMES_ASSESSOR",
-                        },
-                      ],
+                      type: coda.ValueType.Array,
+                      items: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.SelectList,
+                        options: [
+                          {display: "Participant", value: "PARTICIPANT"},
+                          {display: "Care Provider", value: "CARE_PROVIDER"},
+                          {display: "Investigator", value: "INVESTIGATOR"},
+                          {
+                            display: "Outcomes Assessor",
+                            value: "OUTCOMES_ASSESSOR",
+                          },
+                        ],
+                      },
                       fromKey: "whoMasked",
                       description:
                         "Who Masked: The party or parties involved in the clinical trial who are prevented from having knowledge of the interventions assigned to individual participants..",
@@ -994,44 +1009,51 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             ArmGroup: {
-              type: coda.ValueType.Object,
-              properties: {
-                ArmGroupLabel: {
-                  type: coda.ValueType.String,
-                  fromKey: "label",
-                  description:
-                    "Arm Group Label. The short name used to identify the arm. Arm Title for INT, Group/Cohort Title for OBS.",
-                },
-                ArmGroupType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Experimental", value: "EXPERIMENTAL"},
-                    {display: "Active Comparator", value: "ACTIVE_COMPARATOR"},
-                    {
-                      display: "Placebo Comparator",
-                      value: "PLACEBO_COMPARATOR",
-                    },
-                    {display: "Sham Comparator", value: "SHAM_COMPARATOR"},
-                    {display: "No Intervention", value: "NO_INTERVENTION"},
-                    {display: "Other", value: "OTHER"},
-                  ],
-                  fromKey: "type",
-                  description:
-                    "Arm Group Type. The role of each arm in the clinical trial..",
-                },
-                ArmGroupDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Arm Description for INT, Group/Cohort Description for OBS. If needed, additional descriptive information (including which interventions are administered in each arm) to differentiate each arm from other arms in the clinical trial..",
-                },
-                ArmGroupInterventionName: {
-                  type: coda.ValueType.String,
-                  fromKey: "interventionNames",
-                  description:
-                    "Arm/Group that Receives a Specific Intervention/Treatment. Arm/Group and Intervention Cross Reference.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ArmGroupLabel: {
+                    type: coda.ValueType.String,
+                    fromKey: "label",
+                    description:
+                      "Arm Group Label. The short name used to identify the arm. Arm Title for INT, Group/Cohort Title for OBS.",
+                  },
+                  ArmGroupType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Experimental", value: "EXPERIMENTAL"},
+                      {
+                        display: "Active Comparator",
+                        value: "ACTIVE_COMPARATOR",
+                      },
+                      {
+                        display: "Placebo Comparator",
+                        value: "PLACEBO_COMPARATOR",
+                      },
+                      {display: "Sham Comparator", value: "SHAM_COMPARATOR"},
+                      {display: "No Intervention", value: "NO_INTERVENTION"},
+                      {display: "Other", value: "OTHER"},
+                    ],
+                    fromKey: "type",
+                    description:
+                      "Arm Group Type. The role of each arm in the clinical trial..",
+                  },
+                  ArmGroupDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Arm Description for INT, Group/Cohort Description for OBS. If needed, additional descriptive information (including which interventions are administered in each arm) to differentiate each arm from other arms in the clinical trial..",
+                  },
+                  ArmGroupInterventionName: {
+                    type: coda.ValueType.Array,
+                    items: {type: coda.ValueType.String},
+                    fromKey: "interventionNames",
+                    description:
+                      "Arm/Group that Receives a Specific Intervention/Treatment. Arm/Group and Intervention Cross Reference.",
+                  },
                 },
               },
               fromKey: "armGroups",
@@ -1039,58 +1061,63 @@ export const StudySchema = coda.makeSchema({
                 'Arm Information. A description of each arm of the clinical trial that indicates its role in the clinical trial; provides an informative title; and, if necessary, additional descriptive information (including which interventions are administered in each arm) to differentiate each arm from other arms in the clinical trial.\n"Arm" means a pre-specified group or subgroup of participant(s) in a clinical trial assigned to receive specific intervention(s) (or no intervention) according to a protocol..',
             },
             Intervention: {
-              type: coda.ValueType.Object,
-              properties: {
-                InterventionType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Behavioral", value: "BEHAVIORAL"},
-                    {display: "Biological", value: "BIOLOGICAL"},
-                    {
-                      display: "Combination Product",
-                      value: "COMBINATION_PRODUCT",
-                    },
-                    {display: "Device", value: "DEVICE"},
-                    {display: "Diagnostic Test", value: "DIAGNOSTIC_TEST"},
-                    {
-                      display: "Dietary Supplement",
-                      value: "DIETARY_SUPPLEMENT",
-                    },
-                    {display: "Drug", value: "DRUG"},
-                    {display: "Genetic", value: "GENETIC"},
-                    {display: "Procedure", value: "PROCEDURE"},
-                    {display: "Radiation", value: "RADIATION"},
-                    {display: "Other", value: "OTHER"},
-                  ],
-                  fromKey: "type",
-                  description:
-                    "Intervention/Treatment Type. Intervention Type: General types of interventions.",
-                },
-                InterventionName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description:
-                    "Intervention Name. A brief descriptive name used to refer to the investigational product. A non-proprietary name of the intervention must be used, if available. If a non-proprietary name is not available, a brief descriptive name or identifier must be used..",
-                },
-                InterventionDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Intervention Description. Details that can be made public about the intervention, other than the Intervention Name(s) and Other Intervention Name(s), sufficient to distinguish the intervention from other, similar interventions studied in the same or another clinical study. For example, interventions involving drugs may include dosage form, dosage, frequency, and duration..",
-                },
-                InterventionArmGroupLabel: {
-                  type: coda.ValueType.String,
-                  fromKey: "armGroupLabels",
-                  description:
-                    "Arm Group Label for Intervention. Arm/Group and Intervention Cross Reference.",
-                },
-                InterventionOtherName: {
-                  type: coda.ValueType.String,
-                  fromKey: "otherNames",
-                  description:
-                    "Other Intervention Name. Other current and former name(s) or alias(es), if any, different from the Intervention Name(s), that the sponsor has used publicly to identify the intervention, including, but not limited to, past or present names such as brand name(s), or serial numbers..",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  InterventionType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Behavioral", value: "BEHAVIORAL"},
+                      {display: "Biological", value: "BIOLOGICAL"},
+                      {
+                        display: "Combination Product",
+                        value: "COMBINATION_PRODUCT",
+                      },
+                      {display: "Device", value: "DEVICE"},
+                      {display: "Diagnostic Test", value: "DIAGNOSTIC_TEST"},
+                      {
+                        display: "Dietary Supplement",
+                        value: "DIETARY_SUPPLEMENT",
+                      },
+                      {display: "Drug", value: "DRUG"},
+                      {display: "Genetic", value: "GENETIC"},
+                      {display: "Procedure", value: "PROCEDURE"},
+                      {display: "Radiation", value: "RADIATION"},
+                      {display: "Other", value: "OTHER"},
+                    ],
+                    fromKey: "type",
+                    description:
+                      "Intervention/Treatment Type. Intervention Type: General types of interventions.",
+                  },
+                  InterventionName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description:
+                      "Intervention Name. A brief descriptive name used to refer to the investigational product. A non-proprietary name of the intervention must be used, if available. If a non-proprietary name is not available, a brief descriptive name or identifier must be used..",
+                  },
+                  InterventionDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Intervention Description. Details that can be made public about the intervention, other than the Intervention Name(s) and Other Intervention Name(s), sufficient to distinguish the intervention from other, similar interventions studied in the same or another clinical study. For example, interventions involving drugs may include dosage form, dosage, frequency, and duration..",
+                  },
+                  InterventionArmGroupLabel: {
+                    type: coda.ValueType.Array,
+                    items: {type: coda.ValueType.String},
+                    fromKey: "armGroupLabels",
+                    description:
+                      "Arm Group Label for Intervention. Arm/Group and Intervention Cross Reference.",
+                  },
+                  InterventionOtherName: {
+                    type: coda.ValueType.Array,
+                    items: {type: coda.ValueType.String},
+                    fromKey: "otherNames",
+                    description:
+                      "Other Intervention Name. Other current and former name(s) or alias(es), if any, different from the Intervention Name(s), that the sponsor has used publicly to identify the intervention, including, but not limited to, past or present names such as brand name(s), or serial numbers..",
+                  },
                 },
               },
               fromKey: "interventions",
@@ -1104,28 +1131,31 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             PrimaryOutcome: {
-              type: coda.ValueType.Object,
-              properties: {
-                PrimaryOutcomeMeasure: {
-                  type: coda.ValueType.String,
-                  fromKey: "measure",
-                  description:
-                    "Primary Outcome Title. Name of the specific outcome measure.",
-                  required: true,
-                },
-                PrimaryOutcomeDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Primary Outcome Measure Description. A description of each primary outcome measure (or for observational studies, specific key measurement[s] or observation[s] used to describe patterns of diseases or traits or associations with exposures, risk factors or treatment)..",
-                },
-                PrimaryOutcomeTimeFrame: {
-                  type: coda.ValueType.String,
-                  fromKey: "timeFrame",
-                  description:
-                    "Primary Outcome Measure Time Frame. Time point(s) at which the measurement was assessed for the specific metric used. The description of the time point(s) of assessment must be specific to the outcome measure and is generally the specific duration of time over which each participant is assessed (not the overall duration of the study)..",
-                  required: true,
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  PrimaryOutcomeMeasure: {
+                    type: coda.ValueType.String,
+                    fromKey: "measure",
+                    description:
+                      "Primary Outcome Title. Name of the specific outcome measure.",
+                    required: true,
+                  },
+                  PrimaryOutcomeDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Primary Outcome Measure Description. A description of each primary outcome measure (or for observational studies, specific key measurement[s] or observation[s] used to describe patterns of diseases or traits or associations with exposures, risk factors or treatment)..",
+                  },
+                  PrimaryOutcomeTimeFrame: {
+                    type: coda.ValueType.String,
+                    fromKey: "timeFrame",
+                    description:
+                      "Primary Outcome Measure Time Frame. Time point(s) at which the measurement was assessed for the specific metric used. The description of the time point(s) of assessment must be specific to the outcome measure and is generally the specific duration of time over which each participant is assessed (not the overall duration of the study)..",
+                    required: true,
+                  },
                 },
               },
               fromKey: "primaryOutcomes",
@@ -1133,26 +1163,29 @@ export const StudySchema = coda.makeSchema({
                 "In a clinical study's protocol, the planned outcome measure that is the most important for evaluating the effect of an intervention/treatment. Most clinical studies have one primary outcome measure, but some have more than one..",
             },
             SecondaryOutcome: {
-              type: coda.ValueType.Object,
-              properties: {
-                SecondaryOutcomeMeasure: {
-                  type: coda.ValueType.String,
-                  fromKey: "measure",
-                  description:
-                    "Secondary Outcome Measure Title. See Primary Outcome Measure.",
-                },
-                SecondaryOutcomeDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Secondary Outcome Measure Description. See Primary Outcome Measure.",
-                },
-                SecondaryOutcomeTimeFrame: {
-                  type: coda.ValueType.String,
-                  fromKey: "timeFrame",
-                  description:
-                    "Secondary Outcome Measure Time Frame. See Primary Outcome Measure.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  SecondaryOutcomeMeasure: {
+                    type: coda.ValueType.String,
+                    fromKey: "measure",
+                    description:
+                      "Secondary Outcome Measure Title. See Primary Outcome Measure.",
+                  },
+                  SecondaryOutcomeDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Secondary Outcome Measure Description. See Primary Outcome Measure.",
+                  },
+                  SecondaryOutcomeTimeFrame: {
+                    type: coda.ValueType.String,
+                    fromKey: "timeFrame",
+                    description:
+                      "Secondary Outcome Measure Time Frame. See Primary Outcome Measure.",
+                  },
                 },
               },
               fromKey: "secondaryOutcomes",
@@ -1160,26 +1193,29 @@ export const StudySchema = coda.makeSchema({
                 "Secondary Outcome Measure. A description of each secondary outcome measure (or for observational studies, specific secondary measurement[s] or observation[s] used to describe patterns of diseases or traits or associations with exposures, risk factors or treatment)..",
             },
             OtherOutcome: {
-              type: coda.ValueType.Object,
-              properties: {
-                OtherOutcomeMeasure: {
-                  type: coda.ValueType.String,
-                  fromKey: "measure",
-                  description:
-                    "Other Outcome Measure Measure Title. See Primary Outcome Measure.",
-                },
-                OtherOutcomeDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Other Outcome Measure Description. See Primary Outcome Measure.",
-                },
-                OtherOutcomeTimeFrame: {
-                  type: coda.ValueType.String,
-                  fromKey: "timeFrame",
-                  description:
-                    "Other Outcome Measure Time Frame. See Primary Outcome Measure.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  OtherOutcomeMeasure: {
+                    type: coda.ValueType.String,
+                    fromKey: "measure",
+                    description:
+                      "Other Outcome Measure Measure Title. See Primary Outcome Measure.",
+                  },
+                  OtherOutcomeDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Other Outcome Measure Description. See Primary Outcome Measure.",
+                  },
+                  OtherOutcomeTimeFrame: {
+                    type: coda.ValueType.String,
+                    fromKey: "timeFrame",
+                    description:
+                      "Other Outcome Measure Time Frame. See Primary Outcome Measure.",
+                  },
                 },
               },
               fromKey: "otherOutcomes",
@@ -1247,13 +1283,16 @@ export const StudySchema = coda.makeSchema({
                 "Maximum Age. The numerical value, if any, for the maximum age a potential participant can be to be eligible for the clinical study..",
             },
             StdAge: {
-              type: coda.ValueType.String,
-              codaType: coda.ValueHintType.SelectList,
-              options: [
-                {display: "Child", value: "CHILD"},
-                {display: "Adult", value: "ADULT"},
-                {display: "Older Adult", value: "OLDER_ADULT"},
-              ],
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.String,
+                codaType: coda.ValueHintType.SelectList,
+                options: [
+                  {display: "Child", value: "CHILD"},
+                  {display: "Adult", value: "ADULT"},
+                  {display: "Older Adult", value: "OLDER_ADULT"},
+                ],
+              },
               fromKey: "stdAges",
               description:
                 "Age Group. Ingest calculated the StdAge if there is minimumAge and/or maximimumAge entered. Redacted for Withheld studies.",
@@ -1286,44 +1325,47 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             CentralContact: {
-              type: coda.ValueType.Object,
-              properties: {
-                CentralContactName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Central Contact Name.",
-                },
-                CentralContactRole: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Study Chair", value: "STUDY_CHAIR"},
-                    {display: "Study Director", value: "STUDY_DIRECTOR"},
-                    {
-                      display: "Principal Investigator",
-                      value: "PRINCIPAL_INVESTIGATOR",
-                    },
-                    {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
-                    {display: "Contact", value: "CONTACT"},
-                  ],
-                  fromKey: "role",
-                  description:
-                    "Central Contact Role. Role for any Central Contact added.",
-                },
-                CentralContactPhone: {
-                  type: coda.ValueType.String,
-                  fromKey: "phone",
-                  description: "Central Contact Phone.",
-                },
-                CentralContactPhoneExt: {
-                  type: coda.ValueType.String,
-                  fromKey: "phoneExt",
-                  description: "Central Contact Phone Ext.",
-                },
-                CentralContactEMail: {
-                  type: coda.ValueType.String,
-                  fromKey: "email",
-                  description: "Central Contact EMail.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  CentralContactName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Central Contact Name.",
+                  },
+                  CentralContactRole: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Study Chair", value: "STUDY_CHAIR"},
+                      {display: "Study Director", value: "STUDY_DIRECTOR"},
+                      {
+                        display: "Principal Investigator",
+                        value: "PRINCIPAL_INVESTIGATOR",
+                      },
+                      {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
+                      {display: "Contact", value: "CONTACT"},
+                    ],
+                    fromKey: "role",
+                    description:
+                      "Central Contact Role. Role for any Central Contact added.",
+                  },
+                  CentralContactPhone: {
+                    type: coda.ValueType.String,
+                    fromKey: "phone",
+                    description: "Central Contact Phone.",
+                  },
+                  CentralContactPhoneExt: {
+                    type: coda.ValueType.String,
+                    fromKey: "phoneExt",
+                    description: "Central Contact Phone Ext.",
+                  },
+                  CentralContactEMail: {
+                    type: coda.ValueType.String,
+                    fromKey: "email",
+                    description: "Central Contact EMail.",
+                  },
                 },
               },
               fromKey: "centralContacts",
@@ -1331,33 +1373,36 @@ export const StudySchema = coda.makeSchema({
                 "Central Contact Person or Optional Central Contact Backup. The name or title, toll-free telephone number and email address of a person to whom questions concerning enrollment at any location of the study can be addressed.\nInclude: First Name, Middle Initial, Last Name or Official Title, Degree, Phone, Phone Extension, and Email.",
             },
             OverallOfficial: {
-              type: coda.ValueType.Object,
-              properties: {
-                OverallOfficialName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Overall Official Name.",
-                },
-                OverallOfficialAffiliation: {
-                  type: coda.ValueType.String,
-                  fromKey: "affiliation",
-                  description:
-                    "Overall Official Affiliation. Organization Affiliation.",
-                },
-                OverallOfficialRole: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Study Chair", value: "STUDY_CHAIR"},
-                    {display: "Study Director", value: "STUDY_DIRECTOR"},
-                    {
-                      display: "Principal Investigator",
-                      value: "PRINCIPAL_INVESTIGATOR",
-                    },
-                    {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
-                  ],
-                  fromKey: "role",
-                  description: "Overall Official Role.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  OverallOfficialName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Overall Official Name.",
+                  },
+                  OverallOfficialAffiliation: {
+                    type: coda.ValueType.String,
+                    fromKey: "affiliation",
+                    description:
+                      "Overall Official Affiliation. Organization Affiliation.",
+                  },
+                  OverallOfficialRole: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Study Chair", value: "STUDY_CHAIR"},
+                      {display: "Study Director", value: "STUDY_DIRECTOR"},
+                      {
+                        display: "Principal Investigator",
+                        value: "PRINCIPAL_INVESTIGATOR",
+                      },
+                      {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
+                    ],
+                    fromKey: "role",
+                    description: "Overall Official Role.",
+                  },
                 },
               },
               fromKey: "overallOfficials",
@@ -1365,111 +1410,120 @@ export const StudySchema = coda.makeSchema({
                 "Overall Study Official. Person(s) responsible for the overall scientific leadership of the protocol, including study principal investigator. Include the following information:\n•First Name\n•Middle Initial\n•Last Name\n•Degree\n•Organizational Affiliation\n•Official's Role.",
             },
             Location: {
-              type: coda.ValueType.Object,
-              properties: {
-                LocationFacility: {
-                  type: coda.ValueType.String,
-                  fromKey: "facility",
-                  description:
-                    "Facility Name. Full name of the organization where the clinical study is being conducted..",
-                },
-                LocationStatus: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {
-                      display: "Active, not recruiting",
-                      value: "ACTIVE_NOT_RECRUITING",
-                    },
-                    {display: "Completed", value: "COMPLETED"},
-                    {
-                      display: "Enrolling by invitation",
-                      value: "ENROLLING_BY_INVITATION",
-                    },
-                    {
-                      display: "Not yet recruiting",
-                      value: "NOT_YET_RECRUITING",
-                    },
-                    {display: "Recruiting", value: "RECRUITING"},
-                    {display: "Suspended", value: "SUSPENDED"},
-                    {display: "Terminated", value: "TERMINATED"},
-                    {display: "Withdrawn", value: "WITHDRAWN"},
-                    {display: "Available", value: "AVAILABLE"},
-                  ],
-                  fromKey: "status",
-                  description:
-                    "Individual site recruitment status. The recruitment status of each participating facility in a clinical study..",
-                },
-                LocationCity: {
-                  type: coda.ValueType.String,
-                  fromKey: "city",
-                  description: "City.",
-                },
-                LocationState: {
-                  type: coda.ValueType.String,
-                  fromKey: "state",
-                  description: "State.",
-                },
-                LocationZip: {
-                  type: coda.ValueType.String,
-                  fromKey: "zip",
-                  description: "Zipcode.",
-                },
-                LocationCountry: {
-                  type: coda.ValueType.String,
-                  fromKey: "country",
-                  description: "Country.",
-                },
-                LocationContact: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    LocationContactName: {
-                      type: coda.ValueType.String,
-                      fromKey: "name",
-                      description: "Location Contact Name.",
-                    },
-                    LocationContactRole: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {display: "Study Chair", value: "STUDY_CHAIR"},
-                        {display: "Study Director", value: "STUDY_DIRECTOR"},
-                        {
-                          display: "Principal Investigator",
-                          value: "PRINCIPAL_INVESTIGATOR",
-                        },
-                        {
-                          display: "Sub-Investigator",
-                          value: "SUB_INVESTIGATOR",
-                        },
-                        {display: "Contact", value: "CONTACT"},
-                      ],
-                      fromKey: "role",
-                      description: "Location Contact Role.",
-                    },
-                    LocationContactPhone: {
-                      type: coda.ValueType.String,
-                      fromKey: "phone",
-                      description: "Location Contact Phone.",
-                    },
-                    LocationContactPhoneExt: {
-                      type: coda.ValueType.String,
-                      fromKey: "phoneExt",
-                      description: "Location Contact Phone Ext.",
-                    },
-                    LocationContactEMail: {
-                      type: coda.ValueType.String,
-                      fromKey: "email",
-                      description: "Location Contact EMail.",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  LocationFacility: {
+                    type: coda.ValueType.String,
+                    fromKey: "facility",
+                    description:
+                      "Facility Name. Full name of the organization where the clinical study is being conducted..",
                   },
-                  fromKey: "contacts",
-                  description: "Facility Contact.",
-                },
-                LocationGeoPoint: {
-                  type: coda.ValueType.String,
-                  fromKey: "geoPoint",
-                  description: "Location Geo Point.",
+                  LocationStatus: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {
+                        display: "Active, not recruiting",
+                        value: "ACTIVE_NOT_RECRUITING",
+                      },
+                      {display: "Completed", value: "COMPLETED"},
+                      {
+                        display: "Enrolling by invitation",
+                        value: "ENROLLING_BY_INVITATION",
+                      },
+                      {
+                        display: "Not yet recruiting",
+                        value: "NOT_YET_RECRUITING",
+                      },
+                      {display: "Recruiting", value: "RECRUITING"},
+                      {display: "Suspended", value: "SUSPENDED"},
+                      {display: "Terminated", value: "TERMINATED"},
+                      {display: "Withdrawn", value: "WITHDRAWN"},
+                      {display: "Available", value: "AVAILABLE"},
+                    ],
+                    fromKey: "status",
+                    description:
+                      "Individual site recruitment status. The recruitment status of each participating facility in a clinical study..",
+                  },
+                  LocationCity: {
+                    type: coda.ValueType.String,
+                    fromKey: "city",
+                    description: "City.",
+                  },
+                  LocationState: {
+                    type: coda.ValueType.String,
+                    fromKey: "state",
+                    description: "State.",
+                  },
+                  LocationZip: {
+                    type: coda.ValueType.String,
+                    fromKey: "zip",
+                    description: "Zipcode.",
+                  },
+                  LocationCountry: {
+                    type: coda.ValueType.String,
+                    fromKey: "country",
+                    description: "Country.",
+                  },
+                  LocationContact: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        LocationContactName: {
+                          type: coda.ValueType.String,
+                          fromKey: "name",
+                          description: "Location Contact Name.",
+                        },
+                        LocationContactRole: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.SelectList,
+                          options: [
+                            {display: "Study Chair", value: "STUDY_CHAIR"},
+                            {
+                              display: "Study Director",
+                              value: "STUDY_DIRECTOR",
+                            },
+                            {
+                              display: "Principal Investigator",
+                              value: "PRINCIPAL_INVESTIGATOR",
+                            },
+                            {
+                              display: "Sub-Investigator",
+                              value: "SUB_INVESTIGATOR",
+                            },
+                            {display: "Contact", value: "CONTACT"},
+                          ],
+                          fromKey: "role",
+                          description: "Location Contact Role.",
+                        },
+                        LocationContactPhone: {
+                          type: coda.ValueType.String,
+                          fromKey: "phone",
+                          description: "Location Contact Phone.",
+                        },
+                        LocationContactPhoneExt: {
+                          type: coda.ValueType.String,
+                          fromKey: "phoneExt",
+                          description: "Location Contact Phone Ext.",
+                        },
+                        LocationContactEMail: {
+                          type: coda.ValueType.String,
+                          fromKey: "email",
+                          description: "Location Contact EMail.",
+                        },
+                      },
+                    },
+                    fromKey: "contacts",
+                    description: "Facility Contact.",
+                  },
+                  LocationGeoPoint: {
+                    type: coda.ValueType.String,
+                    fromKey: "geoPoint",
+                    description: "Location Geo Point.",
+                  },
                 },
               },
               fromKey: "locations",
@@ -1484,47 +1538,53 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             Reference: {
-              type: coda.ValueType.Object,
-              properties: {
-                ReferencePMID: {
-                  type: coda.ValueType.String,
-                  fromKey: "pmid",
-                  description:
-                    "PubMed Identifier. PMID for the citation in MEDLINE.",
-                },
-                ReferenceType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "background", value: "BACKGROUND"},
-                    {display: "result", value: "RESULT"},
-                    {display: "derived", value: "DERIVED"},
-                  ],
-                  fromKey: "type",
-                  description:
-                    'Reference Type. Indicate whether is a Result reference, background or derived. "Result" and "background" are assigned in response to the Yes/No for Results Reference, respectively; "derived" means references were automatically indexed by ClinicalTrials.gov.',
-                },
-                ReferenceCitation: {
-                  type: coda.ValueType.String,
-                  fromKey: "citation",
-                  description:
-                    "Reference Citation. A bibliographic reference in NLM's MEDLINE format.",
-                },
-                Retraction: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    RetractionPMID: {
-                      type: coda.ValueType.String,
-                      fromKey: "pmid",
-                      description:
-                        "PMID for Publication Retraction. PMID for publication retraction.",
-                    },
-                    RetractionSource: {
-                      type: coda.ValueType.String,
-                      fromKey: "source",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ReferencePMID: {
+                    type: coda.ValueType.String,
+                    fromKey: "pmid",
+                    description:
+                      "PubMed Identifier. PMID for the citation in MEDLINE.",
                   },
-                  fromKey: "retractions",
+                  ReferenceType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "background", value: "BACKGROUND"},
+                      {display: "result", value: "RESULT"},
+                      {display: "derived", value: "DERIVED"},
+                    ],
+                    fromKey: "type",
+                    description:
+                      'Reference Type. Indicate whether is a Result reference, background or derived. "Result" and "background" are assigned in response to the Yes/No for Results Reference, respectively; "derived" means references were automatically indexed by ClinicalTrials.gov.',
+                  },
+                  ReferenceCitation: {
+                    type: coda.ValueType.String,
+                    fromKey: "citation",
+                    description:
+                      "Reference Citation. A bibliographic reference in NLM's MEDLINE format.",
+                  },
+                  Retraction: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        RetractionPMID: {
+                          type: coda.ValueType.String,
+                          fromKey: "pmid",
+                          description:
+                            "PMID for Publication Retraction. PMID for publication retraction.",
+                        },
+                        RetractionSource: {
+                          type: coda.ValueType.String,
+                          fromKey: "source",
+                        },
+                      },
+                    },
+                    fromKey: "retractions",
+                  },
                 },
               },
               fromKey: "references",
@@ -1532,51 +1592,57 @@ export const StudySchema = coda.makeSchema({
                 "Citations to publications related to the protocol. Background and/or results. Providers either enter the PubMed Unique Identifier (PMID) of an article or enter the full bibliographic citation..",
             },
             SeeAlsoLink: {
-              type: coda.ValueType.Object,
-              properties: {
-                SeeAlsoLinkLabel: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "label",
-                  description:
-                    "See Also Link Label Title. Label for SeeAlsoLinkURL.",
-                },
-                SeeAlsoLinkURL: {
-                  type: coda.ValueType.String,
-                  fromKey: "url",
-                  description:
-                    "A web site directly relevant to the protocol may be entered, if desired. Links to educational, research, government, and other non-profit web pages are acceptable. All submitted links are subject to review by ClinicalTrials.gov\nComplete URL, including http:// or https://.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  SeeAlsoLinkLabel: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "label",
+                    description:
+                      "See Also Link Label Title. Label for SeeAlsoLinkURL.",
+                  },
+                  SeeAlsoLinkURL: {
+                    type: coda.ValueType.String,
+                    fromKey: "url",
+                    description:
+                      "A web site directly relevant to the protocol may be entered, if desired. Links to educational, research, government, and other non-profit web pages are acceptable. All submitted links are subject to review by ClinicalTrials.gov\nComplete URL, including http:// or https://.",
+                  },
                 },
               },
               fromKey: "seeAlsoLinks",
               description: "See Also Measure Link.",
             },
             AvailIPD: {
-              type: coda.ValueType.Object,
-              properties: {
-                AvailIPDId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Available IPD ID. Identifier.",
-                },
-                AvailIPDType: {
-                  type: coda.ValueType.String,
-                  fromKey: "type",
-                  description:
-                    "Available IPD Type. The type of data set or supporting information being shared.\n•\tIndividual Participant Data Set\n•\tStudy Protocol\n•\tStatistical Analysis Plan\n•\tInformed Consent Form\n•\tClinical Study Report\n•\tAnalytic Code\n•\tOther (specify).",
-                },
-                AvailIPDURL: {
-                  type: coda.ValueType.String,
-                  fromKey: "url",
-                  description:
-                    "Available IPD URL. The web address used to request or access the data set or supporting information. URL with http:// or https://.",
-                },
-                AvailIPDComment: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "comment",
-                  description:
-                    "Available IPD Comment. Additional information including the name of the data repository or other location where the data set or supporting information is available. Provide any additional explanations about the data set or supporting information and instructions for obtaining access, particularly if a URL is not provided..",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  AvailIPDId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Available IPD ID. Identifier.",
+                  },
+                  AvailIPDType: {
+                    type: coda.ValueType.String,
+                    fromKey: "type",
+                    description:
+                      "Available IPD Type. The type of data set or supporting information being shared.\n•\tIndividual Participant Data Set\n•\tStudy Protocol\n•\tStatistical Analysis Plan\n•\tInformed Consent Form\n•\tClinical Study Report\n•\tAnalytic Code\n•\tOther (specify).",
+                  },
+                  AvailIPDURL: {
+                    type: coda.ValueType.String,
+                    fromKey: "url",
+                    description:
+                      "Available IPD URL. The web address used to request or access the data set or supporting information. URL with http:// or https://.",
+                  },
+                  AvailIPDComment: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "comment",
+                    description:
+                      "Available IPD Comment. Additional information including the name of the data repository or other location where the data set or supporting information is available. Provide any additional explanations about the data set or supporting information and instructions for obtaining access, particularly if a URL is not provided..",
+                  },
                 },
               },
               fromKey: "availIpds",
@@ -1609,15 +1675,18 @@ export const StudySchema = coda.makeSchema({
                 "IPD Sharing Description. Additional information including the name of the data repository or other location where the data set or supporting information is available. Provide any additional explanations about the data set or supporting information and instructions for obtaining access, particularly if a URL is not provided..",
             },
             IPDSharingInfoType: {
-              type: coda.ValueType.String,
-              codaType: coda.ValueHintType.SelectList,
-              options: [
-                {display: "Study Protocol", value: "STUDY_PROTOCOL"},
-                {display: "Statistical Analysis Plan (SAP)", value: "SAP"},
-                {display: "Informed Consent Form (ICF)", value: "ICF"},
-                {display: "Clinical Study Report (CSR)", value: "CSR"},
-                {display: "Analytic Code", value: "ANALYTIC_CODE"},
-              ],
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.String,
+                codaType: coda.ValueHintType.SelectList,
+                options: [
+                  {display: "Study Protocol", value: "STUDY_PROTOCOL"},
+                  {display: "Statistical Analysis Plan (SAP)", value: "SAP"},
+                  {display: "Informed Consent Form (ICF)", value: "ICF"},
+                  {display: "Clinical Study Report (CSR)", value: "CSR"},
+                  {display: "Analytic Code", value: "ANALYTIC_CODE"},
+                ],
+              },
               fromKey: "infoTypes",
               description:
                 "IPDSharing Info Type. IPD Type: The type(s) of supporting information that will be shared, in addition to the individual participant data set and data dictionaries for the IPD itself..",
@@ -1677,26 +1746,29 @@ export const StudySchema = coda.makeSchema({
                 "Type of Unit Analyzed. If assignment is based on a unit other than participants, a description of the unit of assignment (for example, eyes, lesions, implants)..",
             },
             FlowGroup: {
-              type: coda.ValueType.Object,
-              properties: {
-                FlowGroupId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Arm/Group ID. Arm/Group ID generated by PRS.",
-                },
-                FlowGroupTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Arm/Group Title. Descriptive label used to identify each arm or group..",
-                  required: true,
-                },
-                FlowGroupDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Arm/Group Description. Brief description of each arm or group. In general, it must include sufficient details to understand each arm to which participants were assigned and the intervention strategy used in each arm..",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  FlowGroupId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Arm/Group ID. Arm/Group ID generated by PRS.",
+                  },
+                  FlowGroupTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Arm/Group Title. Descriptive label used to identify each arm or group..",
+                    required: true,
+                  },
+                  FlowGroupDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Arm/Group Description. Brief description of each arm or group. In general, it must include sufficient details to understand each arm to which participants were assigned and the intervention strategy used in each arm..",
+                  },
                 },
               },
               fromKey: "groups",
@@ -1705,112 +1777,128 @@ export const StudySchema = coda.makeSchema({
               required: true,
             },
             FlowPeriod: {
-              type: coda.ValueType.Object,
-              properties: {
-                FlowPeriodTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Period Title. Title describing a stage of the study. If only one period is defined, the default title is Overall Study. When a study has more than one period, none of the Period Titles should be Overall Study..",
-                  required: true,
-                },
-                FlowMilestone: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    FlowMilestoneType: {
-                      type: coda.ValueType.String,
-                      fromKey: "type",
-                      description:
-                        "Milestone Title. Started, Completed and any additional Milestone type name.",
-                    },
-                    FlowMilestoneComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "comment",
-                      description:
-                        "Milestone Comment. Additional information about the milestone or Milestone Data..",
-                    },
-                    FlowAchievement: {
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  FlowPeriodTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Period Title. Title describing a stage of the study. If only one period is defined, the default title is Overall Study. When a study has more than one period, none of the Period Titles should be Overall Study..",
+                    required: true,
+                  },
+                  FlowMilestone: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        FlowAchievementGroupId: {
+                        FlowMilestoneType: {
                           type: coda.ValueType.String,
-                          fromKey: "groupId",
-                          description: "Milestone Arm/Group ID. ID.",
+                          fromKey: "type",
+                          description:
+                            "Milestone Title. Started, Completed and any additional Milestone type name.",
                         },
-                        FlowAchievementComment: {
+                        FlowMilestoneComment: {
                           type: coda.ValueType.String,
                           codaType: coda.ValueHintType.Markdown,
                           fromKey: "comment",
                           description:
-                            "Milestone Arm/Group Comment. Milestone Comment.",
+                            "Milestone Comment. Additional information about the milestone or Milestone Data..",
                         },
-                        FlowAchievementNumSubjects: {
-                          type: coda.ValueType.String,
-                          fromKey: "numSubjects",
+                        FlowAchievement: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              FlowAchievementGroupId: {
+                                type: coda.ValueType.String,
+                                fromKey: "groupId",
+                                description: "Milestone Arm/Group ID. ID.",
+                              },
+                              FlowAchievementComment: {
+                                type: coda.ValueType.String,
+                                codaType: coda.ValueHintType.Markdown,
+                                fromKey: "comment",
+                                description:
+                                  "Milestone Arm/Group Comment. Milestone Comment.",
+                              },
+                              FlowAchievementNumSubjects: {
+                                type: coda.ValueType.String,
+                                fromKey: "numSubjects",
+                                description:
+                                  "Number of Milestone Arm/Group Participants. Number of participants to reach the milestone, in each arm/group..",
+                              },
+                              FlowAchievementNumUnits: {
+                                type: coda.ValueType.String,
+                                fromKey: "numUnits",
+                                description:
+                                  "Number of Units. The number of units to reach the milestone. Could be different than participants. For example: eyes, legs, visits, etc..",
+                              },
+                            },
+                          },
+                          fromKey: "achievements",
                           description:
-                            "Number of Milestone Arm/Group Participants. Number of participants to reach the milestone, in each arm/group..",
-                        },
-                        FlowAchievementNumUnits: {
-                          type: coda.ValueType.String,
-                          fromKey: "numUnits",
-                          description:
-                            "Number of Units. The number of units to reach the milestone. Could be different than participants. For example: eyes, legs, visits, etc..",
+                            "Milestone Data. Milestone Data (per arm/group).",
                         },
                       },
-                      fromKey: "achievements",
-                      description:
-                        "Milestone Data. Milestone Data (per arm/group).",
                     },
+                    fromKey: "milestones",
+                    description:
+                      "Milestone. Any specific events or time points in the study when the numbers of participants (and units, if applicable) are reported. While there is no limit to the number of milestones that may be used in a single period, data are required for two milestones, Started and Completed, within each period.\n•\tStarted: Number of participants initiating the period. In the first period, it is the number of participants assigned to each arm or group. If assignment is based on a unit other than participants, also include the number of units at the beginning of the period.\n•\tCompleted: Number of participants at the end of the period. If assignment is based on a unit other than participants, also include the number of units at the end of the period.\n•\tAdditional Milestone(s): Any specific events or time points in the study when the numbers of participants (and units, if applicable) are reported..",
                   },
-                  fromKey: "milestones",
-                  description:
-                    "Milestone. Any specific events or time points in the study when the numbers of participants (and units, if applicable) are reported. While there is no limit to the number of milestones that may be used in a single period, data are required for two milestones, Started and Completed, within each period.\n•\tStarted: Number of participants initiating the period. In the first period, it is the number of participants assigned to each arm or group. If assignment is based on a unit other than participants, also include the number of units at the beginning of the period.\n•\tCompleted: Number of participants at the end of the period. If assignment is based on a unit other than participants, also include the number of units at the end of the period.\n•\tAdditional Milestone(s): Any specific events or time points in the study when the numbers of participants (and units, if applicable) are reported..",
-                },
-                FlowDropWithdraw: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    FlowDropWithdrawType: {
-                      type: coda.ValueType.String,
-                      fromKey: "type",
-                      description:
-                        'Reason Not Completed Type. Reason why participants did not complete the study or period.\nCan be one of the following values:\n•\tAdverse Event\n•\tDeath\n•\tLack of Efficacy\n•\tLost to Follow-Up\n•\tPhysician Decision\n•\tPregnancy\n•\tProtocol Violation\n•\tWithdrawal by Subject\n•\tOther\nOther Reason [*]\nDefinition: A brief description of the reason for non-completion, if "Other" Reason Not Completed Type is selected..',
-                    },
-                    FlowDropWithdrawComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "comment",
-                      description:
-                        'Description of Reason Not Completed. A brief description of the reason for non-completion, if "Other" Reason Not Completed Type is selected..',
-                    },
-                    FlowReason: {
+                  FlowDropWithdraw: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        FlowReasonGroupId: {
+                        FlowDropWithdrawType: {
                           type: coda.ValueType.String,
-                          fromKey: "groupId",
+                          fromKey: "type",
                           description:
-                            "Reason Group ID. Internally generated ID for reason not completed per arm/group.",
+                            'Reason Not Completed Type. Reason why participants did not complete the study or period.\nCan be one of the following values:\n•\tAdverse Event\n•\tDeath\n•\tLack of Efficacy\n•\tLost to Follow-Up\n•\tPhysician Decision\n•\tPregnancy\n•\tProtocol Violation\n•\tWithdrawal by Subject\n•\tOther\nOther Reason [*]\nDefinition: A brief description of the reason for non-completion, if "Other" Reason Not Completed Type is selected..',
                         },
-                        FlowReasonComment: {
+                        FlowDropWithdrawComment: {
                           type: coda.ValueType.String,
                           codaType: coda.ValueHintType.Markdown,
                           fromKey: "comment",
-                        },
-                        FlowReasonNumSubjects: {
-                          type: coda.ValueType.String,
-                          fromKey: "numSubjects",
                           description:
-                            "Reason Group Number of Subjects. Number of participants in each arm or group that did not complete the study or period, for each Reason Not Completed.",
+                            'Description of Reason Not Completed. A brief description of the reason for non-completion, if "Other" Reason Not Completed Type is selected..',
+                        },
+                        FlowReason: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              FlowReasonGroupId: {
+                                type: coda.ValueType.String,
+                                fromKey: "groupId",
+                                description:
+                                  "Reason Group ID. Internally generated ID for reason not completed per arm/group.",
+                              },
+                              FlowReasonComment: {
+                                type: coda.ValueType.String,
+                                codaType: coda.ValueHintType.Markdown,
+                                fromKey: "comment",
+                              },
+                              FlowReasonNumSubjects: {
+                                type: coda.ValueType.String,
+                                fromKey: "numSubjects",
+                                description:
+                                  "Reason Group Number of Subjects. Number of participants in each arm or group that did not complete the study or period, for each Reason Not Completed.",
+                              },
+                            },
+                          },
+                          fromKey: "reasons",
+                          description:
+                            "Reason for Not Completed per arm/group.",
                         },
                       },
-                      fromKey: "reasons",
-                      description: "Reason for Not Completed per arm/group.",
                     },
+                    fromKey: "dropWithdraws",
+                    description:
+                      "Reason Not Completed. Additional information about participants who did not complete the study or period. If reasons are provided, the total number of participants listed as Not Completed must be accounted for by all reasons for non-completion..",
                   },
-                  fromKey: "dropWithdraws",
-                  description:
-                    "Reason Not Completed. Additional information about participants who did not complete the study or period. If reasons are provided, the total number of participants listed as Not Completed must be accounted for by all reasons for non-completion..",
                 },
               },
               fromKey: "periods",
@@ -1839,26 +1927,29 @@ export const StudySchema = coda.makeSchema({
                 "Type of Units Analyzed. If the analysis is based on a unit other than participants, a description of the unit of analysis (for example, eyes, lesions, implants)..",
             },
             BaselineGroup: {
-              type: coda.ValueType.Object,
-              properties: {
-                BaselineGroupId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Arm/Group ID. Internally generated ID.",
-                },
-                BaselineGroupTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Arm/Group Title. Descriptive label used to identify each arm or comparison group..",
-                  required: true,
-                },
-                BaselineGroupDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Arm/Group Description. Brief description of each arm or comparison group. In general, it must include sufficient detail to understand how the arm(s) or comparison groups were derived from the arm(s) to which participants were assigned in Participant Flow (if different) and the intervention strategy in each arm/group..",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  BaselineGroupId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Arm/Group ID. Internally generated ID.",
+                  },
+                  BaselineGroupTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Arm/Group Title. Descriptive label used to identify each arm or comparison group..",
+                    required: true,
+                  },
+                  BaselineGroupDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Arm/Group Description. Brief description of each arm or comparison group. In general, it must include sufficient detail to understand how the arm(s) or comparison groups were derived from the arm(s) to which participants were assigned in Participant Flow (if different) and the intervention strategy in each arm/group..",
+                  },
                 },
               },
               fromKey: "groups",
@@ -1867,291 +1958,321 @@ export const StudySchema = coda.makeSchema({
               required: true,
             },
             BaselineDenom: {
-              type: coda.ValueType.Object,
-              properties: {
-                BaselineDenomUnits: {
-                  type: coda.ValueType.String,
-                  fromKey: "units",
-                  description:
-                    "Overall Number of Units Analyzed. If the analysis is based on a unit other than participants, the number of all units for which baseline measures were measured and analyzed, in each arm/group and in the entire study population (total)..",
-                  required: true,
-                },
-                BaselineDenomCount: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    BaselineDenomCountGroupId: {
-                      type: coda.ValueType.String,
-                      fromKey: "groupId",
-                      description:
-                        "Arm/Group ID. Internally generated ID for each Arm/Group.",
-                    },
-                    BaselineDenomCountValue: {
-                      type: coda.ValueType.String,
-                      fromKey: "value",
-                      description: "Count value of BaselineDenomUnit.",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  BaselineDenomUnits: {
+                    type: coda.ValueType.String,
+                    fromKey: "units",
+                    description:
+                      "Overall Number of Units Analyzed. If the analysis is based on a unit other than participants, the number of all units for which baseline measures were measured and analyzed, in each arm/group and in the entire study population (total)..",
+                    required: true,
                   },
-                  fromKey: "counts",
-                  description: "Structure for overall number per arm/group.",
+                  BaselineDenomCount: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        BaselineDenomCountGroupId: {
+                          type: coda.ValueType.String,
+                          fromKey: "groupId",
+                          description:
+                            "Arm/Group ID. Internally generated ID for each Arm/Group.",
+                        },
+                        BaselineDenomCountValue: {
+                          type: coda.ValueType.String,
+                          fromKey: "value",
+                          description: "Count value of BaselineDenomUnit.",
+                        },
+                      },
+                    },
+                    fromKey: "counts",
+                    description: "Structure for overall number per arm/group.",
+                  },
                 },
               },
               fromKey: "denoms",
               description: "Structure for Overall Baseline Measure Data (Row).",
             },
             BaselineMeasure: {
-              type: coda.ValueType.Object,
-              properties: {
-                BaselineMeasureTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Baseline Measure Title. The name of the baseline or demographic characteristic measured in the clinical study.",
-                },
-                BaselineMeasureDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    'Baseline Measure Title for Study-Specified Measure. If "Study-Specific Measure" is chosen, provide the name of the measure..',
-                },
-                BaselineMeasurePopulationDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "populationDescription",
-                  description:
-                    "Baseline Measure Description. Additional descriptive information about the baseline measure, such as a description of the metric used to characterize the specific baseline measure..",
-                },
-                BaselineMeasureParamType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
-                    {
-                      display: "Geometric Least Squares Mean",
-                      value: "GEOMETRIC_LEAST_SQUARES_MEAN",
-                    },
-                    {
-                      display: "Least Squares Mean",
-                      value: "LEAST_SQUARES_MEAN",
-                    },
-                    {display: "Log Mean", value: "LOG_MEAN"},
-                    {display: "Mean", value: "MEAN"},
-                    {display: "Median", value: "MEDIAN"},
-                    {display: "Number", value: "NUMBER"},
-                    {
-                      display: "Count of Participants",
-                      value: "COUNT_OF_PARTICIPANTS",
-                    },
-                    {display: "Count of Units", value: "COUNT_OF_UNITS"},
-                  ],
-                  fromKey: "paramType",
-                  description:
-                    "Baseline Measure Type. The type of data for the baseline measure.",
-                  required: true,
-                },
-                BaselineMeasureDispersionType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Not Applicable", value: "NA"},
-                    {
-                      display: "Standard Deviation",
-                      value: "STANDARD_DEVIATION",
-                    },
-                    {display: "Standard Error", value: "STANDARD_ERROR"},
-                    {
-                      display: "Inter-Quartile Range",
-                      value: "INTER_QUARTILE_RANGE",
-                    },
-                    {display: "Full Range", value: "FULL_RANGE"},
-                    {
-                      display: "80% Confidence Interval",
-                      value: "CONFIDENCE_80",
-                    },
-                    {
-                      display: "90% Confidence Interval",
-                      value: "CONFIDENCE_90",
-                    },
-                    {
-                      display: "95% Confidence Interval",
-                      value: "CONFIDENCE_95",
-                    },
-                    {
-                      display: "97.5% Confidence Interval",
-                      value: "CONFIDENCE_975",
-                    },
-                    {
-                      display: "99% Confidence Interval",
-                      value: "CONFIDENCE_99",
-                    },
-                    {
-                      display: "Other Confidence Interval Level",
-                      value: "CONFIDENCE_OTHER",
-                    },
-                    {
-                      display: "Geometric Coefficient of Variation",
-                      value: "GEOMETRIC_COEFFICIENT",
-                    },
-                  ],
-                  fromKey: "dispersionType",
-                  description:
-                    "Baseline Measure Dispersion/Precision. Dispersion type based on paramType.",
-                  required: true,
-                },
-                BaselineMeasureUnitOfMeasure: {
-                  type: coda.ValueType.String,
-                  fromKey: "unitOfMeasure",
-                  description:
-                    "Unit of Measure. An explanation of what is quantified by the data (for example, participants, mm Hg), for each baseline measure..",
-                  required: true,
-                },
-                BaselineMeasureCalculatePct: {
-                  type: coda.ValueType.Boolean,
-                  fromKey: "calculatePct",
-                  description:
-                    "Calculated Percentage. percentage of BaselineMeasurementValue/BaselineMeasureDenomCountValue.",
-                },
-                BaselineMeasureDenomUnitsSelected: {
-                  type: coda.ValueType.String,
-                  fromKey: "denomUnitsSelected",
-                  description:
-                    "Type of Units Selected. Type of units selected (e.g., participants, eyes, arms).",
-                },
-                BaselineMeasureDenom: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    BaselineMeasureDenomUnits: {
-                      type: coda.ValueType.String,
-                      fromKey: "units",
-                      description:
-                        "Analysis Population Type. Analysis Population Type (selected from Unit of Measure per Baseline Measure).",
-                    },
-                    BaselineMeasureDenomCount: {
-                      type: coda.ValueType.Object,
-                      properties: {
-                        BaselineMeasureDenomCountGroupId: {
-                          type: coda.ValueType.String,
-                          fromKey: "groupId",
-                          description:
-                            "Internally generated ID for each Arm/Group.",
-                        },
-                        BaselineMeasureDenomCountValue: {
-                          type: coda.ValueType.String,
-                          fromKey: "value",
-                          description:
-                            "number entered per arm/group for unit of measures.",
-                        },
-                      },
-                      fromKey: "counts",
-                      description: "number entered for unit of measure.",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  BaselineMeasureTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Baseline Measure Title. The name of the baseline or demographic characteristic measured in the clinical study.",
                   },
-                  fromKey: "denoms",
-                },
-                BaselineClass: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    BaselineClassTitle: {
-                      type: coda.ValueType.String,
-                      fromKey: "title",
-                      description: "Baseline RowTitle. Baseline row title.",
-                    },
-                    BaselineClassDenom: {
+                  BaselineMeasureDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      'Baseline Measure Title for Study-Specified Measure. If "Study-Specific Measure" is chosen, provide the name of the measure..',
+                  },
+                  BaselineMeasurePopulationDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "populationDescription",
+                    description:
+                      "Baseline Measure Description. Additional descriptive information about the baseline measure, such as a description of the metric used to characterize the specific baseline measure..",
+                  },
+                  BaselineMeasureParamType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
+                      {
+                        display: "Geometric Least Squares Mean",
+                        value: "GEOMETRIC_LEAST_SQUARES_MEAN",
+                      },
+                      {
+                        display: "Least Squares Mean",
+                        value: "LEAST_SQUARES_MEAN",
+                      },
+                      {display: "Log Mean", value: "LOG_MEAN"},
+                      {display: "Mean", value: "MEAN"},
+                      {display: "Median", value: "MEDIAN"},
+                      {display: "Number", value: "NUMBER"},
+                      {
+                        display: "Count of Participants",
+                        value: "COUNT_OF_PARTICIPANTS",
+                      },
+                      {display: "Count of Units", value: "COUNT_OF_UNITS"},
+                    ],
+                    fromKey: "paramType",
+                    description:
+                      "Baseline Measure Type. The type of data for the baseline measure.",
+                    required: true,
+                  },
+                  BaselineMeasureDispersionType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Not Applicable", value: "NA"},
+                      {
+                        display: "Standard Deviation",
+                        value: "STANDARD_DEVIATION",
+                      },
+                      {display: "Standard Error", value: "STANDARD_ERROR"},
+                      {
+                        display: "Inter-Quartile Range",
+                        value: "INTER_QUARTILE_RANGE",
+                      },
+                      {display: "Full Range", value: "FULL_RANGE"},
+                      {
+                        display: "80% Confidence Interval",
+                        value: "CONFIDENCE_80",
+                      },
+                      {
+                        display: "90% Confidence Interval",
+                        value: "CONFIDENCE_90",
+                      },
+                      {
+                        display: "95% Confidence Interval",
+                        value: "CONFIDENCE_95",
+                      },
+                      {
+                        display: "97.5% Confidence Interval",
+                        value: "CONFIDENCE_975",
+                      },
+                      {
+                        display: "99% Confidence Interval",
+                        value: "CONFIDENCE_99",
+                      },
+                      {
+                        display: "Other Confidence Interval Level",
+                        value: "CONFIDENCE_OTHER",
+                      },
+                      {
+                        display: "Geometric Coefficient of Variation",
+                        value: "GEOMETRIC_COEFFICIENT",
+                      },
+                    ],
+                    fromKey: "dispersionType",
+                    description:
+                      "Baseline Measure Dispersion/Precision. Dispersion type based on paramType.",
+                    required: true,
+                  },
+                  BaselineMeasureUnitOfMeasure: {
+                    type: coda.ValueType.String,
+                    fromKey: "unitOfMeasure",
+                    description:
+                      "Unit of Measure. An explanation of what is quantified by the data (for example, participants, mm Hg), for each baseline measure..",
+                    required: true,
+                  },
+                  BaselineMeasureCalculatePct: {
+                    type: coda.ValueType.Boolean,
+                    fromKey: "calculatePct",
+                    description:
+                      "Calculated Percentage. percentage of BaselineMeasurementValue/BaselineMeasureDenomCountValue.",
+                  },
+                  BaselineMeasureDenomUnitsSelected: {
+                    type: coda.ValueType.String,
+                    fromKey: "denomUnitsSelected",
+                    description:
+                      "Type of Units Selected. Type of units selected (e.g., participants, eyes, arms).",
+                  },
+                  BaselineMeasureDenom: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        BaselineClassDenomUnits: {
+                        BaselineMeasureDenomUnits: {
                           type: coda.ValueType.String,
                           fromKey: "units",
                           description:
-                            "Baseline Row Unit of Measure. Possible analysis population when data are presented in rows (e.g., if units other than participants are included in baseline, both participants and the units are listed as BaselineClassDenomUnits for the applicable baseline measure).",
-                          required: true,
+                            "Analysis Population Type. Analysis Population Type (selected from Unit of Measure per Baseline Measure).",
                         },
-                        BaselineClassDenomCount: {
-                          type: coda.ValueType.Object,
-                          properties: {
-                            BaselineClassDenomCountGroupId: {
-                              type: coda.ValueType.String,
-                              fromKey: "groupId",
-                              description:
-                                "Internal ID per Arm/Group for a Baseline Measure.",
-                            },
-                            BaselineClassDenomCountValue: {
-                              type: coda.ValueType.String,
-                              fromKey: "value",
-                              description:
-                                "Data per Arm/Group per Baseline Measure per Row.",
+                        BaselineMeasureDenomCount: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              BaselineMeasureDenomCountGroupId: {
+                                type: coda.ValueType.String,
+                                fromKey: "groupId",
+                                description:
+                                  "Internally generated ID for each Arm/Group.",
+                              },
+                              BaselineMeasureDenomCountValue: {
+                                type: coda.ValueType.String,
+                                fromKey: "value",
+                                description:
+                                  "number entered per arm/group for unit of measures.",
+                              },
                             },
                           },
                           fromKey: "counts",
-                          description:
-                            "Number of Baseline Row Participants. Population Analyzed for a Row.",
+                          description: "number entered for unit of measure.",
                         },
                       },
-                      fromKey: "denoms",
                     },
-                    BaselineCategory: {
+                    fromKey: "denoms",
+                  },
+                  BaselineClass: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        BaselineCategoryTitle: {
+                        BaselineClassTitle: {
                           type: coda.ValueType.String,
                           fromKey: "title",
-                          description:
-                            'Category Title. Name of distinct category for a baseline measure, if any. Category Titles are only for mutually exclusive and exhaustive categories summarizing data using the Measure Type of a "Count of Participants" or "Count of Units.".',
+                          description: "Baseline RowTitle. Baseline row title.",
                         },
-                        BaselineMeasurement: {
-                          type: coda.ValueType.Object,
-                          properties: {
-                            BaselineMeasurementGroupId: {
-                              type: coda.ValueType.String,
-                              fromKey: "groupId",
-                              description:
-                                "Arm/Group ID. Internal ID per Arm/Group per Category.",
-                            },
-                            BaselineMeasurementValue: {
-                              type: coda.ValueType.String,
-                              fromKey: "value",
-                              description:
-                                "data. Data per Arm/Group per Category.",
-                            },
-                            BaselineMeasurementSpread: {
-                              type: coda.ValueType.String,
-                              fromKey: "spread",
-                              description:
-                                "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., Standard Deviation).",
-                            },
-                            BaselineMeasurementLowerLimit: {
-                              type: coda.ValueType.String,
-                              fromKey: "lowerLimit",
-                              description:
-                                "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., lower limit of Full Range).",
-                            },
-                            BaselineMeasurementUpperLimit: {
-                              type: coda.ValueType.String,
-                              fromKey: "upperLimit",
-                              description:
-                                "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., upper limit of Full Range).",
-                            },
-                            BaselineMeasurementComment: {
-                              type: coda.ValueType.String,
-                              codaType: coda.ValueHintType.Markdown,
-                              fromKey: "comment",
-                              description:
-                                'Comments for N/A values. Explain why baseline measure data are not available, if "NA" is reported for Baseline Measure Data..',
+                        BaselineClassDenom: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              BaselineClassDenomUnits: {
+                                type: coda.ValueType.String,
+                                fromKey: "units",
+                                description:
+                                  "Baseline Row Unit of Measure. Possible analysis population when data are presented in rows (e.g., if units other than participants are included in baseline, both participants and the units are listed as BaselineClassDenomUnits for the applicable baseline measure).",
+                                required: true,
+                              },
+                              BaselineClassDenomCount: {
+                                type: coda.ValueType.Array,
+                                items: {
+                                  type: coda.ValueType.Object,
+                                  properties: {
+                                    BaselineClassDenomCountGroupId: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "groupId",
+                                      description:
+                                        "Internal ID per Arm/Group for a Baseline Measure.",
+                                    },
+                                    BaselineClassDenomCountValue: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "value",
+                                      description:
+                                        "Data per Arm/Group per Baseline Measure per Row.",
+                                    },
+                                  },
+                                },
+                                fromKey: "counts",
+                                description:
+                                  "Number of Baseline Row Participants. Population Analyzed for a Row.",
+                              },
                             },
                           },
-                          fromKey: "measurements",
+                          fromKey: "denoms",
+                        },
+                        BaselineCategory: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              BaselineCategoryTitle: {
+                                type: coda.ValueType.String,
+                                fromKey: "title",
+                                description:
+                                  'Category Title. Name of distinct category for a baseline measure, if any. Category Titles are only for mutually exclusive and exhaustive categories summarizing data using the Measure Type of a "Count of Participants" or "Count of Units.".',
+                              },
+                              BaselineMeasurement: {
+                                type: coda.ValueType.Array,
+                                items: {
+                                  type: coda.ValueType.Object,
+                                  properties: {
+                                    BaselineMeasurementGroupId: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "groupId",
+                                      description:
+                                        "Arm/Group ID. Internal ID per Arm/Group per Category.",
+                                    },
+                                    BaselineMeasurementValue: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "value",
+                                      description:
+                                        "data. Data per Arm/Group per Category.",
+                                    },
+                                    BaselineMeasurementSpread: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "spread",
+                                      description:
+                                        "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., Standard Deviation).",
+                                    },
+                                    BaselineMeasurementLowerLimit: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "lowerLimit",
+                                      description:
+                                        "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., lower limit of Full Range).",
+                                    },
+                                    BaselineMeasurementUpperLimit: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "upperLimit",
+                                      description:
+                                        "data. Data per Arm/Group per Category. Based on Measure Type and Measure of Dispersion (e.g., upper limit of Full Range).",
+                                    },
+                                    BaselineMeasurementComment: {
+                                      type: coda.ValueType.String,
+                                      codaType: coda.ValueHintType.Markdown,
+                                      fromKey: "comment",
+                                      description:
+                                        'Comments for N/A values. Explain why baseline measure data are not available, if "NA" is reported for Baseline Measure Data..',
+                                    },
+                                  },
+                                },
+                                fromKey: "measurements",
+                                description:
+                                  "Data structure per Arm/Group per Category.",
+                                required: true,
+                              },
+                            },
+                          },
+                          fromKey: "categories",
                           description:
-                            "Data structure per Arm/Group per Category.",
-                          required: true,
+                            "Categories under a Baseline Measure (represented as rows in data table).",
                         },
                       },
-                      fromKey: "categories",
-                      description:
-                        "Categories under a Baseline Measure (represented as rows in data table).",
                     },
+                    fromKey: "classes",
+                    description: "Structure for a Baseline Measure ROW.",
                   },
-                  fromKey: "classes",
-                  description: "Structure for a Baseline Measure ROW.",
                 },
               },
               fromKey: "measures",
@@ -2167,435 +2288,470 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             OutcomeMeasure: {
-              type: coda.ValueType.Object,
-              properties: {
-                OutcomeMeasureType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Primary", value: "PRIMARY"},
-                    {display: "Secondary", value: "SECONDARY"},
-                    {
-                      display: "Other Pre-specified",
-                      value: "OTHER_PRE_SPECIFIED",
-                    },
-                    {display: "Post-Hoc", value: "POST_HOC"},
-                  ],
-                  fromKey: "type",
-                  description:
-                    "Outcome Measure Type. The type of outcome measure.\n•\tPrimary\n•\tSecondary\n•\tOther Pre-specified\n•\tPost-Hoc.",
-                  required: true,
-                },
-                OutcomeMeasureTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Outcome Measure title. Name of the specific outcome measure..",
-                  required: true,
-                },
-                OutcomeMeasureDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Outcome Measure Description. Additional information about the outcome measure, including a description of the metric used to characterize the specific outcome measure, if not included in the Outcome Measure Title..",
-                },
-                OutcomeMeasurePopulationDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "populationDescription",
-                  description:
-                    "Analysis Population Description. If the Number of Participants Analyzed or Number of Units Analyzed differs from the number of participants or units assigned to the arm or comparison group, a brief description of the reason for the difference (such as how the analysis population was determined)..",
-                },
-                OutcomeMeasureReportingStatus: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Not Posted", value: "NOT_POSTED"},
-                    {display: "Posted", value: "POSTED"},
-                  ],
-                  fromKey: "reportingStatus",
-                  description:
-                    "Reporting Status. Whether there is Outcome Measure Data reported.",
-                },
-                OutcomeMeasureAnticipatedPostingDate: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Date,
-                  fromKey: "anticipatedPostingDate",
-                  description:
-                    "Anticipated Reporting Date. If Outcome Measure Data are not included for an outcome measure, provide the expected month and year they will be submitted..",
-                },
-                OutcomeMeasureParamType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
-                    {
-                      display: "Geometric Least Squares Mean",
-                      value: "GEOMETRIC_LEAST_SQUARES_MEAN",
-                    },
-                    {
-                      display: "Least Squares Mean",
-                      value: "LEAST_SQUARES_MEAN",
-                    },
-                    {display: "Log Mean", value: "LOG_MEAN"},
-                    {display: "Mean", value: "MEAN"},
-                    {display: "Median", value: "MEDIAN"},
-                    {display: "Number", value: "NUMBER"},
-                    {
-                      display: "Count of Participants",
-                      value: "COUNT_OF_PARTICIPANTS",
-                    },
-                    {display: "Count of Units", value: "COUNT_OF_UNITS"},
-                  ],
-                  fromKey: "paramType",
-                  description:
-                    "Outcome Measure Data Type. The type of data for the outcome measure. Can be one of the following:\n•\tCount of Participants\n•\tMean\n•\tMedian\n•\tLeast Squares Mean\n•\tGeometric Mean\n•\tGeometric Least Squares Mean\n•\tNumber\n•\tCount of Units.",
-                  required: true,
-                },
-                OutcomeMeasureDispersionType: {
-                  type: coda.ValueType.String,
-                  fromKey: "dispersionType",
-                  description:
-                    'Outcome Measure Dispersion/Precision. Measure of Dispersion/Precision\n•\tNot Applicable (only if Measure Type is "Number," "Count of Participants," or "Count of Units")\n•\tStandard Deviation\n•\tStandard Error\n•\tInter-Quartile Range\n•\tFull Range\n•\t80% Confidence Interval\n•\t90% Confidence Interval\n•\t95% Confidence Interval\n•\t97.5% Confidence Interval\n•\t99% Confidence Interval\n•\tOther Confidence Interval Level\n•\tGeometric Coefficient of Variation (only when Measure Type is "Geometric Mean")\nIf “Other Confidence Interval Level” is selected, user will enter a numerical value for the confidence interval level.',
-                  required: true,
-                },
-                OutcomeMeasureUnitOfMeasure: {
-                  type: coda.ValueType.String,
-                  fromKey: "unitOfMeasure",
-                  description:
-                    "Unit of Measure. An explanation of what is quantified by the data (for example, participants, mm Hg), for each outcome measure..",
-                  required: true,
-                },
-                OutcomeMeasureCalculatePct: {
-                  type: coda.ValueType.Boolean,
-                  fromKey: "calculatePct",
-                  description:
-                    "Calculated Percentage. percentage of OutcomeMeasurementValue/OutcomeMeasureDenomCountValue (internally calculated).",
-                },
-                OutcomeMeasureTimeFrame: {
-                  type: coda.ValueType.String,
-                  fromKey: "timeFrame",
-                  description:
-                    "Outcome Measure Time Frame. Time point(s) at which the measurement was assessed for the specific metric used. The description of the time point(s) of assessment must be specific to the outcome measure and is generally the specific duration of time over which each participant is assessed (not the overall duration of the study)..",
-                  required: true,
-                },
-                OutcomeMeasureTypeUnitsAnalyzed: {
-                  type: coda.ValueType.String,
-                  fromKey: "typeUnitsAnalyzed",
-                  description:
-                    "Units Analyzed. If the analysis is based on a unit other than participants, a description of the unit of analysis (for example, eyes, lesions, implants)..",
-                },
-                OutcomeMeasureDenomUnitsSelected: {
-                  type: coda.ValueType.String,
-                  fromKey: "denomUnitsSelected",
-                  description: "OutcomeMeasureTypeUnitsAnalyzed.",
-                },
-                OutcomeGroup: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    OutcomeGroupId: {
-                      type: coda.ValueType.String,
-                      fromKey: "id",
-                    },
-                    OutcomeGroupTitle: {
-                      type: coda.ValueType.String,
-                      fromKey: "title",
-                    },
-                    OutcomeGroupDescription: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "description",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  OutcomeMeasureType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Primary", value: "PRIMARY"},
+                      {display: "Secondary", value: "SECONDARY"},
+                      {
+                        display: "Other Pre-specified",
+                        value: "OTHER_PRE_SPECIFIED",
+                      },
+                      {display: "Post-Hoc", value: "POST_HOC"},
+                    ],
+                    fromKey: "type",
+                    description:
+                      "Outcome Measure Type. The type of outcome measure.\n•\tPrimary\n•\tSecondary\n•\tOther Pre-specified\n•\tPost-Hoc.",
+                    required: true,
                   },
-                  fromKey: "groups",
-                },
-                OutcomeDenom: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    OutcomeDenomUnits: {
-                      type: coda.ValueType.String,
-                      fromKey: "units",
-                    },
-                    OutcomeDenomCount: {
+                  OutcomeMeasureTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Outcome Measure title. Name of the specific outcome measure..",
+                    required: true,
+                  },
+                  OutcomeMeasureDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Outcome Measure Description. Additional information about the outcome measure, including a description of the metric used to characterize the specific outcome measure, if not included in the Outcome Measure Title..",
+                  },
+                  OutcomeMeasurePopulationDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "populationDescription",
+                    description:
+                      "Analysis Population Description. If the Number of Participants Analyzed or Number of Units Analyzed differs from the number of participants or units assigned to the arm or comparison group, a brief description of the reason for the difference (such as how the analysis population was determined)..",
+                  },
+                  OutcomeMeasureReportingStatus: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Not Posted", value: "NOT_POSTED"},
+                      {display: "Posted", value: "POSTED"},
+                    ],
+                    fromKey: "reportingStatus",
+                    description:
+                      "Reporting Status. Whether there is Outcome Measure Data reported.",
+                  },
+                  OutcomeMeasureAnticipatedPostingDate: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Date,
+                    fromKey: "anticipatedPostingDate",
+                    description:
+                      "Anticipated Reporting Date. If Outcome Measure Data are not included for an outcome measure, provide the expected month and year they will be submitted..",
+                  },
+                  OutcomeMeasureParamType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
+                      {
+                        display: "Geometric Least Squares Mean",
+                        value: "GEOMETRIC_LEAST_SQUARES_MEAN",
+                      },
+                      {
+                        display: "Least Squares Mean",
+                        value: "LEAST_SQUARES_MEAN",
+                      },
+                      {display: "Log Mean", value: "LOG_MEAN"},
+                      {display: "Mean", value: "MEAN"},
+                      {display: "Median", value: "MEDIAN"},
+                      {display: "Number", value: "NUMBER"},
+                      {
+                        display: "Count of Participants",
+                        value: "COUNT_OF_PARTICIPANTS",
+                      },
+                      {display: "Count of Units", value: "COUNT_OF_UNITS"},
+                    ],
+                    fromKey: "paramType",
+                    description:
+                      "Outcome Measure Data Type. The type of data for the outcome measure. Can be one of the following:\n•\tCount of Participants\n•\tMean\n•\tMedian\n•\tLeast Squares Mean\n•\tGeometric Mean\n•\tGeometric Least Squares Mean\n•\tNumber\n•\tCount of Units.",
+                    required: true,
+                  },
+                  OutcomeMeasureDispersionType: {
+                    type: coda.ValueType.String,
+                    fromKey: "dispersionType",
+                    description:
+                      'Outcome Measure Dispersion/Precision. Measure of Dispersion/Precision\n•\tNot Applicable (only if Measure Type is "Number," "Count of Participants," or "Count of Units")\n•\tStandard Deviation\n•\tStandard Error\n•\tInter-Quartile Range\n•\tFull Range\n•\t80% Confidence Interval\n•\t90% Confidence Interval\n•\t95% Confidence Interval\n•\t97.5% Confidence Interval\n•\t99% Confidence Interval\n•\tOther Confidence Interval Level\n•\tGeometric Coefficient of Variation (only when Measure Type is "Geometric Mean")\nIf “Other Confidence Interval Level” is selected, user will enter a numerical value for the confidence interval level.',
+                    required: true,
+                  },
+                  OutcomeMeasureUnitOfMeasure: {
+                    type: coda.ValueType.String,
+                    fromKey: "unitOfMeasure",
+                    description:
+                      "Unit of Measure. An explanation of what is quantified by the data (for example, participants, mm Hg), for each outcome measure..",
+                    required: true,
+                  },
+                  OutcomeMeasureCalculatePct: {
+                    type: coda.ValueType.Boolean,
+                    fromKey: "calculatePct",
+                    description:
+                      "Calculated Percentage. percentage of OutcomeMeasurementValue/OutcomeMeasureDenomCountValue (internally calculated).",
+                  },
+                  OutcomeMeasureTimeFrame: {
+                    type: coda.ValueType.String,
+                    fromKey: "timeFrame",
+                    description:
+                      "Outcome Measure Time Frame. Time point(s) at which the measurement was assessed for the specific metric used. The description of the time point(s) of assessment must be specific to the outcome measure and is generally the specific duration of time over which each participant is assessed (not the overall duration of the study)..",
+                    required: true,
+                  },
+                  OutcomeMeasureTypeUnitsAnalyzed: {
+                    type: coda.ValueType.String,
+                    fromKey: "typeUnitsAnalyzed",
+                    description:
+                      "Units Analyzed. If the analysis is based on a unit other than participants, a description of the unit of analysis (for example, eyes, lesions, implants)..",
+                  },
+                  OutcomeMeasureDenomUnitsSelected: {
+                    type: coda.ValueType.String,
+                    fromKey: "denomUnitsSelected",
+                    description: "OutcomeMeasureTypeUnitsAnalyzed.",
+                  },
+                  OutcomeGroup: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        OutcomeDenomCountGroupId: {
+                        OutcomeGroupId: {
                           type: coda.ValueType.String,
-                          fromKey: "groupId",
+                          fromKey: "id",
                         },
-                        OutcomeDenomCountValue: {
+                        OutcomeGroupTitle: {
                           type: coda.ValueType.String,
-                          fromKey: "value",
+                          fromKey: "title",
+                        },
+                        OutcomeGroupDescription: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "description",
                         },
                       },
-                      fromKey: "counts",
                     },
+                    fromKey: "groups",
                   },
-                  fromKey: "denoms",
-                },
-                OutcomeClass: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    OutcomeClassTitle: {
-                      type: coda.ValueType.String,
-                      fromKey: "title",
-                    },
-                    OutcomeClassDenom: {
+                  OutcomeDenom: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        OutcomeClassDenomUnits: {
+                        OutcomeDenomUnits: {
                           type: coda.ValueType.String,
                           fromKey: "units",
                         },
-                        OutcomeClassDenomCount: {
-                          type: coda.ValueType.Object,
-                          properties: {
-                            OutcomeClassDenomCountGroupId: {
-                              type: coda.ValueType.String,
-                              fromKey: "groupId",
-                            },
-                            OutcomeClassDenomCountValue: {
-                              type: coda.ValueType.String,
-                              fromKey: "value",
+                        OutcomeDenomCount: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              OutcomeDenomCountGroupId: {
+                                type: coda.ValueType.String,
+                                fromKey: "groupId",
+                              },
+                              OutcomeDenomCountValue: {
+                                type: coda.ValueType.String,
+                                fromKey: "value",
+                              },
                             },
                           },
                           fromKey: "counts",
                         },
                       },
-                      fromKey: "denoms",
                     },
-                    OutcomeCategory: {
+                    fromKey: "denoms",
+                  },
+                  OutcomeClass: {
+                    type: coda.ValueType.Array,
+                    items: {
                       type: coda.ValueType.Object,
                       properties: {
-                        OutcomeCategoryTitle: {
+                        OutcomeClassTitle: {
                           type: coda.ValueType.String,
                           fromKey: "title",
-                          description: "Category Title.",
                         },
-                        OutcomeMeasurement: {
-                          type: coda.ValueType.Object,
-                          properties: {
-                            OutcomeMeasurementGroupId: {
-                              type: coda.ValueType.String,
-                              fromKey: "groupId",
-                              description: "Group ID.",
-                            },
-                            OutcomeMeasurementValue: {
-                              type: coda.ValueType.String,
-                              fromKey: "value",
-                              description: "data.",
-                            },
-                            OutcomeMeasurementSpread: {
-                              type: coda.ValueType.String,
-                              fromKey: "spread",
-                              description: "data.",
-                            },
-                            OutcomeMeasurementLowerLimit: {
-                              type: coda.ValueType.String,
-                              fromKey: "lowerLimit",
-                              description: "data.",
-                            },
-                            OutcomeMeasurementUpperLimit: {
-                              type: coda.ValueType.String,
-                              fromKey: "upperLimit",
-                              description: "data.",
-                            },
-                            OutcomeMeasurementComment: {
-                              type: coda.ValueType.String,
-                              codaType: coda.ValueHintType.Markdown,
-                              fromKey: "comment",
-                              description: "Comments for N/A values.",
+                        OutcomeClassDenom: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              OutcomeClassDenomUnits: {
+                                type: coda.ValueType.String,
+                                fromKey: "units",
+                              },
+                              OutcomeClassDenomCount: {
+                                type: coda.ValueType.Array,
+                                items: {
+                                  type: coda.ValueType.Object,
+                                  properties: {
+                                    OutcomeClassDenomCountGroupId: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "groupId",
+                                    },
+                                    OutcomeClassDenomCountValue: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "value",
+                                    },
+                                  },
+                                },
+                                fromKey: "counts",
+                              },
                             },
                           },
-                          fromKey: "measurements",
+                          fromKey: "denoms",
+                        },
+                        OutcomeCategory: {
+                          type: coda.ValueType.Array,
+                          items: {
+                            type: coda.ValueType.Object,
+                            properties: {
+                              OutcomeCategoryTitle: {
+                                type: coda.ValueType.String,
+                                fromKey: "title",
+                                description: "Category Title.",
+                              },
+                              OutcomeMeasurement: {
+                                type: coda.ValueType.Array,
+                                items: {
+                                  type: coda.ValueType.Object,
+                                  properties: {
+                                    OutcomeMeasurementGroupId: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "groupId",
+                                      description: "Group ID.",
+                                    },
+                                    OutcomeMeasurementValue: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "value",
+                                      description: "data.",
+                                    },
+                                    OutcomeMeasurementSpread: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "spread",
+                                      description: "data.",
+                                    },
+                                    OutcomeMeasurementLowerLimit: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "lowerLimit",
+                                      description: "data.",
+                                    },
+                                    OutcomeMeasurementUpperLimit: {
+                                      type: coda.ValueType.String,
+                                      fromKey: "upperLimit",
+                                      description: "data.",
+                                    },
+                                    OutcomeMeasurementComment: {
+                                      type: coda.ValueType.String,
+                                      codaType: coda.ValueHintType.Markdown,
+                                      fromKey: "comment",
+                                      description: "Comments for N/A values.",
+                                    },
+                                  },
+                                },
+                                fromKey: "measurements",
+                              },
+                            },
+                          },
+                          fromKey: "categories",
+                          description: "Outcome Category.",
                         },
                       },
-                      fromKey: "categories",
-                      description: "Outcome Category.",
                     },
+                    fromKey: "classes",
                   },
-                  fromKey: "classes",
-                },
-                OutcomeAnalysis: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    OutcomeAnalysisParamType: {
-                      type: coda.ValueType.String,
-                      fromKey: "paramType",
-                      description:
-                        "Estimation Parameter. Estimation Parameter:\n•\tCox Proportional Hazard\n•\tHazard Ratio (HR)\n•\tHazard Ratio, Log\n•\tMean Difference (Final Values)\n•\tMean Difference (Net)\n•\tMedian Difference (Final Values)\n•\tMedian Difference (Net)\n•\tOdds Ratio (OR)\n•\tOdds Ratio, Log\n•\tRisk Difference (RD)\n•\tRisk Ratio (RR)\n•\tRisk Ratio, Log\n•\tSlope\n•\tOther (If selected, user enters Other Parameter Name: The name of the estimation parameter).",
-                    },
-                    OutcomeAnalysisParamValue: {
-                      type: coda.ValueType.String,
-                      fromKey: "paramValue",
-                      description:
-                        "Estimated Value. Estimated Value: The calculated value for the estimation parameter..",
-                    },
-                    OutcomeAnalysisDispersionType: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {
-                          display: "Standard Deviation",
-                          value: "STANDARD_DEVIATION",
+                  OutcomeAnalysis: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        OutcomeAnalysisParamType: {
+                          type: coda.ValueType.String,
+                          fromKey: "paramType",
+                          description:
+                            "Estimation Parameter. Estimation Parameter:\n•\tCox Proportional Hazard\n•\tHazard Ratio (HR)\n•\tHazard Ratio, Log\n•\tMean Difference (Final Values)\n•\tMean Difference (Net)\n•\tMedian Difference (Final Values)\n•\tMedian Difference (Net)\n•\tOdds Ratio (OR)\n•\tOdds Ratio, Log\n•\tRisk Difference (RD)\n•\tRisk Ratio (RR)\n•\tRisk Ratio, Log\n•\tSlope\n•\tOther (If selected, user enters Other Parameter Name: The name of the estimation parameter).",
                         },
-                        {
-                          display: "Standard Error of the Mean",
-                          value: "STANDARD_ERROR_OF_MEAN",
+                        OutcomeAnalysisParamValue: {
+                          type: coda.ValueType.String,
+                          fromKey: "paramValue",
+                          description:
+                            "Estimated Value. Estimated Value: The calculated value for the estimation parameter..",
                         },
-                      ],
-                      fromKey: "dispersionType",
-                      description:
-                        "Estimation Dispersion Type. Parameter Dispersion Type\n•\tStandard Deviation\n•\tStandard Error of the Mean.",
-                    },
-                    OutcomeAnalysisDispersionValue: {
-                      type: coda.ValueType.String,
-                      fromKey: "dispersionValue",
-                      description:
-                        "Parameter Dispersion Value. Parameter Dispersion Value:  The calculated value for the dispersion of the estimated parameter..",
-                    },
-                    OutcomeAnalysisStatisticalMethod: {
-                      type: coda.ValueType.String,
-                      fromKey: "statisticalMethod",
-                      description:
-                        'Statistical Method. The statistical test used to calculate the p-value, if a P-Value is reported\n•\tANCOVA\n•\tANOVA\n•\tChi-Squared\n•\tChi-Squared, Corrected\n•\tCochran-Mantel-Haenszel\n•\tFisher Exact\n•\tKruskal-Wallis\n•\tLog Rank\n•\tMantel Haenszel\n•\tMcNemar\n•\tMixed Models Analysis\n•\tRegression, Cox\n•\tRegression, Linear\n•\tRegression, Logistic\n•\tSign Test\n•\tt-Test, 1-Sided\n•\tt-Test, 2-Sided\n•\tWilcoxon (Mann-Whitney)\n•\tOther (Other Method Name [*]: If "Other" is selected, provide name of statistical test.)\nLimit: 40 characters..',
-                    },
-                    OutcomeAnalysisStatisticalComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "statisticalComment",
-                      description:
-                        "Statistical Comment. Any other relevant information about the statistical test, such as adjustments or degrees of freedom..",
-                    },
-                    OutcomeAnalysisPValue: {
-                      type: coda.ValueType.String,
-                      fromKey: "pValue",
-                      description:
-                        "P-Value. Calculated p-value given the null-hypothesis.",
-                    },
-                    OutcomeAnalysisPValueComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "pValueComment",
-                      description:
-                        "P-Value Comment. Additional information, such as whether the p-value is adjusted for multiple comparisons and the a priori threshold for statistical significance.",
-                    },
-                    OutcomeAnalysisCINumSides: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {display: "1-Sided", value: "ONE_SIDED"},
-                        {display: "2-Sided", value: "TWO_SIDED"},
-                      ],
-                      fromKey: "ciNumSides",
-                      description:
-                        "Number of Sides for Confidence Interval. Confidence Interval - Number of sides.",
-                    },
-                    OutcomeAnalysisCIPctValue: {
-                      type: coda.ValueType.String,
-                      fromKey: "ciPctValue",
-                      description:
-                        "Percentage for Confidence Interval. Confidence Interval - value (Expressed as a percentage).",
-                    },
-                    OutcomeAnalysisCILowerLimit: {
-                      type: coda.ValueType.String,
-                      fromKey: "ciLowerLimit",
-                      description:
-                        'Lower Limit for 2-sided Confidence Interval. Confidence Interval - lower limit (Required if confidence interval is "2-sided" or if confidence interval is "1-sided" and no Upper Limit is entered.).',
-                    },
-                    OutcomeAnalysisCIUpperLimit: {
-                      type: coda.ValueType.String,
-                      fromKey: "ciUpperLimit",
-                      description:
-                        'Upper Limit for 2-sided Confidence Interval. Confidence Interval - upper limit (Required if confidence interval is "2-sided" or if confidence interval is "1-sided" and no Lower Limit is entered.).',
-                    },
-                    OutcomeAnalysisCILowerLimitComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "ciLowerLimitComment",
-                      description:
-                        "Lower Limit Comment. Confidence Interval - lower limit comment.",
-                    },
-                    OutcomeAnalysisCIUpperLimitComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "ciUpperLimitComment",
-                      description:
-                        'Upper Limit Comment. Confidence Interval - upper limit comment (Explain why the upper limit data are not available, if "NA" is reported as upper-limit of "2-sided" confidence interval.).',
-                    },
-                    OutcomeAnalysisEstimateComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "estimateComment",
-                      description:
-                        "Estimation Comment. Any other relevant estimation information, including the direction of the comparison (for example, describe which arm or comparison group represents the numerator and denominator for relative risk)..",
-                    },
-                    OutcomeAnalysisTestedNonInferiority: {
-                      type: coda.ValueType.Boolean,
-                      fromKey: "testedNonInferiority",
-                      description:
-                        'Non-inferiority or Equivalence Test Type. Legacy field:\nWhen clinicalTrials.gov first designed and implemented support for results, the outcomeMeasureAnalysis had a field with value Yes/No that captured whether the a statistical analysis was designed to be a test of "Non-Inferiority or Equivalence".  The final rule changed this field.  The legacy Yes/No values were still present to accommodate already entered data (i.e. legacy data).  New preferred values for the Statistical Test Type (Superiority, Non-Infer, Equivalence, Other) were defined to implement the final rule..',
-                    },
-                    OutcomeAnalysisNonInferiorityType: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {display: "Superiority", value: "SUPERIORITY"},
-                        {display: "Non-Inferiority", value: "NON_INFERIORITY"},
-                        {display: "Equivalence", value: "EQUIVALENCE"},
-                        {display: "Other", value: "OTHER"},
-                        {
-                          display: "Non-Inferiority or Equivalence",
-                          value: "NON_INFERIORITY_OR_EQUIVALENCE",
+                        OutcomeAnalysisDispersionType: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.SelectList,
+                          options: [
+                            {
+                              display: "Standard Deviation",
+                              value: "STANDARD_DEVIATION",
+                            },
+                            {
+                              display: "Standard Error of the Mean",
+                              value: "STANDARD_ERROR_OF_MEAN",
+                            },
+                          ],
+                          fromKey: "dispersionType",
+                          description:
+                            "Estimation Dispersion Type. Parameter Dispersion Type\n•\tStandard Deviation\n•\tStandard Error of the Mean.",
                         },
-                        {
-                          display: "Superiority or Other",
-                          value: "SUPERIORITY_OR_OTHER",
+                        OutcomeAnalysisDispersionValue: {
+                          type: coda.ValueType.String,
+                          fromKey: "dispersionValue",
+                          description:
+                            "Parameter Dispersion Value. Parameter Dispersion Value:  The calculated value for the dispersion of the estimated parameter..",
                         },
-                        {
-                          display: "Non-Inferiority or Equivalence (legacy)",
-                          value: "NON_INFERIORITY_OR_EQUIVALENCE_LEGACY",
+                        OutcomeAnalysisStatisticalMethod: {
+                          type: coda.ValueType.String,
+                          fromKey: "statisticalMethod",
+                          description:
+                            'Statistical Method. The statistical test used to calculate the p-value, if a P-Value is reported\n•\tANCOVA\n•\tANOVA\n•\tChi-Squared\n•\tChi-Squared, Corrected\n•\tCochran-Mantel-Haenszel\n•\tFisher Exact\n•\tKruskal-Wallis\n•\tLog Rank\n•\tMantel Haenszel\n•\tMcNemar\n•\tMixed Models Analysis\n•\tRegression, Cox\n•\tRegression, Linear\n•\tRegression, Logistic\n•\tSign Test\n•\tt-Test, 1-Sided\n•\tt-Test, 2-Sided\n•\tWilcoxon (Mann-Whitney)\n•\tOther (Other Method Name [*]: If "Other" is selected, provide name of statistical test.)\nLimit: 40 characters..',
                         },
-                        {
-                          display: "Superiority or Other (legacy)",
-                          value: "SUPERIORITY_OR_OTHER_LEGACY",
+                        OutcomeAnalysisStatisticalComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "statisticalComment",
+                          description:
+                            "Statistical Comment. Any other relevant information about the statistical test, such as adjustments or degrees of freedom..",
                         },
-                      ],
-                      fromKey: "nonInferiorityType",
-                      description:
-                        "Type of Statistical Test. Type of Statistical Test\n•\tSuperiority\n•\tNon-inferiority\n•\tEquivalence\n•\tOther (for example, single group or other descriptive analysis)\n•\tNon-Inferiority or Equivalence (legacy selection)\n•\tSuperiority or Other (legacy selection).",
+                        OutcomeAnalysisPValue: {
+                          type: coda.ValueType.String,
+                          fromKey: "pValue",
+                          description:
+                            "P-Value. Calculated p-value given the null-hypothesis.",
+                        },
+                        OutcomeAnalysisPValueComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "pValueComment",
+                          description:
+                            "P-Value Comment. Additional information, such as whether the p-value is adjusted for multiple comparisons and the a priori threshold for statistical significance.",
+                        },
+                        OutcomeAnalysisCINumSides: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.SelectList,
+                          options: [
+                            {display: "1-Sided", value: "ONE_SIDED"},
+                            {display: "2-Sided", value: "TWO_SIDED"},
+                          ],
+                          fromKey: "ciNumSides",
+                          description:
+                            "Number of Sides for Confidence Interval. Confidence Interval - Number of sides.",
+                        },
+                        OutcomeAnalysisCIPctValue: {
+                          type: coda.ValueType.String,
+                          fromKey: "ciPctValue",
+                          description:
+                            "Percentage for Confidence Interval. Confidence Interval - value (Expressed as a percentage).",
+                        },
+                        OutcomeAnalysisCILowerLimit: {
+                          type: coda.ValueType.String,
+                          fromKey: "ciLowerLimit",
+                          description:
+                            'Lower Limit for 2-sided Confidence Interval. Confidence Interval - lower limit (Required if confidence interval is "2-sided" or if confidence interval is "1-sided" and no Upper Limit is entered.).',
+                        },
+                        OutcomeAnalysisCIUpperLimit: {
+                          type: coda.ValueType.String,
+                          fromKey: "ciUpperLimit",
+                          description:
+                            'Upper Limit for 2-sided Confidence Interval. Confidence Interval - upper limit (Required if confidence interval is "2-sided" or if confidence interval is "1-sided" and no Lower Limit is entered.).',
+                        },
+                        OutcomeAnalysisCILowerLimitComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "ciLowerLimitComment",
+                          description:
+                            "Lower Limit Comment. Confidence Interval - lower limit comment.",
+                        },
+                        OutcomeAnalysisCIUpperLimitComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "ciUpperLimitComment",
+                          description:
+                            'Upper Limit Comment. Confidence Interval - upper limit comment (Explain why the upper limit data are not available, if "NA" is reported as upper-limit of "2-sided" confidence interval.).',
+                        },
+                        OutcomeAnalysisEstimateComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "estimateComment",
+                          description:
+                            "Estimation Comment. Any other relevant estimation information, including the direction of the comparison (for example, describe which arm or comparison group represents the numerator and denominator for relative risk)..",
+                        },
+                        OutcomeAnalysisTestedNonInferiority: {
+                          type: coda.ValueType.Boolean,
+                          fromKey: "testedNonInferiority",
+                          description:
+                            'Non-inferiority or Equivalence Test Type. Legacy field:\nWhen clinicalTrials.gov first designed and implemented support for results, the outcomeMeasureAnalysis had a field with value Yes/No that captured whether the a statistical analysis was designed to be a test of "Non-Inferiority or Equivalence".  The final rule changed this field.  The legacy Yes/No values were still present to accommodate already entered data (i.e. legacy data).  New preferred values for the Statistical Test Type (Superiority, Non-Infer, Equivalence, Other) were defined to implement the final rule..',
+                        },
+                        OutcomeAnalysisNonInferiorityType: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.SelectList,
+                          options: [
+                            {display: "Superiority", value: "SUPERIORITY"},
+                            {
+                              display: "Non-Inferiority",
+                              value: "NON_INFERIORITY",
+                            },
+                            {display: "Equivalence", value: "EQUIVALENCE"},
+                            {display: "Other", value: "OTHER"},
+                            {
+                              display: "Non-Inferiority or Equivalence",
+                              value: "NON_INFERIORITY_OR_EQUIVALENCE",
+                            },
+                            {
+                              display: "Superiority or Other",
+                              value: "SUPERIORITY_OR_OTHER",
+                            },
+                            {
+                              display:
+                                "Non-Inferiority or Equivalence (legacy)",
+                              value: "NON_INFERIORITY_OR_EQUIVALENCE_LEGACY",
+                            },
+                            {
+                              display: "Superiority or Other (legacy)",
+                              value: "SUPERIORITY_OR_OTHER_LEGACY",
+                            },
+                          ],
+                          fromKey: "nonInferiorityType",
+                          description:
+                            "Type of Statistical Test. Type of Statistical Test\n•\tSuperiority\n•\tNon-inferiority\n•\tEquivalence\n•\tOther (for example, single group or other descriptive analysis)\n•\tNon-Inferiority or Equivalence (legacy selection)\n•\tSuperiority or Other (legacy selection).",
+                        },
+                        OutcomeAnalysisNonInferiorityComment: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "nonInferiorityComment",
+                          description:
+                            'Non-inferiority or Equivalence Comment. If, "Non-inferiority" or "Equivalence," user is asked to provide additional details, including details of the power calculation (if not previously provided), definition of non-inferiority or equivalence margin, and other key parameters..',
+                        },
+                        OutcomeAnalysisOtherAnalysisDescription: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "otherAnalysisDescription",
+                          description:
+                            "Other Statistical Analysis. If the statistical analysis cannot be submitted using the Statistical Test of Hypothesis or Method of Estimation options, provide a description and the results of any other scientifically appropriate tests of statistical significance..",
+                        },
+                        OutcomeAnalysisGroupDescription: {
+                          type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.Markdown,
+                          fromKey: "groupDescription",
+                          description:
+                            "Selected Comparison Group Description. Additional details about the statistical analysis, such as null hypothesis and description of power calculation..",
+                        },
+                        OutcomeAnalysisGroupId: {
+                          type: coda.ValueType.Array,
+                          items: {type: coda.ValueType.String},
+                          fromKey: "groupIds",
+                          description: "Internal ID.",
+                        },
+                      },
                     },
-                    OutcomeAnalysisNonInferiorityComment: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "nonInferiorityComment",
-                      description:
-                        'Non-inferiority or Equivalence Comment. If, "Non-inferiority" or "Equivalence," user is asked to provide additional details, including details of the power calculation (if not previously provided), definition of non-inferiority or equivalence margin, and other key parameters..',
-                    },
-                    OutcomeAnalysisOtherAnalysisDescription: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "otherAnalysisDescription",
-                      description:
-                        "Other Statistical Analysis. If the statistical analysis cannot be submitted using the Statistical Test of Hypothesis or Method of Estimation options, provide a description and the results of any other scientifically appropriate tests of statistical significance..",
-                    },
-                    OutcomeAnalysisGroupDescription: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Markdown,
-                      fromKey: "groupDescription",
-                      description:
-                        "Selected Comparison Group Description. Additional details about the statistical analysis, such as null hypothesis and description of power calculation..",
-                    },
-                    OutcomeAnalysisGroupId: {
-                      type: coda.ValueType.String,
-                      fromKey: "groupIds",
-                      description: "Internal ID.",
-                    },
+                    fromKey: "analyses",
+                    description:
+                      'Outcome Measure Analysis. Result(s) of scientifically appropriate tests of statistical significance of the primary and secondary outcome measures, if any. Such analyses include: pre-specified in the protocol and/or statistical analysis plan; made public by the sponsor or responsible party; conducted on a primary outcome measure in response to a request made by FDA.\nIf a statistical analysis is reported "Comparison Group Selection" and "Type of Statistical Test" are required. In addition, one of the following data elements are required with the associated information: "P-Value," "Estimation Parameter," or "Other Statistical Analysis.".',
                   },
-                  fromKey: "analyses",
-                  description:
-                    'Outcome Measure Analysis. Result(s) of scientifically appropriate tests of statistical significance of the primary and secondary outcome measures, if any. Such analyses include: pre-specified in the protocol and/or statistical analysis plan; made public by the sponsor or responsible party; conducted on a primary outcome measure in response to a request made by FDA.\nIf a statistical analysis is reported "Comparison Group Selection" and "Type of Statistical Test" are required. In addition, one of the following data elements are required with the associated information: "P-Value," "Estimation Parameter," or "Other Statistical Analysis.".',
                 },
               },
               fromKey: "outcomeMeasures",
@@ -2638,66 +2794,69 @@ export const StudySchema = coda.makeSchema({
               description: "All Cause Mortality Comment.",
             },
             EventGroup: {
-              type: coda.ValueType.Object,
-              properties: {
-                EventGroupId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Arm/Group ID. Internal group id.",
-                },
-                EventGroupTitle: {
-                  type: coda.ValueType.String,
-                  fromKey: "title",
-                  description:
-                    "Arm/Group Title. label used to identify each arm or comparison group..",
-                  required: true,
-                },
-                EventGroupDescription: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "description",
-                  description:
-                    "Arm/Group Description. Brief description of each arm or comparison group. In general, it must include sufficient detail to understand how the arm(s) or comparison groups were derived from the arm(s) to which participants were assigned in Participant Flow and the intervention strategy in each arm/group..",
-                },
-                EventGroupDeathsNumAffected: {
-                  type: coda.ValueType.String,
-                  fromKey: "deathsNumAffected",
-                  description:
-                    "Total Number Affected by All-Cause Mortality. Overall number of participants, in each arm/group, who died due to any cause..",
-                },
-                EventGroupDeathsNumAtRisk: {
-                  type: coda.ValueType.String,
-                  fromKey: "deathsNumAtRisk",
-                  description:
-                    "Total Number at Risk for All-Cause Mortality. Overall number of participants, in each arm/group, included in the assessment of deaths due to any cause (that is, the denominator for calculating frequency of all-cause mortality)..",
-                },
-                EventGroupSeriousNumAffected: {
-                  type: coda.ValueType.String,
-                  fromKey: "seriousNumAffected",
-                  description:
-                    "Number Affected by a Serious Adverse Event. Overall number of participants affected by one or more Serious Adverse Events, for each arm/group..",
-                  required: true,
-                },
-                EventGroupSeriousNumAtRisk: {
-                  type: coda.ValueType.String,
-                  fromKey: "seriousNumAtRisk",
-                  description:
-                    "Number at Risk for a Serious Adverse Event. Number at Risk for each Serious Adverse Event Term: Overall number of participants included in the assessment of serious adverse events (that is, the denominator for calculating frequency of serious adverse events), for each arm/group..",
-                  required: true,
-                },
-                EventGroupOtherNumAffected: {
-                  type: coda.ValueType.String,
-                  fromKey: "otherNumAffected",
-                  description:
-                    "Number Affected by Any Other Adverse Event. Total Number Affected by Any Other (Not Including Serious) Adverse Event Above the Frequency Threshold: Overall number of participants affected, for each arm/group, by at least one Other (Not Including Serious) Adverse Event(s) reported in the table. Adverse events reported in the table are those that occurred at a frequency exceeding the specified Frequency Threshold (for example, 5%) within at least one arm or comparison group..",
-                  required: true,
-                },
-                EventGroupOtherNumAtRisk: {
-                  type: coda.ValueType.String,
-                  fromKey: "otherNumAtRisk",
-                  description:
-                    "Number at Risk for Any Other Adverse Event. Total Number at Risk for Other (Not Including Serious) Adverse Events (or Number at Risk for each Other, [Not Including Serious], Adverse Event Term required): Overall number of participants, for each arm/group, included in the assessment of Other (Not Including Serious) Adverse Events during the study (that is, the denominator for calculating frequency of Other (Not Including Serious) Adverse Events)..",
-                  required: true,
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  EventGroupId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Arm/Group ID. Internal group id.",
+                  },
+                  EventGroupTitle: {
+                    type: coda.ValueType.String,
+                    fromKey: "title",
+                    description:
+                      "Arm/Group Title. label used to identify each arm or comparison group..",
+                    required: true,
+                  },
+                  EventGroupDescription: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "description",
+                    description:
+                      "Arm/Group Description. Brief description of each arm or comparison group. In general, it must include sufficient detail to understand how the arm(s) or comparison groups were derived from the arm(s) to which participants were assigned in Participant Flow and the intervention strategy in each arm/group..",
+                  },
+                  EventGroupDeathsNumAffected: {
+                    type: coda.ValueType.String,
+                    fromKey: "deathsNumAffected",
+                    description:
+                      "Total Number Affected by All-Cause Mortality. Overall number of participants, in each arm/group, who died due to any cause..",
+                  },
+                  EventGroupDeathsNumAtRisk: {
+                    type: coda.ValueType.String,
+                    fromKey: "deathsNumAtRisk",
+                    description:
+                      "Total Number at Risk for All-Cause Mortality. Overall number of participants, in each arm/group, included in the assessment of deaths due to any cause (that is, the denominator for calculating frequency of all-cause mortality)..",
+                  },
+                  EventGroupSeriousNumAffected: {
+                    type: coda.ValueType.String,
+                    fromKey: "seriousNumAffected",
+                    description:
+                      "Number Affected by a Serious Adverse Event. Overall number of participants affected by one or more Serious Adverse Events, for each arm/group..",
+                    required: true,
+                  },
+                  EventGroupSeriousNumAtRisk: {
+                    type: coda.ValueType.String,
+                    fromKey: "seriousNumAtRisk",
+                    description:
+                      "Number at Risk for a Serious Adverse Event. Number at Risk for each Serious Adverse Event Term: Overall number of participants included in the assessment of serious adverse events (that is, the denominator for calculating frequency of serious adverse events), for each arm/group..",
+                    required: true,
+                  },
+                  EventGroupOtherNumAffected: {
+                    type: coda.ValueType.String,
+                    fromKey: "otherNumAffected",
+                    description:
+                      "Number Affected by Any Other Adverse Event. Total Number Affected by Any Other (Not Including Serious) Adverse Event Above the Frequency Threshold: Overall number of participants affected, for each arm/group, by at least one Other (Not Including Serious) Adverse Event(s) reported in the table. Adverse events reported in the table are those that occurred at a frequency exceeding the specified Frequency Threshold (for example, 5%) within at least one arm or comparison group..",
+                    required: true,
+                  },
+                  EventGroupOtherNumAtRisk: {
+                    type: coda.ValueType.String,
+                    fromKey: "otherNumAtRisk",
+                    description:
+                      "Number at Risk for Any Other Adverse Event. Total Number at Risk for Other (Not Including Serious) Adverse Events (or Number at Risk for each Other, [Not Including Serious], Adverse Event Term required): Overall number of participants, for each arm/group, included in the assessment of Other (Not Including Serious) Adverse Events during the study (that is, the denominator for calculating frequency of Other (Not Including Serious) Adverse Events)..",
+                    required: true,
+                  },
                 },
               },
               fromKey: "eventGroups",
@@ -2706,84 +2865,90 @@ export const StudySchema = coda.makeSchema({
               required: true,
             },
             SeriousEvent: {
-              type: coda.ValueType.Object,
-              properties: {
-                SeriousEventTerm: {
-                  type: coda.ValueType.String,
-                  fromKey: "term",
-                  description:
-                    "Adverse Event Term. Descriptive word or phrase for the adverse event..",
-                  required: true,
-                },
-                SeriousEventOrganSystem: {
-                  type: coda.ValueType.String,
-                  fromKey: "organSystem",
-                  description:
-                    'Organ System. High-level categories used to group adverse event terms by body or organ system. Select one. (Adverse events that affect multiple systems should be classified as "General disorders.")\n•\tBlood and Lymphatic System Disorders\n•\tCardiac Disorders\n•\tCongenital, Familial and Genetic Disorders\n•\tEar and Labyrinth Disorders\n•\tEndocrine Disorders\n•\tEye Disorders\n•\tGastrointestinal Disorders\n•\tGeneral Disorders\n•\tHepatobiliary Disorders\n•\tImmune System Disorders\n•\tInfections and Infestations\n•\tInjury, Poisoning and Procedural Complications\n•\tInvestigations\n•\tMetabolism and Nutrition Disorders\n•\tMusculoskeletal and Connective Tissue Disorders\n•\tNeoplasms Benign, Malignant and Unspecified (Including Cysts and Polyps)\n•\tNervous System Disorders\n•\tPregnancy, Puerperium and Perinatal Conditions\n•\tProduct Issues\n•\tPsychiatric Disorders\n•\tRenal and Urinary Disorders\n•\tReproductive System and Breast Disorders\n•\tRespiratory, Thoracic and Mediastinal Disorders\n•\tSkin and Subcutaneous Tissue Disorders\n•\tSocial Circumstances\n•\tSurgical and Medical Procedures\n•\tVascular Disorders.',
-                  required: true,
-                },
-                SeriousEventSourceVocabulary: {
-                  type: coda.ValueType.String,
-                  fromKey: "sourceVocabulary",
-                  description:
-                    "Source Vocabulary Name for Serious Adverse Event. Standard terminology, controlled vocabulary, or classification and version from which adverse event terms are drawn, if any (for example, SNOMED CT, MedDRA 10.0). Leave blank to indicate that the value specified as the Source Vocabulary for Table Default should be used..",
-                },
-                SeriousEventAssessmentType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {
-                      display: "Non-systematic Assessment",
-                      value: "NON_SYSTEMATIC_ASSESSMENT",
-                    },
-                    {
-                      display: "Systematic Assessment",
-                      value: "SYSTEMATIC_ASSESSMENT",
-                    },
-                  ],
-                  fromKey: "assessmentType",
-                  description:
-                    "Collection Approach (or Collection Approach for Table Default required). The type of approach taken to collect serious adverse event information. Can be Systematic, non-systematic assessment, or left blank to indicate that the value specified as the Collection Approach for Table Default should be used.\n•\tSystematic Assessment: Any method of routinely determining whether or not certain adverse events have occurred, for example through a standard questionnaire, regular investigator assessment, regular laboratory testing, or other method\n•\tNon-Systematic Assessment: Any non-systematic method for determining whether or not adverse events have occurred, such as self-reporting by participants or occasional assessment/testing.",
-                },
-                SeriousEventNotes: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "notes",
-                  description:
-                    "Serious Adverse Event Term Additional Description. Additional relevant information about the adverse event..",
-                },
-                SeriousEventStats: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    SeriousEventStatsGroupId: {
-                      type: coda.ValueType.String,
-                      fromKey: "groupId",
-                      description: "Group ID. Internal Arm/Group ID.",
-                    },
-                    SeriousEventStatsNumEvents: {
-                      type: coda.ValueType.String,
-                      fromKey: "numEvents",
-                      description:
-                        "Number of Serious Events in an Arm/Group. Number of occurrences, in each arm/group, of the serious adverse event being reported..",
-                    },
-                    SeriousEventStatsNumAffected: {
-                      type: coda.ValueType.String,
-                      fromKey: "numAffected",
-                      description:
-                        "Number of Participants Affected. Number of participants, in each arm/group, experiencing at least one serious adverse event being reported..",
-                      required: true,
-                    },
-                    SeriousEventStatsNumAtRisk: {
-                      type: coda.ValueType.String,
-                      fromKey: "numAtRisk",
-                      description:
-                        "Number of Participants at Risk. Number of participants assessed, in each arm/group, for serious adverse events (that is, the denominator for calculating frequency of adverse events). Leave blank to indicate that the value specified as the total at risk in the arm/group for the table should be used..",
-                      required: true,
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  SeriousEventTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
+                    description:
+                      "Adverse Event Term. Descriptive word or phrase for the adverse event..",
+                    required: true,
                   },
-                  fromKey: "stats",
-                  description:
-                    "Statistical information. Statistical information for each Serious Adverse Event.",
+                  SeriousEventOrganSystem: {
+                    type: coda.ValueType.String,
+                    fromKey: "organSystem",
+                    description:
+                      'Organ System. High-level categories used to group adverse event terms by body or organ system. Select one. (Adverse events that affect multiple systems should be classified as "General disorders.")\n•\tBlood and Lymphatic System Disorders\n•\tCardiac Disorders\n•\tCongenital, Familial and Genetic Disorders\n•\tEar and Labyrinth Disorders\n•\tEndocrine Disorders\n•\tEye Disorders\n•\tGastrointestinal Disorders\n•\tGeneral Disorders\n•\tHepatobiliary Disorders\n•\tImmune System Disorders\n•\tInfections and Infestations\n•\tInjury, Poisoning and Procedural Complications\n•\tInvestigations\n•\tMetabolism and Nutrition Disorders\n•\tMusculoskeletal and Connective Tissue Disorders\n•\tNeoplasms Benign, Malignant and Unspecified (Including Cysts and Polyps)\n•\tNervous System Disorders\n•\tPregnancy, Puerperium and Perinatal Conditions\n•\tProduct Issues\n•\tPsychiatric Disorders\n•\tRenal and Urinary Disorders\n•\tReproductive System and Breast Disorders\n•\tRespiratory, Thoracic and Mediastinal Disorders\n•\tSkin and Subcutaneous Tissue Disorders\n•\tSocial Circumstances\n•\tSurgical and Medical Procedures\n•\tVascular Disorders.',
+                    required: true,
+                  },
+                  SeriousEventSourceVocabulary: {
+                    type: coda.ValueType.String,
+                    fromKey: "sourceVocabulary",
+                    description:
+                      "Source Vocabulary Name for Serious Adverse Event. Standard terminology, controlled vocabulary, or classification and version from which adverse event terms are drawn, if any (for example, SNOMED CT, MedDRA 10.0). Leave blank to indicate that the value specified as the Source Vocabulary for Table Default should be used..",
+                  },
+                  SeriousEventAssessmentType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {
+                        display: "Non-systematic Assessment",
+                        value: "NON_SYSTEMATIC_ASSESSMENT",
+                      },
+                      {
+                        display: "Systematic Assessment",
+                        value: "SYSTEMATIC_ASSESSMENT",
+                      },
+                    ],
+                    fromKey: "assessmentType",
+                    description:
+                      "Collection Approach (or Collection Approach for Table Default required). The type of approach taken to collect serious adverse event information. Can be Systematic, non-systematic assessment, or left blank to indicate that the value specified as the Collection Approach for Table Default should be used.\n•\tSystematic Assessment: Any method of routinely determining whether or not certain adverse events have occurred, for example through a standard questionnaire, regular investigator assessment, regular laboratory testing, or other method\n•\tNon-Systematic Assessment: Any non-systematic method for determining whether or not adverse events have occurred, such as self-reporting by participants or occasional assessment/testing.",
+                  },
+                  SeriousEventNotes: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "notes",
+                    description:
+                      "Serious Adverse Event Term Additional Description. Additional relevant information about the adverse event..",
+                  },
+                  SeriousEventStats: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        SeriousEventStatsGroupId: {
+                          type: coda.ValueType.String,
+                          fromKey: "groupId",
+                          description: "Group ID. Internal Arm/Group ID.",
+                        },
+                        SeriousEventStatsNumEvents: {
+                          type: coda.ValueType.String,
+                          fromKey: "numEvents",
+                          description:
+                            "Number of Serious Events in an Arm/Group. Number of occurrences, in each arm/group, of the serious adverse event being reported..",
+                        },
+                        SeriousEventStatsNumAffected: {
+                          type: coda.ValueType.String,
+                          fromKey: "numAffected",
+                          description:
+                            "Number of Participants Affected. Number of participants, in each arm/group, experiencing at least one serious adverse event being reported..",
+                          required: true,
+                        },
+                        SeriousEventStatsNumAtRisk: {
+                          type: coda.ValueType.String,
+                          fromKey: "numAtRisk",
+                          description:
+                            "Number of Participants at Risk. Number of participants assessed, in each arm/group, for serious adverse events (that is, the denominator for calculating frequency of adverse events). Leave blank to indicate that the value specified as the total at risk in the arm/group for the table should be used..",
+                          required: true,
+                        },
+                      },
+                    },
+                    fromKey: "stats",
+                    description:
+                      "Statistical information. Statistical information for each Serious Adverse Event.",
+                  },
                 },
               },
               fromKey: "seriousEvents",
@@ -2791,58 +2956,67 @@ export const StudySchema = coda.makeSchema({
                 "Serious Adverse Event. A table of all anticipated and unanticipated serious adverse events, grouped by organ system, with the number and frequency of such events by arm or comparison group of the clinical study..",
             },
             OtherEvent: {
-              type: coda.ValueType.Object,
-              properties: {
-                OtherEventTerm: {type: coda.ValueType.String, fromKey: "term"},
-                OtherEventOrganSystem: {
-                  type: coda.ValueType.String,
-                  fromKey: "organSystem",
-                },
-                OtherEventSourceVocabulary: {
-                  type: coda.ValueType.String,
-                  fromKey: "sourceVocabulary",
-                },
-                OtherEventAssessmentType: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {
-                      display: "Non-systematic Assessment",
-                      value: "NON_SYSTEMATIC_ASSESSMENT",
-                    },
-                    {
-                      display: "Systematic Assessment",
-                      value: "SYSTEMATIC_ASSESSMENT",
-                    },
-                  ],
-                  fromKey: "assessmentType",
-                },
-                OtherEventNotes: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Markdown,
-                  fromKey: "notes",
-                },
-                OtherEventStats: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    OtherEventStatsGroupId: {
-                      type: coda.ValueType.String,
-                      fromKey: "groupId",
-                    },
-                    OtherEventStatsNumEvents: {
-                      type: coda.ValueType.String,
-                      fromKey: "numEvents",
-                    },
-                    OtherEventStatsNumAffected: {
-                      type: coda.ValueType.String,
-                      fromKey: "numAffected",
-                    },
-                    OtherEventStatsNumAtRisk: {
-                      type: coda.ValueType.String,
-                      fromKey: "numAtRisk",
-                    },
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  OtherEventTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
                   },
-                  fromKey: "stats",
+                  OtherEventOrganSystem: {
+                    type: coda.ValueType.String,
+                    fromKey: "organSystem",
+                  },
+                  OtherEventSourceVocabulary: {
+                    type: coda.ValueType.String,
+                    fromKey: "sourceVocabulary",
+                  },
+                  OtherEventAssessmentType: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {
+                        display: "Non-systematic Assessment",
+                        value: "NON_SYSTEMATIC_ASSESSMENT",
+                      },
+                      {
+                        display: "Systematic Assessment",
+                        value: "SYSTEMATIC_ASSESSMENT",
+                      },
+                    ],
+                    fromKey: "assessmentType",
+                  },
+                  OtherEventNotes: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Markdown,
+                    fromKey: "notes",
+                  },
+                  OtherEventStats: {
+                    type: coda.ValueType.Array,
+                    items: {
+                      type: coda.ValueType.Object,
+                      properties: {
+                        OtherEventStatsGroupId: {
+                          type: coda.ValueType.String,
+                          fromKey: "groupId",
+                        },
+                        OtherEventStatsNumEvents: {
+                          type: coda.ValueType.String,
+                          fromKey: "numEvents",
+                        },
+                        OtherEventStatsNumAffected: {
+                          type: coda.ValueType.String,
+                          fromKey: "numAffected",
+                        },
+                        OtherEventStatsNumAtRisk: {
+                          type: coda.ValueType.String,
+                          fromKey: "numAtRisk",
+                        },
+                      },
+                    },
+                    fromKey: "stats",
+                  },
                 },
               },
               fromKey: "otherEvents",
@@ -2978,31 +3152,34 @@ export const StudySchema = coda.makeSchema({
                     "Responsible Party for Unposted Events. Information provider (Responsible Party).",
                 },
                 UnpostedEvent: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    UnpostedEventType: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {display: "Reset", value: "RESET"},
-                        {display: "Release", value: "RELEASE"},
-                        {display: "Unrelease", value: "UNRELEASE"},
-                      ],
-                      fromKey: "type",
-                      description:
-                        "Study Results Submission Type. Study Results Submission Type.",
-                    },
-                    UnpostedEventDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "date",
-                      description:
-                        "Study Results Submission Date. Study Results Submission Date.",
-                    },
-                    UnpostedEventDateUnknown: {
-                      type: coda.ValueType.Boolean,
-                      fromKey: "dateUnknown",
-                      description: "Unposted Event Date is Unknown.",
+                  type: coda.ValueType.Array,
+                  items: {
+                    type: coda.ValueType.Object,
+                    properties: {
+                      UnpostedEventType: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.SelectList,
+                        options: [
+                          {display: "Reset", value: "RESET"},
+                          {display: "Release", value: "RELEASE"},
+                          {display: "Unrelease", value: "UNRELEASE"},
+                        ],
+                        fromKey: "type",
+                        description:
+                          "Study Results Submission Type. Study Results Submission Type.",
+                      },
+                      UnpostedEventDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "date",
+                        description:
+                          "Study Results Submission Date. Study Results Submission Date.",
+                      },
+                      UnpostedEventDateUnknown: {
+                        type: coda.ValueType.Boolean,
+                        fromKey: "dateUnknown",
+                        description: "Unposted Event Date is Unknown.",
+                      },
                     },
                   },
                   fromKey: "unpostedEvents",
@@ -3018,62 +3195,65 @@ export const StudySchema = coda.makeSchema({
               type: coda.ValueType.Object,
               properties: {
                 ViolationEvent: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    ViolationEventType: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.SelectList,
-                      options: [
-                        {
-                          display: "Violation Identified by FDA",
-                          value: "VIOLATION_IDENTIFIED",
-                        },
-                        {
-                          display: "Correction Confirmed by FDA",
-                          value: "CORRECTION_CONFIRMED",
-                        },
-                        {
-                          display: "Penalty Imposed by FDA",
-                          value: "PENALTY_IMPOSED",
-                        },
-                      ],
-                      fromKey: "type",
-                      description:
-                        "Violation Event Type. •\tViolation Identified by FDA\n•\tCorrection Confirmed by FDA\n•\tPenalty Imposed by FDA.",
-                    },
-                    ViolationEventDescription: {
-                      type: coda.ValueType.String,
-                      fromKey: "description",
-                      description:
-                        "Violation Event Type Description. •\tFailure to Submit. The entry for this clinical trial was not complete at the time of submission, as required by law. This may or may not have any bearing on the accuracy of the information in the entry.\n•\tSubmission of False Information. The entry for this clinical trial was found to be false or misleading and therefore not in compliance with the law.\n•\tNon-submission. The entry for this clinical trial did not contain information on the primary and secondary outcomes at the time of submission, as required by law. This may or may not have any bearing on the accuracy of the information in the entry.\n•\tThe responsible party has corrected the violation.\n•\tA $XX,XXX penalty was imposed against the responsible party for the violation..",
-                    },
-                    ViolationEventCreationDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "creationDate",
-                      description:
-                        "Violation Event Creation Date. Date the violation entered in PRS.",
-                    },
-                    ViolationEventIssuedDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "issuedDate",
-                      description:
-                        "Violation Event Issued Date. Date the FDA issued the violation.",
-                    },
-                    ViolationEventReleaseDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "releaseDate",
-                      description:
-                        "Violation Event Released Date. Date the study record was submitted.",
-                    },
-                    ViolationEventPostedDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "postedDate",
-                      description:
-                        "Violation Event Posted Date. Date the violation is available on clinicaltrials.gov.",
+                  type: coda.ValueType.Array,
+                  items: {
+                    type: coda.ValueType.Object,
+                    properties: {
+                      ViolationEventType: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.SelectList,
+                        options: [
+                          {
+                            display: "Violation Identified by FDA",
+                            value: "VIOLATION_IDENTIFIED",
+                          },
+                          {
+                            display: "Correction Confirmed by FDA",
+                            value: "CORRECTION_CONFIRMED",
+                          },
+                          {
+                            display: "Penalty Imposed by FDA",
+                            value: "PENALTY_IMPOSED",
+                          },
+                        ],
+                        fromKey: "type",
+                        description:
+                          "Violation Event Type. •\tViolation Identified by FDA\n•\tCorrection Confirmed by FDA\n•\tPenalty Imposed by FDA.",
+                      },
+                      ViolationEventDescription: {
+                        type: coda.ValueType.String,
+                        fromKey: "description",
+                        description:
+                          "Violation Event Type Description. •\tFailure to Submit. The entry for this clinical trial was not complete at the time of submission, as required by law. This may or may not have any bearing on the accuracy of the information in the entry.\n•\tSubmission of False Information. The entry for this clinical trial was found to be false or misleading and therefore not in compliance with the law.\n•\tNon-submission. The entry for this clinical trial did not contain information on the primary and secondary outcomes at the time of submission, as required by law. This may or may not have any bearing on the accuracy of the information in the entry.\n•\tThe responsible party has corrected the violation.\n•\tA $XX,XXX penalty was imposed against the responsible party for the violation..",
+                      },
+                      ViolationEventCreationDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "creationDate",
+                        description:
+                          "Violation Event Creation Date. Date the violation entered in PRS.",
+                      },
+                      ViolationEventIssuedDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "issuedDate",
+                        description:
+                          "Violation Event Issued Date. Date the FDA issued the violation.",
+                      },
+                      ViolationEventReleaseDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "releaseDate",
+                        description:
+                          "Violation Event Released Date. Date the study record was submitted.",
+                      },
+                      ViolationEventPostedDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "postedDate",
+                        description:
+                          "Violation Event Posted Date. Date the violation is available on clinicaltrials.gov.",
+                      },
                     },
                   },
                   fromKey: "violationEvents",
@@ -3107,62 +3287,65 @@ export const StudySchema = coda.makeSchema({
                 "Document Has No Statistical Analysis Plan (SAP). Indicate that No Statistical Analysis Plan (SAP) exists for this study..",
             },
             LargeDoc: {
-              type: coda.ValueType.Object,
-              properties: {
-                LargeDocTypeAbbrev: {
-                  type: coda.ValueType.String,
-                  fromKey: "typeAbbrev",
-                  description:
-                    "Document Type. Document type - selected by data provider in PRS\n•\tICF – Informed Consent Form\n•\tProt – Study Protocol\n•\tProt_ICF – Study Protocol and Informed Consent Form\n•\tProt_SAP – Study Protocol and Statistical Analysis Plan\n•\tProt_SAP_ICF – Study Protocol, Statistical Analysis Plan and Informed Consent Form\n•\tSAP – Statistical Analysis Plan.",
-                },
-                LargeDocHasProtocol: {
-                  type: coda.ValueType.String,
-                  fromKey: "hasProtocol",
-                  description:
-                    "Document Includes Study Protocol. Indicate if document includes Study Protocol (Yes/No).",
-                },
-                LargeDocHasSAP: {
-                  type: coda.ValueType.String,
-                  fromKey: "hasSap",
-                  description:
-                    "Document Includes Statistical Analysis Plan (SAP). Indicate is document includes Statistical Analysis Plan (Yes/No).",
-                },
-                LargeDocHasICF: {
-                  type: coda.ValueType.String,
-                  fromKey: "hasIcf",
-                  description:
-                    "Document Includes Informed Consent Form (ICF). Indicate if document includes Informed Consent Form (Yes/No).",
-                },
-                LargeDocLabel: {
-                  type: coda.ValueType.String,
-                  fromKey: "label",
-                  description:
-                    "Document Label. Document label entered by data provider.",
-                },
-                LargeDocDate: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Date,
-                  fromKey: "date",
-                  description:
-                    "Document Date. Document date (provided by data provider).",
-                },
-                LargeDocUploadDate: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.Date,
-                  fromKey: "uploadDate",
-                  description:
-                    "Document Uploaded Date. Date the document was uploaded to PRS.",
-                },
-                LargeDocFilename: {
-                  type: coda.ValueType.String,
-                  fromKey: "filename",
-                  description:
-                    "Document File Name. Document file name (by data provider).",
-                },
-                LargeDocSize: {
-                  type: coda.ValueType.String,
-                  fromKey: "size",
-                  description: "Document File Size. Document file size.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  LargeDocTypeAbbrev: {
+                    type: coda.ValueType.String,
+                    fromKey: "typeAbbrev",
+                    description:
+                      "Document Type. Document type - selected by data provider in PRS\n•\tICF – Informed Consent Form\n•\tProt – Study Protocol\n•\tProt_ICF – Study Protocol and Informed Consent Form\n•\tProt_SAP – Study Protocol and Statistical Analysis Plan\n•\tProt_SAP_ICF – Study Protocol, Statistical Analysis Plan and Informed Consent Form\n•\tSAP – Statistical Analysis Plan.",
+                  },
+                  LargeDocHasProtocol: {
+                    type: coda.ValueType.String,
+                    fromKey: "hasProtocol",
+                    description:
+                      "Document Includes Study Protocol. Indicate if document includes Study Protocol (Yes/No).",
+                  },
+                  LargeDocHasSAP: {
+                    type: coda.ValueType.String,
+                    fromKey: "hasSap",
+                    description:
+                      "Document Includes Statistical Analysis Plan (SAP). Indicate is document includes Statistical Analysis Plan (Yes/No).",
+                  },
+                  LargeDocHasICF: {
+                    type: coda.ValueType.String,
+                    fromKey: "hasIcf",
+                    description:
+                      "Document Includes Informed Consent Form (ICF). Indicate if document includes Informed Consent Form (Yes/No).",
+                  },
+                  LargeDocLabel: {
+                    type: coda.ValueType.String,
+                    fromKey: "label",
+                    description:
+                      "Document Label. Document label entered by data provider.",
+                  },
+                  LargeDocDate: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Date,
+                    fromKey: "date",
+                    description:
+                      "Document Date. Document date (provided by data provider).",
+                  },
+                  LargeDocUploadDate: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.Date,
+                    fromKey: "uploadDate",
+                    description:
+                      "Document Uploaded Date. Date the document was uploaded to PRS.",
+                  },
+                  LargeDocFilename: {
+                    type: coda.ValueType.String,
+                    fromKey: "filename",
+                    description:
+                      "Document File Name. Document file name (by data provider).",
+                  },
+                  LargeDocSize: {
+                    type: coda.ValueType.String,
+                    fromKey: "size",
+                    description: "Document File Size. Document file size.",
+                  },
                 },
               },
               fromKey: "largeDocs",
@@ -3192,7 +3375,8 @@ export const StudySchema = coda.makeSchema({
                 "Version Holder. The most recent date where Ingest ran successfully.",
             },
             RemovedCountry: {
-              type: coda.ValueType.String,
+              type: coda.ValueType.Array,
+              items: {type: coda.ValueType.String},
               fromKey: "removedCountries",
               description:
                 "Removed Countries. Country for which all locations have been removed from the study.",
@@ -3239,38 +3423,41 @@ export const StudySchema = coda.makeSchema({
                   description: "First MCP Info.",
                 },
                 SubmissionInfo: {
-                  type: coda.ValueType.Object,
-                  properties: {
-                    SubmissionReleaseDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "releaseDate",
-                      description:
-                        "Release Date. Results released by DP to NLM.",
-                    },
-                    SubmissionUnreleaseDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "unreleaseDate",
-                      description:
-                        "Unrelease Date. Results unrelease (canceled release) by DP.",
-                    },
-                    SubmissionUnreleaseDateUnknown: {
-                      type: coda.ValueType.Boolean,
-                      fromKey: "unreleaseDateUnknown",
-                    },
-                    SubmissionResetDate: {
-                      type: coda.ValueType.String,
-                      codaType: coda.ValueHintType.Date,
-                      fromKey: "resetDate",
-                      description:
-                        "Reset Date. NLM QC reviewer reset/unlock study back to DP.",
-                    },
-                    SubmissionMCPReleaseN: {
-                      type: coda.ValueType.Number,
-                      fromKey: "mcpReleaseN",
-                      description:
-                        "Number of MCPs. Number of Major Comment Postings of a study.",
+                  type: coda.ValueType.Array,
+                  items: {
+                    type: coda.ValueType.Object,
+                    properties: {
+                      SubmissionReleaseDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "releaseDate",
+                        description:
+                          "Release Date. Results released by DP to NLM.",
+                      },
+                      SubmissionUnreleaseDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "unreleaseDate",
+                        description:
+                          "Unrelease Date. Results unrelease (canceled release) by DP.",
+                      },
+                      SubmissionUnreleaseDateUnknown: {
+                        type: coda.ValueType.Boolean,
+                        fromKey: "unreleaseDateUnknown",
+                      },
+                      SubmissionResetDate: {
+                        type: coda.ValueType.String,
+                        codaType: coda.ValueHintType.Date,
+                        fromKey: "resetDate",
+                        description:
+                          "Reset Date. NLM QC reviewer reset/unlock study back to DP.",
+                      },
+                      SubmissionMCPReleaseN: {
+                        type: coda.ValueType.Number,
+                        fromKey: "mcpReleaseN",
+                        description:
+                          "Number of MCPs. Number of Major Comment Postings of a study.",
+                      },
                     },
                   },
                   fromKey: "submissionInfos",
@@ -3316,17 +3503,20 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             ConditionMesh: {
-              type: coda.ValueType.Object,
-              properties: {
-                ConditionMeshId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Condition MeSH ID. MeSH ID.",
-                },
-                ConditionMeshTerm: {
-                  type: coda.ValueType.String,
-                  fromKey: "term",
-                  description: "Condition MeSH Term. MeSH Heading.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ConditionMeshId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Condition MeSH ID. MeSH ID.",
+                  },
+                  ConditionMeshTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
+                    description: "Condition MeSH Term. MeSH Heading.",
+                  },
                 },
               },
               fromKey: "meshes",
@@ -3334,17 +3524,20 @@ export const StudySchema = coda.makeSchema({
                 "Condition MeSH Terms. MeSH terms of Condition/Diseases field.",
             },
             ConditionAncestor: {
-              type: coda.ValueType.Object,
-              properties: {
-                ConditionAncestorId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Condition Ancestor MeSH ID. MeSH ID.",
-                },
-                ConditionAncestorTerm: {
-                  type: coda.ValueType.String,
-                  fromKey: "term",
-                  description: "Condition Ancestor MeSH Term. MeSH Heading.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ConditionAncestorId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Condition Ancestor MeSH ID. MeSH ID.",
+                  },
+                  ConditionAncestorTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
+                    description: "Condition Ancestor MeSH Term. MeSH Heading.",
+                  },
                 },
               },
               fromKey: "ancestors",
@@ -3352,33 +3545,36 @@ export const StudySchema = coda.makeSchema({
                 "Ancestors of Condition MeSH Terms. Ancestor (higher level and more broad) terms of Condition MeSH terms in MeSH Tree hierarchy.",
             },
             ConditionBrowseLeaf: {
-              type: coda.ValueType.Object,
-              properties: {
-                ConditionBrowseLeafId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Condition Leaf Topic ID.",
-                },
-                ConditionBrowseLeafName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Condition Leaf Topic Name.",
-                },
-                ConditionBrowseLeafAsFound: {
-                  type: coda.ValueType.String,
-                  fromKey: "asFound",
-                  description:
-                    "Found by Condition Term. Normalized Condition term used to find the topic.",
-                },
-                ConditionBrowseLeafRelevance: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "low", value: "LOW"},
-                    {display: "high", value: "HIGH"},
-                  ],
-                  fromKey: "relevance",
-                  description: "Relevance to Condition Leaf Topic.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ConditionBrowseLeafId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Condition Leaf Topic ID.",
+                  },
+                  ConditionBrowseLeafName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Condition Leaf Topic Name.",
+                  },
+                  ConditionBrowseLeafAsFound: {
+                    type: coda.ValueType.String,
+                    fromKey: "asFound",
+                    description:
+                      "Found by Condition Term. Normalized Condition term used to find the topic.",
+                  },
+                  ConditionBrowseLeafRelevance: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "low", value: "LOW"},
+                      {display: "high", value: "HIGH"},
+                    ],
+                    fromKey: "relevance",
+                    description: "Relevance to Condition Leaf Topic.",
+                  },
                 },
               },
               fromKey: "browseLeaves",
@@ -3386,17 +3582,20 @@ export const StudySchema = coda.makeSchema({
                 "Condition Leaf Topics. Leaf browsing topics for Condition field.",
             },
             ConditionBrowseBranch: {
-              type: coda.ValueType.Object,
-              properties: {
-                ConditionBrowseBranchAbbrev: {
-                  type: coda.ValueType.String,
-                  fromKey: "abbrev",
-                  description: "Condition Branch Topic Short Name.",
-                },
-                ConditionBrowseBranchName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Condition Branch Topic Name.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  ConditionBrowseBranchAbbrev: {
+                    type: coda.ValueType.String,
+                    fromKey: "abbrev",
+                    description: "Condition Branch Topic Short Name.",
+                  },
+                  ConditionBrowseBranchName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Condition Branch Topic Name.",
+                  },
                 },
               },
               fromKey: "browseBranches",
@@ -3412,17 +3611,20 @@ export const StudySchema = coda.makeSchema({
           type: coda.ValueType.Object,
           properties: {
             InterventionMesh: {
-              type: coda.ValueType.Object,
-              properties: {
-                InterventionMeshId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Intervention MeSH ID. MeSH ID.",
-                },
-                InterventionMeshTerm: {
-                  type: coda.ValueType.String,
-                  fromKey: "term",
-                  description: "Intervention MeSH Term. MeSH Heading.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  InterventionMeshId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Intervention MeSH ID. MeSH ID.",
+                  },
+                  InterventionMeshTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
+                    description: "Intervention MeSH Term. MeSH Heading.",
+                  },
                 },
               },
               fromKey: "meshes",
@@ -3430,17 +3632,21 @@ export const StudySchema = coda.makeSchema({
                 "Intervention MeSH Terms. MeSH terms of Drug/Interventions field.",
             },
             InterventionAncestor: {
-              type: coda.ValueType.Object,
-              properties: {
-                InterventionAncestorId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Intervention Ancestor MeSH ID. MeSH ID.",
-                },
-                InterventionAncestorTerm: {
-                  type: coda.ValueType.String,
-                  fromKey: "term",
-                  description: "Intervention Ancestor MeSH Term. MeSH Heading.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  InterventionAncestorId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Intervention Ancestor MeSH ID. MeSH ID.",
+                  },
+                  InterventionAncestorTerm: {
+                    type: coda.ValueType.String,
+                    fromKey: "term",
+                    description:
+                      "Intervention Ancestor MeSH Term. MeSH Heading.",
+                  },
                 },
               },
               fromKey: "ancestors",
@@ -3448,33 +3654,36 @@ export const StudySchema = coda.makeSchema({
                 "Ancestors of Intervention MeSH Terms. Ancestor (higher level and more broad) terms of Intervention MeSH terms in MeSH Tree hierarchy.",
             },
             InterventionBrowseLeaf: {
-              type: coda.ValueType.Object,
-              properties: {
-                InterventionBrowseLeafId: {
-                  type: coda.ValueType.String,
-                  fromKey: "id",
-                  description: "Intervention Leaf Topic ID.",
-                },
-                InterventionBrowseLeafName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Intervention Leaf Topic Name.",
-                },
-                InterventionBrowseLeafAsFound: {
-                  type: coda.ValueType.String,
-                  fromKey: "asFound",
-                  description:
-                    "Found by Intervention Term. Normalized Intervention term used to find the topic.",
-                },
-                InterventionBrowseLeafRelevance: {
-                  type: coda.ValueType.String,
-                  codaType: coda.ValueHintType.SelectList,
-                  options: [
-                    {display: "low", value: "LOW"},
-                    {display: "high", value: "HIGH"},
-                  ],
-                  fromKey: "relevance",
-                  description: "Relevance to Intervention Leaf Topic.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  InterventionBrowseLeafId: {
+                    type: coda.ValueType.String,
+                    fromKey: "id",
+                    description: "Intervention Leaf Topic ID.",
+                  },
+                  InterventionBrowseLeafName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Intervention Leaf Topic Name.",
+                  },
+                  InterventionBrowseLeafAsFound: {
+                    type: coda.ValueType.String,
+                    fromKey: "asFound",
+                    description:
+                      "Found by Intervention Term. Normalized Intervention term used to find the topic.",
+                  },
+                  InterventionBrowseLeafRelevance: {
+                    type: coda.ValueType.String,
+                    codaType: coda.ValueHintType.SelectList,
+                    options: [
+                      {display: "low", value: "LOW"},
+                      {display: "high", value: "HIGH"},
+                    ],
+                    fromKey: "relevance",
+                    description: "Relevance to Intervention Leaf Topic.",
+                  },
                 },
               },
               fromKey: "browseLeaves",
@@ -3482,17 +3691,20 @@ export const StudySchema = coda.makeSchema({
                 "Intervention Leaf Topics. Leaf browsing topics for Intervention field.",
             },
             InterventionBrowseBranch: {
-              type: coda.ValueType.Object,
-              properties: {
-                InterventionBrowseBranchAbbrev: {
-                  type: coda.ValueType.String,
-                  fromKey: "abbrev",
-                  description: "Intervention Branch Topic Short Name.",
-                },
-                InterventionBrowseBranchName: {
-                  type: coda.ValueType.String,
-                  fromKey: "name",
-                  description: "Intervention Branch Topic Name.",
+              type: coda.ValueType.Array,
+              items: {
+                type: coda.ValueType.Object,
+                properties: {
+                  InterventionBrowseBranchAbbrev: {
+                    type: coda.ValueType.String,
+                    fromKey: "abbrev",
+                    description: "Intervention Branch Topic Short Name.",
+                  },
+                  InterventionBrowseBranchName: {
+                    type: coda.ValueType.String,
+                    fromKey: "name",
+                    description: "Intervention Branch Topic Name.",
+                  },
                 },
               },
               fromKey: "browseBranches",
