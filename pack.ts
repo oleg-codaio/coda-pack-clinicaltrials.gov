@@ -1,13 +1,15 @@
 import * as coda from "@codahq/packs-sdk";
 import {StudySchema} from "./gen-src/schemas";
+import {components} from "./gen-src/api-types";
 
 const StudySchemaWithId = coda.makeSchema({
   ...StudySchema,
-  idProperty: "nctId",
-  displayProperty: "nctId",
+  idProperty: "NCTId",
+  displayProperty: "NCTId",
+  featuredProperties: ["ProtocolSection"],
   properties: {
     ...StudySchema.properties,
-    nctId: StudySchema.properties.protocolSection.properties.identificationModule.properties.nctId,
+    NCTId: StudySchema.properties.ProtocolSection.properties.IdentificationModule.properties.NCTId,
   },
 });
 
@@ -29,12 +31,9 @@ pack.addFormula({
   ],
   resultType: coda.ValueType.Object,
   schema: StudySchemaWithId,
-  examples: [{params: ["NCT00841061"], result: "Hello World!"}],
+  examples: [{params: ["NCT00841061"], result: "Study"}],
   execute: async function ([nctId], context) {
-    const url = coda.withQueryParams(`${ApiBaseUrl}/studies/${nctId}`, {
-      format: "json",
-      markupFormat: "markdown",
-    });
+    const url = coda.withQueryParams(`${ApiBaseUrl}/studies/${nctId}`, {format: "json", markupFormat: "markdown"});
     const response = await context.fetcher.fetch({method: "GET", url});
     return Object.assign(response.body, {nctId: response.body.protocolSection.identificationModule.nctId});
   },
@@ -215,15 +214,15 @@ pack.addSyncTable({
         geoDecay: geoDecay,
         fields: fields?.join(",") || undefined,
         sort: sort?.join(",") || undefined,
-        pageToken: context.sync.continuation,
+        pageToken: context.sync.continuation?.nextPageToken,
       });
-      const response = await context.fetcher.fetch({method: "GET", url});
+      const response = await context.fetcher.fetch<components["schemas"]["PagedStudies"]>({method: "GET", url});
 
       return {
         result: response.body.studies.map((s) =>
           Object.assign(s, {nctId: s.protocolSection.identificationModule.nctId})
         ),
-        continuation: response.body.nextPageToken,
+        continuation: {nextPageToken: response.body.nextPageToken},
       };
     },
   },
