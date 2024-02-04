@@ -33,6 +33,15 @@ export const StudySchema = coda.makeSchema({
                 },
                 OrgStudyIdType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "U.S. NIH Grant/Contract", value: "NIH"},
+                    {display: "U.S. FDA Grant/Contract", value: "FDA"},
+                    {display: "U.S. VA Grant/Contract", value: "VA"},
+                    {display: "U.S. CDC Grant/Contract", value: "CDC"},
+                    {display: "U.S. AHRQ Grant/Contract", value: "AHRQ"},
+                    {display: "U.S. SAMHSA Grant/Contract", value: "SAMHSA"},
+                  ],
                   fromKey: "type",
                   description:
                     "Organization Id Type. Type of organization's unique protocol ID.",
@@ -57,6 +66,22 @@ export const StudySchema = coda.makeSchema({
                 },
                 SecondaryIdType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "U.S. NIH Grant/Contract", value: "NIH"},
+                    {display: "U.S. FDA Grant/Contract", value: "FDA"},
+                    {display: "U.S. VA Grant/Contract", value: "VA"},
+                    {display: "U.S. CDC Grant/Contract", value: "CDC"},
+                    {display: "U.S. AHRQ Grant/Contract", value: "AHRQ"},
+                    {display: "U.S. SAMHSA Grant/Contract", value: "SAMHSA"},
+                    {
+                      display: "Other Grant/Funding Number",
+                      value: "OTHER_GRANT",
+                    },
+                    {display: "EudraCT Number", value: "EUDRACT_NUMBER"},
+                    {display: "Registry Identifier", value: "REGISTRY"},
+                    {display: "Other Identifier", value: "OTHER"},
+                  ],
                   fromKey: "type",
                   description:
                     "Secondary ID Type. A description of the type of Secondary ID\n•\tU.S. National Institutes of Health (NIH) Grant/Contract Award Number: In the Secondary ID field, include activity code, institute code, and 6-digit serial number. Other components of the full award number (type code, support year and suffix, if applicable) are optional.\n•\tOther Grant/Funding Number: Identifier assigned by a funding organization other than the U.S. NIH; also required to enter the name of the funding organization.\n•\tRegistry Identifier: Number assigned by a clinical trial registry (for example, a registry that is part of the World Health Organization [WHO] Registry Network); also required to enter the name of the clinical trial registry.\n•\tEudraCT Number: Identifier assigned by the European Medicines Agency Clinical Trials Database (EudraCT).\n•\tOther Identifier: Also required to enter a brief description of the identifier (for example, name of organization that issued the identifier)..",
@@ -105,6 +130,18 @@ export const StudySchema = coda.makeSchema({
                 },
                 OrgClass: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "NIH", value: "NIH"},
+                    {display: "FED", value: "FED"},
+                    {display: "OTHER_GOV", value: "OTHER_GOV"},
+                    {display: "INDIV", value: "INDIV"},
+                    {display: "INDUSTRY", value: "INDUSTRY"},
+                    {display: "NETWORK", value: "NETWORK"},
+                    {display: "AMBIG", value: "AMBIG"},
+                    {display: "OTHER", value: "OTHER"},
+                    {display: "UNKNOWN", value: "UNKNOWN"},
+                  ],
                   fromKey: "class",
                   description: "Organization type. Organization type.",
                 },
@@ -127,12 +164,70 @@ export const StudySchema = coda.makeSchema({
             },
             OverallStatus: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {
+                  display: "Active, not recruiting",
+                  value: "ACTIVE_NOT_RECRUITING",
+                },
+                {display: "Completed", value: "COMPLETED"},
+                {
+                  display: "Enrolling by invitation",
+                  value: "ENROLLING_BY_INVITATION",
+                },
+                {display: "Not yet recruiting", value: "NOT_YET_RECRUITING"},
+                {display: "Recruiting", value: "RECRUITING"},
+                {display: "Suspended", value: "SUSPENDED"},
+                {display: "Terminated", value: "TERMINATED"},
+                {display: "Withdrawn", value: "WITHDRAWN"},
+                {display: "Available", value: "AVAILABLE"},
+                {display: "No longer available", value: "NO_LONGER_AVAILABLE"},
+                {
+                  display: "Temporarily not available",
+                  value: "TEMPORARILY_NOT_AVAILABLE",
+                },
+                {
+                  display: "Approved for marketing",
+                  value: "APPROVED_FOR_MARKETING",
+                },
+                {display: "Withheld", value: "WITHHELD"},
+                {display: "Unknown status", value: "UNKNOWN"},
+              ],
               fromKey: "overallStatus",
               description:
                 'Overall Recruitment Status or Expanded Access Status. •\tFor INT/OBS, the recruitment status for the clinical study as a whole, based upon the status of the individual sites. If at least one facility in a multi-site clinical study has an Individual Site Status of "Recruiting," then the Overall Recruitment Status for the study must be "Recruiting."\n•\tFor EA, the status of availability of the investigational drug product (including a biological product) through expanded access..',
             },
             LastKnownStatus: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {
+                  display: "Active, not recruiting",
+                  value: "ACTIVE_NOT_RECRUITING",
+                },
+                {display: "Completed", value: "COMPLETED"},
+                {
+                  display: "Enrolling by invitation",
+                  value: "ENROLLING_BY_INVITATION",
+                },
+                {display: "Not yet recruiting", value: "NOT_YET_RECRUITING"},
+                {display: "Recruiting", value: "RECRUITING"},
+                {display: "Suspended", value: "SUSPENDED"},
+                {display: "Terminated", value: "TERMINATED"},
+                {display: "Withdrawn", value: "WITHDRAWN"},
+                {display: "Available", value: "AVAILABLE"},
+                {display: "No longer available", value: "NO_LONGER_AVAILABLE"},
+                {
+                  display: "Temporarily not available",
+                  value: "TEMPORARILY_NOT_AVAILABLE",
+                },
+                {
+                  display: "Approved for marketing",
+                  value: "APPROVED_FOR_MARKETING",
+                },
+                {display: "Withheld", value: "WITHHELD"},
+                {display: "Unknown status", value: "UNKNOWN"},
+              ],
               fromKey: "lastKnownStatus",
               description:
                 "Last Known Status. A study on ClinicalTrials.gov whose last known status was recruiting; not yet recruiting; or active, not recruiting but that has passed its completion date, and the status has not been last verified within the past 2 years..",
@@ -167,6 +262,22 @@ export const StudySchema = coda.makeSchema({
                 },
                 ExpandedAccessStatusForNCTId: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Available", value: "AVAILABLE"},
+                    {
+                      display: "No longer available",
+                      value: "NO_LONGER_AVAILABLE",
+                    },
+                    {
+                      display: "Temporarily not available",
+                      value: "TEMPORARILY_NOT_AVAILABLE",
+                    },
+                    {
+                      display: "Approved for marketing",
+                      value: "APPROVED_FOR_MARKETING",
+                    },
+                  ],
                   fromKey: "statusForNctId",
                   description:
                     "EA Recruitment Status. recruitment status of the EA study that's linked to INT/OBS.",
@@ -188,6 +299,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 StartDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description: "Study Start Date Type. Date Type.",
                 },
@@ -206,6 +322,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 PrimaryCompletionDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description: "Primary Completion Date Type. Date Type.",
                 },
@@ -224,6 +345,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 CompletionDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description: "Study Completion Date Type. Date Type.",
                 },
@@ -256,6 +382,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 StudyFirstPostDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description: "First Study Posted Date Type.",
                 },
@@ -288,6 +419,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 ResultsFirstPostDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description:
                     'Results First Posted Date Type. Results first posted date type. Due to historical reason, some studies have date type "Estimate".',
@@ -321,6 +457,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 DispFirstPostDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description:
                     'Certification/Extension First Posted Date Type. Due to data requirements and collections over the years, some studies might have "Estimate" dates.',
@@ -347,6 +488,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 LastUpdatePostDateType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description:
                     'Last Update Posted Date Type. Due to data requirements and collections over the years, some studies might have "Estimate" dates.',
@@ -367,6 +513,18 @@ export const StudySchema = coda.makeSchema({
               properties: {
                 ResponsiblePartyType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Sponsor", value: "SPONSOR"},
+                    {
+                      display: "Principal Investigator",
+                      value: "PRINCIPAL_INVESTIGATOR",
+                    },
+                    {
+                      display: "Sponsor-Investigator",
+                      value: "SPONSOR_INVESTIGATOR",
+                    },
+                  ],
                   fromKey: "type",
                   description:
                     "Responsible Party Type. An indication of whether the responsible party is the sponsor, the sponsor-investigator, or a principal investigator designated by the sponsor to be the responsible party.",
@@ -416,6 +574,18 @@ export const StudySchema = coda.makeSchema({
                 },
                 LeadSponsorClass: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "NIH", value: "NIH"},
+                    {display: "FED", value: "FED"},
+                    {display: "OTHER_GOV", value: "OTHER_GOV"},
+                    {display: "INDIV", value: "INDIV"},
+                    {display: "INDUSTRY", value: "INDUSTRY"},
+                    {display: "NETWORK", value: "NETWORK"},
+                    {display: "AMBIG", value: "AMBIG"},
+                    {display: "OTHER", value: "OTHER"},
+                    {display: "UNKNOWN", value: "UNKNOWN"},
+                  ],
                   fromKey: "class",
                   description:
                     "Leas Sponsor Type. Sponsor organization type: Type of lead sponsor.",
@@ -435,6 +605,18 @@ export const StudySchema = coda.makeSchema({
                 },
                 CollaboratorClass: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "NIH", value: "NIH"},
+                    {display: "FED", value: "FED"},
+                    {display: "OTHER_GOV", value: "OTHER_GOV"},
+                    {display: "INDIV", value: "INDIV"},
+                    {display: "INDUSTRY", value: "INDUSTRY"},
+                    {display: "NETWORK", value: "NETWORK"},
+                    {display: "AMBIG", value: "AMBIG"},
+                    {display: "OTHER", value: "OTHER"},
+                    {display: "UNKNOWN", value: "UNKNOWN"},
+                  ],
                   fromKey: "class",
                   description: "Collaborator Type. Type of collaborator.",
                 },
@@ -538,6 +720,12 @@ export const StudySchema = coda.makeSchema({
           properties: {
             StudyType: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Expanded Access", value: "EXPANDED_ACCESS"},
+                {display: "Interventional", value: "INTERVENTIONAL"},
+                {display: "Observational", value: "OBSERVATIONAL"},
+              ],
               fromKey: "studyType",
               description:
                 "Study Type. Study Type: The nature of the investigation or investigational use for which clinical study information is being submitted..",
@@ -589,6 +777,15 @@ export const StudySchema = coda.makeSchema({
             },
             Phase: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Not Applicable", value: "NA"},
+                {display: "Early Phase 1", value: "EARLY_PHASE1"},
+                {display: "Phase 1", value: "PHASE1"},
+                {display: "Phase 2", value: "PHASE2"},
+                {display: "Phase 3", value: "PHASE3"},
+                {display: "Phase 4", value: "PHASE4"},
+              ],
               fromKey: "phases",
               description:
                 "Study Phase. For a clinical trial of a drug product (including a biological product), the numerical phase of such clinical trial, consistent with terminology in 21 CFR 312.21 and in 21 CFR 312.85 for phase 4 studies..",
@@ -598,12 +795,26 @@ export const StudySchema = coda.makeSchema({
               properties: {
                 DesignAllocation: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Randomized", value: "RANDOMIZED"},
+                    {display: "Non-Randomized", value: "NON_RANDOMIZED"},
+                    {display: "N/A", value: "NA"},
+                  ],
                   fromKey: "allocation",
                   description:
                     "Design Allocation. A method used to assign participants to an arm of a clinical study. The types of allocation are randomized allocation and nonrandomized..",
                 },
                 DesignInterventionModel: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Single Group Assignment", value: "SINGLE_GROUP"},
+                    {display: "Parallel Assignment", value: "PARALLEL"},
+                    {display: "Crossover Assignment", value: "CROSSOVER"},
+                    {display: "Factorial Assignment", value: "FACTORIAL"},
+                    {display: "Sequential Assignment", value: "SEQUENTIAL"},
+                  ],
                   fromKey: "interventionModel",
                   description:
                     "Interventional Study Design. The general design of the strategy for assigning interventions to participants in a clinical study. Types of intervention models include: single group assignment, parallel assignment, cross-over assignment, and factorial assignment..",
@@ -617,18 +828,62 @@ export const StudySchema = coda.makeSchema({
                 },
                 DesignPrimaryPurpose: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Treatment", value: "TREATMENT"},
+                    {display: "Prevention", value: "PREVENTION"},
+                    {display: "Diagnostic", value: "DIAGNOSTIC"},
+                    {display: "Educational/Counseling/Training", value: "ECT"},
+                    {display: "Supportive Care", value: "SUPPORTIVE_CARE"},
+                    {display: "Screening", value: "SCREENING"},
+                    {
+                      display: "Health Services Research",
+                      value: "HEALTH_SERVICES_RESEARCH",
+                    },
+                    {display: "Basic Science", value: "BASIC_SCIENCE"},
+                    {
+                      display: "Device Feasibility",
+                      value: "DEVICE_FEASIBILITY",
+                    },
+                    {display: "Other", value: "OTHER"},
+                  ],
                   fromKey: "primaryPurpose",
                   description:
                     "Design Primary Purpose. A description of the manner in which the clinical trial will be conducted.",
                 },
                 DesignObservationalModel: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Cohort", value: "COHORT"},
+                    {display: "Case-Control", value: "CASE_CONTROL"},
+                    {display: "Case-Only", value: "CASE_ONLY"},
+                    {display: "Case-Crossover", value: "CASE_CROSSOVER"},
+                    {
+                      display: "Ecologic or Community",
+                      value: "ECOLOGIC_OR_COMMUNITY",
+                    },
+                    {display: "Family-Based", value: "FAMILY_BASED"},
+                    {
+                      display: "Defined Population",
+                      value: "DEFINED_POPULATION",
+                    },
+                    {display: "Natural History", value: "NATURAL_HISTORY"},
+                    {display: "Other", value: "OTHER"},
+                  ],
                   fromKey: "observationalModel",
                   description:
                     "Observational Study Model. Primary strategy for participant identification and follow-up.",
                 },
                 DesignTimePerspective: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Retrospective", value: "RETROSPECTIVE"},
+                    {display: "Prospective", value: "PROSPECTIVE"},
+                    {display: "Cross-Sectional", value: "CROSS_SECTIONAL"},
+                    {display: "Other", value: "OTHER"},
+                  ],
                   fromKey: "timePerspective",
                   description:
                     "Time Perspective. Temporal relationship of observation period to time of participant enrollment..",
@@ -638,6 +893,14 @@ export const StudySchema = coda.makeSchema({
                   properties: {
                     DesignMasking: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "None (Open Label)", value: "NONE"},
+                        {display: "Single", value: "SINGLE"},
+                        {display: "Double", value: "DOUBLE"},
+                        {display: "Triple", value: "TRIPLE"},
+                        {display: "Quadruple", value: "QUADRUPLE"},
+                      ],
                       fromKey: "masking",
                       description:
                         "Design Masking. A clinical trial design strategy in which one or more parties involved in the trial, such as the investigator or participants, do not know which participants have been assigned which interventions. Types of masking include: open label, single blind masking, and double-blind masking..",
@@ -651,6 +914,16 @@ export const StudySchema = coda.makeSchema({
                     },
                     DesignWhoMasked: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "Participant", value: "PARTICIPANT"},
+                        {display: "Care Provider", value: "CARE_PROVIDER"},
+                        {display: "Investigator", value: "INVESTIGATOR"},
+                        {
+                          display: "Outcomes Assessor",
+                          value: "OUTCOMES_ASSESSOR",
+                        },
+                      ],
                       fromKey: "whoMasked",
                       description:
                         "Who Masked: The party or parties involved in the clinical trial who are prevented from having knowledge of the interventions assigned to individual participants..",
@@ -667,6 +940,15 @@ export const StudySchema = coda.makeSchema({
               properties: {
                 BioSpecRetention: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "None Retained", value: "NONE_RETAINED"},
+                    {display: "Samples With DNA", value: "SAMPLES_WITH_DNA"},
+                    {
+                      display: "Samples Without DNA",
+                      value: "SAMPLES_WITHOUT_DNA",
+                    },
+                  ],
                   fromKey: "retention",
                   description:
                     "Biospecimen Retention. Indicate whether samples of material from research participants are retained in a biorepository..",
@@ -692,6 +974,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 EnrollmentType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Actual", value: "ACTUAL"},
+                    {display: "Estimated", value: "ESTIMATED"},
+                  ],
                   fromKey: "type",
                   description:
                     'Enrollment Type. Can be Actual or Estimated. The "estimated" enrollment is the target number of participants that the researchers need for the study..',
@@ -717,6 +1004,18 @@ export const StudySchema = coda.makeSchema({
                 },
                 ArmGroupType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Experimental", value: "EXPERIMENTAL"},
+                    {display: "Active Comparator", value: "ACTIVE_COMPARATOR"},
+                    {
+                      display: "Placebo Comparator",
+                      value: "PLACEBO_COMPARATOR",
+                    },
+                    {display: "Sham Comparator", value: "SHAM_COMPARATOR"},
+                    {display: "No Intervention", value: "NO_INTERVENTION"},
+                    {display: "Other", value: "OTHER"},
+                  ],
                   fromKey: "type",
                   description:
                     "Arm Group Type. The role of each arm in the clinical trial..",
@@ -744,6 +1043,26 @@ export const StudySchema = coda.makeSchema({
               properties: {
                 InterventionType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Behavioral", value: "BEHAVIORAL"},
+                    {display: "Biological", value: "BIOLOGICAL"},
+                    {
+                      display: "Combination Product",
+                      value: "COMBINATION_PRODUCT",
+                    },
+                    {display: "Device", value: "DEVICE"},
+                    {display: "Diagnostic Test", value: "DIAGNOSTIC_TEST"},
+                    {
+                      display: "Dietary Supplement",
+                      value: "DIETARY_SUPPLEMENT",
+                    },
+                    {display: "Drug", value: "DRUG"},
+                    {display: "Genetic", value: "GENETIC"},
+                    {display: "Procedure", value: "PROCEDURE"},
+                    {display: "Radiation", value: "RADIATION"},
+                    {display: "Other", value: "OTHER"},
+                  ],
                   fromKey: "type",
                   description:
                     "Intervention/Treatment Type. Intervention Type: General types of interventions.",
@@ -890,6 +1209,12 @@ export const StudySchema = coda.makeSchema({
             },
             Sex: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Female", value: "FEMALE"},
+                {display: "Male", value: "MALE"},
+                {display: "All", value: "ALL"},
+              ],
               fromKey: "sex",
               description:
                 "Sex/Gender. The sex and, if applicable, gender f the participants eligible to participate in the clinical study, or for whom EA is available..",
@@ -923,6 +1248,12 @@ export const StudySchema = coda.makeSchema({
             },
             StdAge: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Child", value: "CHILD"},
+                {display: "Adult", value: "ADULT"},
+                {display: "Older Adult", value: "OLDER_ADULT"},
+              ],
               fromKey: "stdAges",
               description:
                 "Age Group. Ingest calculated the StdAge if there is minimumAge and/or maximimumAge entered. Redacted for Withheld studies.",
@@ -936,6 +1267,14 @@ export const StudySchema = coda.makeSchema({
             },
             SamplingMethod: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Probability Sample", value: "PROBABILITY_SAMPLE"},
+                {
+                  display: "Non-Probability Sample",
+                  value: "NON_PROBABILITY_SAMPLE",
+                },
+              ],
               fromKey: "samplingMethod",
               description:
                 "Sampling Method. Indicate the method used for the sampling approach and explain in the Detailed Description..",
@@ -956,6 +1295,17 @@ export const StudySchema = coda.makeSchema({
                 },
                 CentralContactRole: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Study Chair", value: "STUDY_CHAIR"},
+                    {display: "Study Director", value: "STUDY_DIRECTOR"},
+                    {
+                      display: "Principal Investigator",
+                      value: "PRINCIPAL_INVESTIGATOR",
+                    },
+                    {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
+                    {display: "Contact", value: "CONTACT"},
+                  ],
                   fromKey: "role",
                   description:
                     "Central Contact Role. Role for any Central Contact added.",
@@ -996,6 +1346,16 @@ export const StudySchema = coda.makeSchema({
                 },
                 OverallOfficialRole: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Study Chair", value: "STUDY_CHAIR"},
+                    {display: "Study Director", value: "STUDY_DIRECTOR"},
+                    {
+                      display: "Principal Investigator",
+                      value: "PRINCIPAL_INVESTIGATOR",
+                    },
+                    {display: "Sub-Investigator", value: "SUB_INVESTIGATOR"},
+                  ],
                   fromKey: "role",
                   description: "Overall Official Role.",
                 },
@@ -1015,6 +1375,27 @@ export const StudySchema = coda.makeSchema({
                 },
                 LocationStatus: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {
+                      display: "Active, not recruiting",
+                      value: "ACTIVE_NOT_RECRUITING",
+                    },
+                    {display: "Completed", value: "COMPLETED"},
+                    {
+                      display: "Enrolling by invitation",
+                      value: "ENROLLING_BY_INVITATION",
+                    },
+                    {
+                      display: "Not yet recruiting",
+                      value: "NOT_YET_RECRUITING",
+                    },
+                    {display: "Recruiting", value: "RECRUITING"},
+                    {display: "Suspended", value: "SUSPENDED"},
+                    {display: "Terminated", value: "TERMINATED"},
+                    {display: "Withdrawn", value: "WITHDRAWN"},
+                    {display: "Available", value: "AVAILABLE"},
+                  ],
                   fromKey: "status",
                   description:
                     "Individual site recruitment status. The recruitment status of each participating facility in a clinical study..",
@@ -1049,6 +1430,20 @@ export const StudySchema = coda.makeSchema({
                     },
                     LocationContactRole: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "Study Chair", value: "STUDY_CHAIR"},
+                        {display: "Study Director", value: "STUDY_DIRECTOR"},
+                        {
+                          display: "Principal Investigator",
+                          value: "PRINCIPAL_INVESTIGATOR",
+                        },
+                        {
+                          display: "Sub-Investigator",
+                          value: "SUB_INVESTIGATOR",
+                        },
+                        {display: "Contact", value: "CONTACT"},
+                      ],
                       fromKey: "role",
                       description: "Location Contact Role.",
                     },
@@ -1099,6 +1494,12 @@ export const StudySchema = coda.makeSchema({
                 },
                 ReferenceType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "background", value: "BACKGROUND"},
+                    {display: "result", value: "RESULT"},
+                    {display: "derived", value: "DERIVED"},
+                  ],
                   fromKey: "type",
                   description:
                     'Reference Type. Indicate whether is a Result reference, background or derived. "Result" and "background" are assigned in response to the Yes/No for Results Reference, respectively; "derived" means references were automatically indexed by ClinicalTrials.gov.',
@@ -1190,6 +1591,12 @@ export const StudySchema = coda.makeSchema({
           properties: {
             IPDSharing: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Yes", value: "YES"},
+                {display: "No", value: "NO"},
+                {display: "Undecided", value: "UNDECIDED"},
+              ],
               fromKey: "ipdSharing",
               description:
                 "Plan to Share IPD. Indicate whether there is a plan to make individual participant data (IPD) collected in this study, including data dictionaries, available to other researchers (typically after the end of the study)..",
@@ -1203,6 +1610,14 @@ export const StudySchema = coda.makeSchema({
             },
             IPDSharingInfoType: {
               type: coda.ValueType.String,
+              codaType: coda.ValueHintType.SelectList,
+              options: [
+                {display: "Study Protocol", value: "STUDY_PROTOCOL"},
+                {display: "Statistical Analysis Plan (SAP)", value: "SAP"},
+                {display: "Informed Consent Form (ICF)", value: "ICF"},
+                {display: "Clinical Study Report (CSR)", value: "CSR"},
+                {display: "Analytic Code", value: "ANALYTIC_CODE"},
+              ],
               fromKey: "infoTypes",
               description:
                 "IPDSharing Info Type. IPD Type: The type(s) of supporting information that will be shared, in addition to the individual participant data set and data dictionaries for the IPD itself..",
@@ -1508,6 +1923,27 @@ export const StudySchema = coda.makeSchema({
                 },
                 BaselineMeasureParamType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
+                    {
+                      display: "Geometric Least Squares Mean",
+                      value: "GEOMETRIC_LEAST_SQUARES_MEAN",
+                    },
+                    {
+                      display: "Least Squares Mean",
+                      value: "LEAST_SQUARES_MEAN",
+                    },
+                    {display: "Log Mean", value: "LOG_MEAN"},
+                    {display: "Mean", value: "MEAN"},
+                    {display: "Median", value: "MEDIAN"},
+                    {display: "Number", value: "NUMBER"},
+                    {
+                      display: "Count of Participants",
+                      value: "COUNT_OF_PARTICIPANTS",
+                    },
+                    {display: "Count of Units", value: "COUNT_OF_UNITS"},
+                  ],
                   fromKey: "paramType",
                   description:
                     "Baseline Measure Type. The type of data for the baseline measure.",
@@ -1515,6 +1951,48 @@ export const StudySchema = coda.makeSchema({
                 },
                 BaselineMeasureDispersionType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Not Applicable", value: "NA"},
+                    {
+                      display: "Standard Deviation",
+                      value: "STANDARD_DEVIATION",
+                    },
+                    {display: "Standard Error", value: "STANDARD_ERROR"},
+                    {
+                      display: "Inter-Quartile Range",
+                      value: "INTER_QUARTILE_RANGE",
+                    },
+                    {display: "Full Range", value: "FULL_RANGE"},
+                    {
+                      display: "80% Confidence Interval",
+                      value: "CONFIDENCE_80",
+                    },
+                    {
+                      display: "90% Confidence Interval",
+                      value: "CONFIDENCE_90",
+                    },
+                    {
+                      display: "95% Confidence Interval",
+                      value: "CONFIDENCE_95",
+                    },
+                    {
+                      display: "97.5% Confidence Interval",
+                      value: "CONFIDENCE_975",
+                    },
+                    {
+                      display: "99% Confidence Interval",
+                      value: "CONFIDENCE_99",
+                    },
+                    {
+                      display: "Other Confidence Interval Level",
+                      value: "CONFIDENCE_OTHER",
+                    },
+                    {
+                      display: "Geometric Coefficient of Variation",
+                      value: "GEOMETRIC_COEFFICIENT",
+                    },
+                  ],
                   fromKey: "dispersionType",
                   description:
                     "Baseline Measure Dispersion/Precision. Dispersion type based on paramType.",
@@ -1693,6 +2171,16 @@ export const StudySchema = coda.makeSchema({
               properties: {
                 OutcomeMeasureType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Primary", value: "PRIMARY"},
+                    {display: "Secondary", value: "SECONDARY"},
+                    {
+                      display: "Other Pre-specified",
+                      value: "OTHER_PRE_SPECIFIED",
+                    },
+                    {display: "Post-Hoc", value: "POST_HOC"},
+                  ],
                   fromKey: "type",
                   description:
                     "Outcome Measure Type. The type of outcome measure.\n•\tPrimary\n•\tSecondary\n•\tOther Pre-specified\n•\tPost-Hoc.",
@@ -1721,6 +2209,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 OutcomeMeasureReportingStatus: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Not Posted", value: "NOT_POSTED"},
+                    {display: "Posted", value: "POSTED"},
+                  ],
                   fromKey: "reportingStatus",
                   description:
                     "Reporting Status. Whether there is Outcome Measure Data reported.",
@@ -1734,6 +2227,27 @@ export const StudySchema = coda.makeSchema({
                 },
                 OutcomeMeasureParamType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
+                    {
+                      display: "Geometric Least Squares Mean",
+                      value: "GEOMETRIC_LEAST_SQUARES_MEAN",
+                    },
+                    {
+                      display: "Least Squares Mean",
+                      value: "LEAST_SQUARES_MEAN",
+                    },
+                    {display: "Log Mean", value: "LOG_MEAN"},
+                    {display: "Mean", value: "MEAN"},
+                    {display: "Median", value: "MEDIAN"},
+                    {display: "Number", value: "NUMBER"},
+                    {
+                      display: "Count of Participants",
+                      value: "COUNT_OF_PARTICIPANTS",
+                    },
+                    {display: "Count of Units", value: "COUNT_OF_UNITS"},
+                  ],
                   fromKey: "paramType",
                   description:
                     "Outcome Measure Data Type. The type of data for the outcome measure. Can be one of the following:\n•\tCount of Participants\n•\tMean\n•\tMedian\n•\tLeast Squares Mean\n•\tGeometric Mean\n•\tGeometric Least Squares Mean\n•\tNumber\n•\tCount of Units.",
@@ -1920,6 +2434,17 @@ export const StudySchema = coda.makeSchema({
                     },
                     OutcomeAnalysisDispersionType: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {
+                          display: "Standard Deviation",
+                          value: "STANDARD_DEVIATION",
+                        },
+                        {
+                          display: "Standard Error of the Mean",
+                          value: "STANDARD_ERROR_OF_MEAN",
+                        },
+                      ],
                       fromKey: "dispersionType",
                       description:
                         "Estimation Dispersion Type. Parameter Dispersion Type\n•\tStandard Deviation\n•\tStandard Error of the Mean.",
@@ -1958,6 +2483,11 @@ export const StudySchema = coda.makeSchema({
                     },
                     OutcomeAnalysisCINumSides: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "1-Sided", value: "ONE_SIDED"},
+                        {display: "2-Sided", value: "TWO_SIDED"},
+                      ],
                       fromKey: "ciNumSides",
                       description:
                         "Number of Sides for Confidence Interval. Confidence Interval - Number of sides.",
@@ -2009,6 +2539,29 @@ export const StudySchema = coda.makeSchema({
                     },
                     OutcomeAnalysisNonInferiorityType: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "Superiority", value: "SUPERIORITY"},
+                        {display: "Non-Inferiority", value: "NON_INFERIORITY"},
+                        {display: "Equivalence", value: "EQUIVALENCE"},
+                        {display: "Other", value: "OTHER"},
+                        {
+                          display: "Non-Inferiority or Equivalence",
+                          value: "NON_INFERIORITY_OR_EQUIVALENCE",
+                        },
+                        {
+                          display: "Superiority or Other",
+                          value: "SUPERIORITY_OR_OTHER",
+                        },
+                        {
+                          display: "Non-Inferiority or Equivalence (legacy)",
+                          value: "NON_INFERIORITY_OR_EQUIVALENCE_LEGACY",
+                        },
+                        {
+                          display: "Superiority or Other (legacy)",
+                          value: "SUPERIORITY_OR_OTHER_LEGACY",
+                        },
+                      ],
                       fromKey: "nonInferiorityType",
                       description:
                         "Type of Statistical Test. Type of Statistical Test\n•\tSuperiority\n•\tNon-inferiority\n•\tEquivalence\n•\tOther (for example, single group or other descriptive analysis)\n•\tNon-Inferiority or Equivalence (legacy selection)\n•\tSuperiority or Other (legacy selection).",
@@ -2177,6 +2730,17 @@ export const StudySchema = coda.makeSchema({
                 },
                 SeriousEventAssessmentType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {
+                      display: "Non-systematic Assessment",
+                      value: "NON_SYSTEMATIC_ASSESSMENT",
+                    },
+                    {
+                      display: "Systematic Assessment",
+                      value: "SYSTEMATIC_ASSESSMENT",
+                    },
+                  ],
                   fromKey: "assessmentType",
                   description:
                     "Collection Approach (or Collection Approach for Table Default required). The type of approach taken to collect serious adverse event information. Can be Systematic, non-systematic assessment, or left blank to indicate that the value specified as the Collection Approach for Table Default should be used.\n•\tSystematic Assessment: Any method of routinely determining whether or not certain adverse events have occurred, for example through a standard questionnaire, regular investigator assessment, regular laboratory testing, or other method\n•\tNon-Systematic Assessment: Any non-systematic method for determining whether or not adverse events have occurred, such as self-reporting by participants or occasional assessment/testing.",
@@ -2240,6 +2804,17 @@ export const StudySchema = coda.makeSchema({
                 },
                 OtherEventAssessmentType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {
+                      display: "Non-systematic Assessment",
+                      value: "NON_SYSTEMATIC_ASSESSMENT",
+                    },
+                    {
+                      display: "Systematic Assessment",
+                      value: "SYSTEMATIC_ASSESSMENT",
+                    },
+                  ],
                   fromKey: "assessmentType",
                 },
                 OtherEventNotes: {
@@ -2310,6 +2885,12 @@ export const StudySchema = coda.makeSchema({
                 },
                 AgreementRestrictionType: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "LTE60", value: "LTE60"},
+                    {display: "GT60", value: "GT60"},
+                    {display: "OTHER", value: "OTHER"},
+                  ],
                   fromKey: "restrictionType",
                   description:
                     "Agreement Restriction Type. PI Disclosure Restriction Type: Additional information about the results disclosure restriction. If there are varying agreements, the type that represents the most restrictive of the agreements (for example, the agreement with the greatest embargo time period) should be selected.\nPossible selections:\n•\tThe only disclosure restriction on the PI is that the sponsor can review results communications prior to public release and can embargo communications regarding study results for a period that is less than or equal to 60 days from the date that the communication is submitted to the sponsor for review. The sponsor cannot require changes to the communication and cannot unilaterally extend the embargo.\n•\tThe only disclosure restriction on the PI is that the sponsor can review results communications prior to public release and can embargo communications regarding study results for a period that is more than 60 days but less than or equal to 180 days from the date that the communication is submitted to the sponsor for review. The sponsor cannot require changes to the communication and cannot unilaterally extend the embargo.\n•\tOther disclosure agreement that restricts the right of the PI to disclose, discuss, or publish study results after the study is completed.",
@@ -2401,6 +2982,12 @@ export const StudySchema = coda.makeSchema({
                   properties: {
                     UnpostedEventType: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {display: "Reset", value: "RESET"},
+                        {display: "Release", value: "RELEASE"},
+                        {display: "Unrelease", value: "UNRELEASE"},
+                      ],
                       fromKey: "type",
                       description:
                         "Study Results Submission Type. Study Results Submission Type.",
@@ -2435,6 +3022,21 @@ export const StudySchema = coda.makeSchema({
                   properties: {
                     ViolationEventType: {
                       type: coda.ValueType.String,
+                      codaType: coda.ValueHintType.SelectList,
+                      options: [
+                        {
+                          display: "Violation Identified by FDA",
+                          value: "VIOLATION_IDENTIFIED",
+                        },
+                        {
+                          display: "Correction Confirmed by FDA",
+                          value: "CORRECTION_CONFIRMED",
+                        },
+                        {
+                          display: "Penalty Imposed by FDA",
+                          value: "PENALTY_IMPOSED",
+                        },
+                      ],
                       fromKey: "type",
                       description:
                         "Violation Event Type. •\tViolation Identified by FDA\n•\tCorrection Confirmed by FDA\n•\tPenalty Imposed by FDA.",
@@ -2620,6 +3222,11 @@ export const StudySchema = coda.makeSchema({
                         },
                         FirstMCPPostDateType: {
                           type: coda.ValueType.String,
+                          codaType: coda.ValueHintType.SelectList,
+                          options: [
+                            {display: "Actual", value: "ACTUAL"},
+                            {display: "Estimated", value: "ESTIMATED"},
+                          ],
                           fromKey: "type",
                           description:
                             "First MCP Posted Date Type. Date type for first MCP posted date.",
@@ -2765,6 +3372,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 ConditionBrowseLeafRelevance: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "low", value: "LOW"},
+                    {display: "high", value: "HIGH"},
+                  ],
                   fromKey: "relevance",
                   description: "Relevance to Condition Leaf Topic.",
                 },
@@ -2856,6 +3468,11 @@ export const StudySchema = coda.makeSchema({
                 },
                 InterventionBrowseLeafRelevance: {
                   type: coda.ValueType.String,
+                  codaType: coda.ValueHintType.SelectList,
+                  options: [
+                    {display: "low", value: "LOW"},
+                    {display: "high", value: "HIGH"},
+                  ],
                   fromKey: "relevance",
                   description: "Relevance to Intervention Leaf Topic.",
                 },
