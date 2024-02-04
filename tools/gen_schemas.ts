@@ -4,19 +4,32 @@ import * as fs from "fs";
 import {assertCondition, ensureUnreachable} from "@codahq/packs-sdk";
 import * as prettier from "prettier";
 
+function capSnakeCaseToReadable(s: string): string {
+  // SOME_VALUE -> Some Value
+  return s
+    .split("_")
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase())
+    .join(" ");
+}
+
 function getRefName(ref: string): string {
   return ref.split("/").pop()!;
 }
 
+// NOTE(oleg): the OpenAPI spec doesn't contain information on which fields are Markdown, so hardcoding it here.
+const markdownFields = ["EligibilityModule.eligibilityCriteria"];
+
 function generateSchemaBody(
-  parentName: string,
+  namePath: string[],
   srcSchema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject,
   deps: Set<string>,
-  components: OpenAPIV3.ComponentsObject["schemas"]
+  components: OpenAPIV3.ComponentsObject["schemas"],
+  required?: boolean
 ): string {
   if ("$ref" in srcSchema) {
     const name = getRefName(srcSchema.$ref);
-    if (name === parentName) {
+    if (name === namePath[0]) {
+      // Handle recursive schemas.
       return `{type: coda.ValueType.Object, properties: {}, includeUnknownProperties: true}`;
     }
     deps.add(name);
@@ -47,11 +60,9 @@ function generateSchemaBody(
           }
         }
 
-        // TODO(oleg): validate that the properties are compatible.
         replacementSchema.properties[name] = prop;
       }
     }
-    console.log("replacementSchema", replacementSchema);
     srcSchema = replacementSchema;
   }
 
@@ -69,23 +80,45 @@ function generateSchemaBody(
 
     case "string":
       output += "type: coda.ValueType.String";
+
+      if (markdownFields.includes(namePath.join("."))) {
+        output += ", codaType: coda.ValueHintType.Markdown";
+      } else if (srcSchema.format === "date") {
+        output += ", codaType: coda.ValueHintType.Date";
+      } else if (srcSchema.enum) {
+        output += ", codaType: coda.ValueHintType.SelectList";
+        output += ", options: [";
+        for (const option of srcSchema.enum) {
+          output += `{display: "${capSnakeCaseToReadable(option)}", value: "${option}"},`;
+        }
+        output += "]";
+      }
+
       break;
 
     case "object":
       output += "type: coda.ValueType.Object, properties: {";
       for (const [name, prop] of Object.entries(srcSchema.properties ?? {})) {
-        output += `${name}: ${generateSchemaBody(parentName, prop, deps, components)},`;
+        const propRequired = (srcSchema.required ?? []).includes(name);
+        output += `${name}: ${generateSchemaBody([...namePath, name], prop, deps, components, propRequired)},`;
       }
       output += "}";
+      if (srcSchema.additionalProperties !== false) {
+        output += ", includeUnknownProperties: true";
+      }
       break;
 
     case "array":
       output += "type: coda.ValueType.Array, items: ";
-      output += generateSchemaBody(parentName, srcSchema.items, deps, components);
+      output += generateSchemaBody([...namePath, "0"], srcSchema.items, deps, components);
       break;
 
     default:
       ensureUnreachable(srcSchema, `Unknown schema type: ${(srcSchema as any).type}`);
+  }
+
+  if (required) {
+    output += ", required: true";
   }
 
   output += "}";
@@ -100,7 +133,7 @@ async function generateSchema() {
   const outputSchemas: Record<string, {output: string; deps: Set<string>}> = {};
   for (const [name, srcSchema] of Object.entries(srcSchemas)) {
     const deps = new Set<string>();
-    const schemaBody = generateSchemaBody(name, srcSchema, deps, srcSchemas);
+    const schemaBody = generateSchemaBody([name], srcSchema, deps, srcSchemas);
     outputSchemas[name] = {output: `export const ${name}Schema = coda.makeSchema(${schemaBody});`, deps};
   }
 

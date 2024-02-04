@@ -22,14 +22,14 @@ export const FieldNodeSchema = coda.makeSchema({
     indexedOnly: {type: coda.ValueType.Boolean},
     isEnum: {type: coda.ValueType.Boolean},
     maxChars: {type: coda.ValueType.Number},
-    name: {type: coda.ValueType.String},
+    name: {type: coda.ValueType.String, required: true},
     nested: {type: coda.ValueType.Boolean},
-    piece: {type: coda.ValueType.String},
+    piece: {type: coda.ValueType.String, required: true},
     rules: {type: coda.ValueType.String},
-    sourceType: {type: coda.ValueType.String},
+    sourceType: {type: coda.ValueType.String, required: true},
     synonyms: {type: coda.ValueType.Boolean},
     title: {type: coda.ValueType.String},
-    type: {type: coda.ValueType.String},
+    type: {type: coda.ValueType.String, required: true},
   },
 });
 
@@ -41,20 +41,28 @@ export const FieldNodeListSchema = coda.makeSchema({
 export const SearchPartSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    isEnum: {type: coda.ValueType.Boolean},
-    isSynonyms: {type: coda.ValueType.Boolean},
-    pieces: {type: coda.ValueType.Array, items: {type: coda.ValueType.String}},
-    type: {type: coda.ValueType.String},
-    weight: {type: coda.ValueType.Number},
+    isEnum: {type: coda.ValueType.Boolean, required: true},
+    isSynonyms: {type: coda.ValueType.Boolean, required: true},
+    pieces: {
+      type: coda.ValueType.Array,
+      items: {type: coda.ValueType.String},
+      required: true,
+    },
+    type: {type: coda.ValueType.String, required: true},
+    weight: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const SearchAreaSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    name: {type: coda.ValueType.String},
+    name: {type: coda.ValueType.String, required: true},
     param: {type: coda.ValueType.String},
-    parts: {type: coda.ValueType.Array, items: SearchPartSchema},
+    parts: {
+      type: coda.ValueType.Array,
+      items: SearchPartSchema,
+      required: true,
+    },
     uiLabel: {type: coda.ValueType.String},
   },
 });
@@ -62,8 +70,12 @@ export const SearchAreaSchema = coda.makeSchema({
 export const SearchDocumentSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    areas: {type: coda.ValueType.Array, items: SearchAreaSchema},
-    name: {type: coda.ValueType.String},
+    areas: {
+      type: coda.ValueType.Array,
+      items: SearchAreaSchema,
+      required: true,
+    },
+    name: {type: coda.ValueType.String, required: true},
   },
 });
 
@@ -75,18 +87,26 @@ export const SearchDocumentListSchema = coda.makeSchema({
 export const EnumItemSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    exceptions: {type: coda.ValueType.Object, properties: {}},
-    legacyValue: {type: coda.ValueType.String},
-    value: {type: coda.ValueType.String},
+    exceptions: {
+      type: coda.ValueType.Object,
+      properties: {},
+      includeUnknownProperties: true,
+    },
+    legacyValue: {type: coda.ValueType.String, required: true},
+    value: {type: coda.ValueType.String, required: true},
   },
 });
 
 export const EnumInfoSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    pieces: {type: coda.ValueType.Array, items: {type: coda.ValueType.String}},
-    type: {type: coda.ValueType.String},
-    values: {type: coda.ValueType.Array, items: EnumItemSchema},
+    pieces: {
+      type: coda.ValueType.Array,
+      items: {type: coda.ValueType.String},
+      required: true,
+    },
+    type: {type: coda.ValueType.String, required: true},
+    values: {type: coda.ValueType.Array, items: EnumItemSchema, required: true},
   },
 });
 
@@ -98,47 +118,56 @@ export const EnumInfoListSchema = coda.makeSchema({
 export const StudySizeSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    id: {type: coda.ValueType.String},
-    sizeBytes: {type: coda.ValueType.Number},
+    id: {type: coda.ValueType.String, required: true},
+    sizeBytes: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const DistItemSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    sizeRange: {type: coda.ValueType.String},
-    studiesCount: {type: coda.ValueType.Number},
+    sizeRange: {type: coda.ValueType.String, required: true},
+    studiesCount: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const GzipStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    averageSizeBytes: {type: coda.ValueType.Number},
-    largestStudies: {type: coda.ValueType.Array, items: StudySizeSchema},
-    percentiles: {type: coda.ValueType.Object, properties: {}},
-    ranges: {type: coda.ValueType.Array, items: DistItemSchema},
-    totalStudies: {type: coda.ValueType.Number},
+    averageSizeBytes: {type: coda.ValueType.Number, required: true},
+    largestStudies: {
+      type: coda.ValueType.Array,
+      items: StudySizeSchema,
+      required: true,
+    },
+    percentiles: {
+      type: coda.ValueType.Object,
+      properties: {},
+      includeUnknownProperties: true,
+      required: true,
+    },
+    ranges: {type: coda.ValueType.Array, items: DistItemSchema, required: true},
+    totalStudies: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const ListSizeSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    size: {type: coda.ValueType.Number},
-    studiesCount: {type: coda.ValueType.Number},
+    size: {type: coda.ValueType.Number, required: true},
+    studiesCount: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const ListSizesSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    field: {type: coda.ValueType.String},
+    field: {type: coda.ValueType.String, required: true},
     maxSize: {type: coda.ValueType.Number},
     minSize: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    piece: {type: coda.ValueType.String, required: true},
     topSizes: {type: coda.ValueType.Array, items: ListSizeSchema},
-    uniqueSizesCount: {type: coda.ValueType.Number},
+    uniqueSizesCount: {type: coda.ValueType.Number, required: true},
   },
 });
 
@@ -150,58 +179,71 @@ export const ListSizesListSchema = coda.makeSchema({
 export const ValueCountSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    studiesCount: {type: coda.ValueType.Number},
-    value: {type: coda.ValueType.String},
+    studiesCount: {type: coda.ValueType.Number, required: true},
+    value: {type: coda.ValueType.String, required: true},
   },
 });
 
 export const FieldStatsTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Enum", value: "ENUM"},
+    {display: "String", value: "STRING"},
+    {display: "Date", value: "DATE"},
+    {display: "Integer", value: "INTEGER"},
+    {display: "Number", value: "NUMBER"},
+    {display: "Boolean", value: "BOOLEAN"},
+  ],
 });
 
 export const EnumStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    field: {type: coda.ValueType.String},
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    field: {type: coda.ValueType.String, required: true},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
     topValues: {type: coda.ValueType.Array, items: ValueCountSchema},
     type: FieldStatsTypeSchema,
-    uniqueValuesCount: {type: coda.ValueType.Number},
+    uniqueValuesCount: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const LongestStringSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    length: {type: coda.ValueType.Number},
-    nctId: {type: coda.ValueType.String},
-    value: {type: coda.ValueType.String},
+    length: {type: coda.ValueType.Number, required: true},
+    nctId: {type: coda.ValueType.String, required: true},
+    value: {type: coda.ValueType.String, required: true},
   },
 });
 
 export const StringStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    field: {type: coda.ValueType.String},
+    field: {type: coda.ValueType.String, required: true},
     longest: LongestStringSchema,
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
     topValues: {type: coda.ValueType.Array, items: ValueCountSchema},
     type: FieldStatsTypeSchema,
-    uniqueValuesCount: {type: coda.ValueType.Number},
+    uniqueValuesCount: {type: coda.ValueType.Number, required: true},
   },
 });
 
 export const DateStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    field: {type: coda.ValueType.String},
-    formats: {type: coda.ValueType.Array, items: {type: coda.ValueType.String}},
+    field: {type: coda.ValueType.String, required: true},
+    formats: {
+      type: coda.ValueType.Array,
+      items: {type: coda.ValueType.String},
+      required: true,
+    },
     max: {type: coda.ValueType.String},
     min: {type: coda.ValueType.String},
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
     type: FieldStatsTypeSchema,
   },
 });
@@ -210,11 +252,11 @@ export const IntegerStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
     avg: {type: coda.ValueType.Number},
-    field: {type: coda.ValueType.String},
+    field: {type: coda.ValueType.String, required: true},
     max: {type: coda.ValueType.Number},
     min: {type: coda.ValueType.Number},
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
     type: FieldStatsTypeSchema,
   },
 });
@@ -223,11 +265,11 @@ export const NumberStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
     avg: {type: coda.ValueType.Number},
-    field: {type: coda.ValueType.String},
+    field: {type: coda.ValueType.String, required: true},
     max: {type: coda.ValueType.Number},
     min: {type: coda.ValueType.Number},
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
     type: FieldStatsTypeSchema,
   },
 });
@@ -235,11 +277,11 @@ export const NumberStatsSchema = coda.makeSchema({
 export const BooleanStatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    falseCount: {type: coda.ValueType.Number},
-    field: {type: coda.ValueType.String},
-    missingStudiesCount: {type: coda.ValueType.Number},
-    piece: {type: coda.ValueType.String},
-    trueCount: {type: coda.ValueType.Number},
+    falseCount: {type: coda.ValueType.Number, required: true},
+    field: {type: coda.ValueType.String, required: true},
+    missingStudiesCount: {type: coda.ValueType.Number, required: true},
+    piece: {type: coda.ValueType.String, required: true},
+    trueCount: {type: coda.ValueType.Number, required: true},
     type: FieldStatsTypeSchema,
   },
 });
@@ -247,13 +289,22 @@ export const BooleanStatsSchema = coda.makeSchema({
 export const VersionSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    apiVersion: {type: coda.ValueType.String},
+    apiVersion: {type: coda.ValueType.String, required: true},
     dataTimestamp: {type: coda.ValueType.String},
   },
 });
 
 export const OrgStudyIdTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Nih", value: "NIH"},
+    {display: "Fda", value: "FDA"},
+    {display: "Va", value: "VA"},
+    {display: "Cdc", value: "CDC"},
+    {display: "Ahrq", value: "AHRQ"},
+    {display: "Samhsa", value: "SAMHSA"},
+  ],
 });
 
 export const OrgStudyIdInfoSchema = coda.makeSchema({
@@ -263,10 +314,24 @@ export const OrgStudyIdInfoSchema = coda.makeSchema({
     type: OrgStudyIdTypeSchema,
     link: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const SecondaryIdTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Nih", value: "NIH"},
+    {display: "Fda", value: "FDA"},
+    {display: "Va", value: "VA"},
+    {display: "Cdc", value: "CDC"},
+    {display: "Ahrq", value: "AHRQ"},
+    {display: "Samhsa", value: "SAMHSA"},
+    {display: "Other Grant", value: "OTHER_GRANT"},
+    {display: "Eudract Number", value: "EUDRACT_NUMBER"},
+    {display: "Registry", value: "REGISTRY"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const SecondaryIdInfoSchema = coda.makeSchema({
@@ -277,9 +342,24 @@ export const SecondaryIdInfoSchema = coda.makeSchema({
     domain: {type: coda.ValueType.String},
     link: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
-export const AgencyClassSchema = coda.makeSchema({type: coda.ValueType.String});
+export const AgencyClassSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Nih", value: "NIH"},
+    {display: "Fed", value: "FED"},
+    {display: "Other Gov", value: "OTHER_GOV"},
+    {display: "Indiv", value: "INDIV"},
+    {display: "Industry", value: "INDUSTRY"},
+    {display: "Network", value: "NETWORK"},
+    {display: "Ambig", value: "AMBIG"},
+    {display: "Other", value: "OTHER"},
+    {display: "Unknown", value: "UNKNOWN"},
+  ],
+});
 
 export const OrganizationSchema = coda.makeSchema({
   type: coda.ValueType.Object,
@@ -287,6 +367,7 @@ export const OrganizationSchema = coda.makeSchema({
     fullName: {type: coda.ValueType.String},
     class: AgencyClassSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const IdentificationModuleSchema = coda.makeSchema({
@@ -307,14 +388,41 @@ export const IdentificationModuleSchema = coda.makeSchema({
     acronym: {type: coda.ValueType.String},
     organization: OrganizationSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const PartialDateSchema = coda.makeSchema({type: coda.ValueType.String});
 
-export const StatusSchema = coda.makeSchema({type: coda.ValueType.String});
+export const StatusSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Active Not Recruiting", value: "ACTIVE_NOT_RECRUITING"},
+    {display: "Completed", value: "COMPLETED"},
+    {display: "Enrolling By Invitation", value: "ENROLLING_BY_INVITATION"},
+    {display: "Not Yet Recruiting", value: "NOT_YET_RECRUITING"},
+    {display: "Recruiting", value: "RECRUITING"},
+    {display: "Suspended", value: "SUSPENDED"},
+    {display: "Terminated", value: "TERMINATED"},
+    {display: "Withdrawn", value: "WITHDRAWN"},
+    {display: "Available", value: "AVAILABLE"},
+    {display: "No Longer Available", value: "NO_LONGER_AVAILABLE"},
+    {display: "Temporarily Not Available", value: "TEMPORARILY_NOT_AVAILABLE"},
+    {display: "Approved For Marketing", value: "APPROVED_FOR_MARKETING"},
+    {display: "Withheld", value: "WITHHELD"},
+    {display: "Unknown", value: "UNKNOWN"},
+  ],
+});
 
 export const ExpandedAccessStatusSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Available", value: "AVAILABLE"},
+    {display: "No Longer Available", value: "NO_LONGER_AVAILABLE"},
+    {display: "Temporarily Not Available", value: "TEMPORARILY_NOT_AVAILABLE"},
+    {display: "Approved For Marketing", value: "APPROVED_FOR_MARKETING"},
+  ],
 });
 
 export const ExpandedAccessInfoSchema = coda.makeSchema({
@@ -324,18 +432,31 @@ export const ExpandedAccessInfoSchema = coda.makeSchema({
     nctId: {type: coda.ValueType.String},
     statusForNctId: ExpandedAccessStatusSchema,
   },
+  includeUnknownProperties: true,
 });
 
-export const DateTypeSchema = coda.makeSchema({type: coda.ValueType.String});
+export const DateTypeSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Actual", value: "ACTUAL"},
+    {display: "Estimated", value: "ESTIMATED"},
+  ],
+});
 
 export const PartialDateStructSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {date: PartialDateSchema, type: DateTypeSchema},
+  includeUnknownProperties: true,
 });
 
 export const DateStructSchema = coda.makeSchema({
   type: coda.ValueType.Object,
-  properties: {date: {type: coda.ValueType.String}, type: DateTypeSchema},
+  properties: {
+    date: {type: coda.ValueType.String, codaType: coda.ValueHintType.Date},
+    type: DateTypeSchema,
+  },
+  includeUnknownProperties: true,
 });
 
 export const StatusModuleSchema = coda.makeSchema({
@@ -350,22 +471,50 @@ export const StatusModuleSchema = coda.makeSchema({
     startDateStruct: PartialDateStructSchema,
     primaryCompletionDateStruct: PartialDateStructSchema,
     completionDateStruct: PartialDateStructSchema,
-    studyFirstSubmitDate: {type: coda.ValueType.String},
-    studyFirstSubmitQcDate: {type: coda.ValueType.String},
+    studyFirstSubmitDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    studyFirstSubmitQcDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     studyFirstPostDateStruct: DateStructSchema,
-    resultsFirstSubmitDate: {type: coda.ValueType.String},
-    resultsFirstSubmitQcDate: {type: coda.ValueType.String},
+    resultsFirstSubmitDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    resultsFirstSubmitQcDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     resultsFirstPostDateStruct: DateStructSchema,
-    dispFirstSubmitDate: {type: coda.ValueType.String},
-    dispFirstSubmitQcDate: {type: coda.ValueType.String},
+    dispFirstSubmitDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    dispFirstSubmitQcDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     dispFirstPostDateStruct: DateStructSchema,
-    lastUpdateSubmitDate: {type: coda.ValueType.String},
+    lastUpdateSubmitDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     lastUpdatePostDateStruct: DateStructSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const ResponsiblePartyTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Sponsor", value: "SPONSOR"},
+    {display: "Principal Investigator", value: "PRINCIPAL_INVESTIGATOR"},
+    {display: "Sponsor Investigator", value: "SPONSOR_INVESTIGATOR"},
+  ],
 });
 
 export const ResponsiblePartySchema = coda.makeSchema({
@@ -378,11 +527,13 @@ export const ResponsiblePartySchema = coda.makeSchema({
     oldNameTitle: {type: coda.ValueType.String},
     oldOrganization: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const SponsorSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {name: {type: coda.ValueType.String}, class: AgencyClassSchema},
+  includeUnknownProperties: true,
 });
 
 export const SponsorCollaboratorsModuleSchema = coda.makeSchema({
@@ -392,6 +543,7 @@ export const SponsorCollaboratorsModuleSchema = coda.makeSchema({
     leadSponsor: SponsorSchema,
     collaborators: {type: coda.ValueType.Array, items: SponsorSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const OversightModuleSchema = coda.makeSchema({
@@ -405,6 +557,7 @@ export const OversightModuleSchema = coda.makeSchema({
     isUsExport: {type: coda.ValueType.Boolean},
     fdaaa801Violation: {type: coda.ValueType.Boolean},
   },
+  includeUnknownProperties: true,
 });
 
 export const DescriptionModuleSchema = coda.makeSchema({
@@ -413,6 +566,7 @@ export const DescriptionModuleSchema = coda.makeSchema({
     briefSummary: {type: coda.ValueType.String},
     detailedDescription: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const ConditionsModuleSchema = coda.makeSchema({
@@ -427,9 +581,18 @@ export const ConditionsModuleSchema = coda.makeSchema({
       items: {type: coda.ValueType.String},
     },
   },
+  includeUnknownProperties: true,
 });
 
-export const StudyTypeSchema = coda.makeSchema({type: coda.ValueType.String});
+export const StudyTypeSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Expanded Access", value: "EXPANDED_ACCESS"},
+    {display: "Interventional", value: "INTERVENTIONAL"},
+    {display: "Observational", value: "OBSERVATIONAL"},
+  ],
+});
 
 export const ExpandedAccessTypesSchema = coda.makeSchema({
   type: coda.ValueType.Object,
@@ -438,35 +601,110 @@ export const ExpandedAccessTypesSchema = coda.makeSchema({
     intermediate: {type: coda.ValueType.Boolean},
     treatment: {type: coda.ValueType.Boolean},
   },
+  includeUnknownProperties: true,
 });
 
-export const PhaseSchema = coda.makeSchema({type: coda.ValueType.String});
+export const PhaseSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Na", value: "NA"},
+    {display: "Early Phase1", value: "EARLY_PHASE1"},
+    {display: "Phase1", value: "PHASE1"},
+    {display: "Phase2", value: "PHASE2"},
+    {display: "Phase3", value: "PHASE3"},
+    {display: "Phase4", value: "PHASE4"},
+  ],
+});
 
 export const DesignAllocationSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Randomized", value: "RANDOMIZED"},
+    {display: "Non Randomized", value: "NON_RANDOMIZED"},
+    {display: "Na", value: "NA"},
+  ],
 });
 
 export const InterventionalAssignmentSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Single Group", value: "SINGLE_GROUP"},
+    {display: "Parallel", value: "PARALLEL"},
+    {display: "Crossover", value: "CROSSOVER"},
+    {display: "Factorial", value: "FACTORIAL"},
+    {display: "Sequential", value: "SEQUENTIAL"},
+  ],
 });
 
 export const PrimaryPurposeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Treatment", value: "TREATMENT"},
+    {display: "Prevention", value: "PREVENTION"},
+    {display: "Diagnostic", value: "DIAGNOSTIC"},
+    {display: "Ect", value: "ECT"},
+    {display: "Supportive Care", value: "SUPPORTIVE_CARE"},
+    {display: "Screening", value: "SCREENING"},
+    {display: "Health Services Research", value: "HEALTH_SERVICES_RESEARCH"},
+    {display: "Basic Science", value: "BASIC_SCIENCE"},
+    {display: "Device Feasibility", value: "DEVICE_FEASIBILITY"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const ObservationalModelSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Cohort", value: "COHORT"},
+    {display: "Case Control", value: "CASE_CONTROL"},
+    {display: "Case Only", value: "CASE_ONLY"},
+    {display: "Case Crossover", value: "CASE_CROSSOVER"},
+    {display: "Ecologic Or Community", value: "ECOLOGIC_OR_COMMUNITY"},
+    {display: "Family Based", value: "FAMILY_BASED"},
+    {display: "Defined Population", value: "DEFINED_POPULATION"},
+    {display: "Natural History", value: "NATURAL_HISTORY"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const DesignTimePerspectiveSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Retrospective", value: "RETROSPECTIVE"},
+    {display: "Prospective", value: "PROSPECTIVE"},
+    {display: "Cross Sectional", value: "CROSS_SECTIONAL"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const DesignMaskingSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "None", value: "NONE"},
+    {display: "Single", value: "SINGLE"},
+    {display: "Double", value: "DOUBLE"},
+    {display: "Triple", value: "TRIPLE"},
+    {display: "Quadruple", value: "QUADRUPLE"},
+  ],
 });
 
-export const WhoMaskedSchema = coda.makeSchema({type: coda.ValueType.String});
+export const WhoMaskedSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Participant", value: "PARTICIPANT"},
+    {display: "Care Provider", value: "CARE_PROVIDER"},
+    {display: "Investigator", value: "INVESTIGATOR"},
+    {display: "Outcomes Assessor", value: "OUTCOMES_ASSESSOR"},
+  ],
+});
 
 export const MaskingBlockSchema = coda.makeSchema({
   type: coda.ValueType.Object,
@@ -475,6 +713,7 @@ export const MaskingBlockSchema = coda.makeSchema({
     maskingDescription: {type: coda.ValueType.String},
     whoMasked: {type: coda.ValueType.Array, items: WhoMaskedSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const DesignInfoSchema = coda.makeSchema({
@@ -488,10 +727,17 @@ export const DesignInfoSchema = coda.makeSchema({
     timePerspective: DesignTimePerspectiveSchema,
     maskingInfo: MaskingBlockSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const BioSpecRetentionSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "None Retained", value: "NONE_RETAINED"},
+    {display: "Samples With Dna", value: "SAMPLES_WITH_DNA"},
+    {display: "Samples Without Dna", value: "SAMPLES_WITHOUT_DNA"},
+  ],
 });
 
 export const BioSpecSchema = coda.makeSchema({
@@ -500,10 +746,16 @@ export const BioSpecSchema = coda.makeSchema({
     retention: BioSpecRetentionSchema,
     description: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const EnrollmentTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Actual", value: "ACTUAL"},
+    {display: "Estimated", value: "ESTIMATED"},
+  ],
 });
 
 export const EnrollmentInfoSchema = coda.makeSchema({
@@ -512,6 +764,7 @@ export const EnrollmentInfoSchema = coda.makeSchema({
     count: {type: coda.ValueType.Number},
     type: EnrollmentTypeSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const DesignModuleSchema = coda.makeSchema({
@@ -527,10 +780,20 @@ export const DesignModuleSchema = coda.makeSchema({
     bioSpec: BioSpecSchema,
     enrollmentInfo: EnrollmentInfoSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const ArmGroupTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Experimental", value: "EXPERIMENTAL"},
+    {display: "Active Comparator", value: "ACTIVE_COMPARATOR"},
+    {display: "Placebo Comparator", value: "PLACEBO_COMPARATOR"},
+    {display: "Sham Comparator", value: "SHAM_COMPARATOR"},
+    {display: "No Intervention", value: "NO_INTERVENTION"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const ArmGroupSchema = coda.makeSchema({
@@ -544,10 +807,25 @@ export const ArmGroupSchema = coda.makeSchema({
       items: {type: coda.ValueType.String},
     },
   },
+  includeUnknownProperties: true,
 });
 
 export const InterventionTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Behavioral", value: "BEHAVIORAL"},
+    {display: "Biological", value: "BIOLOGICAL"},
+    {display: "Combination Product", value: "COMBINATION_PRODUCT"},
+    {display: "Device", value: "DEVICE"},
+    {display: "Diagnostic Test", value: "DIAGNOSTIC_TEST"},
+    {display: "Dietary Supplement", value: "DIETARY_SUPPLEMENT"},
+    {display: "Drug", value: "DRUG"},
+    {display: "Genetic", value: "GENETIC"},
+    {display: "Procedure", value: "PROCEDURE"},
+    {display: "Radiation", value: "RADIATION"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const InterventionSchema = coda.makeSchema({
@@ -565,6 +843,7 @@ export const InterventionSchema = coda.makeSchema({
       items: {type: coda.ValueType.String},
     },
   },
+  includeUnknownProperties: true,
 });
 
 export const ArmsInterventionsModuleSchema = coda.makeSchema({
@@ -573,6 +852,7 @@ export const ArmsInterventionsModuleSchema = coda.makeSchema({
     armGroups: {type: coda.ValueType.Array, items: ArmGroupSchema},
     interventions: {type: coda.ValueType.Array, items: InterventionSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const OutcomeSchema = coda.makeSchema({
@@ -582,6 +862,7 @@ export const OutcomeSchema = coda.makeSchema({
     description: {type: coda.ValueType.String},
     timeFrame: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const OutcomesModuleSchema = coda.makeSchema({
@@ -591,20 +872,45 @@ export const OutcomesModuleSchema = coda.makeSchema({
     secondaryOutcomes: {type: coda.ValueType.Array, items: OutcomeSchema},
     otherOutcomes: {type: coda.ValueType.Array, items: OutcomeSchema},
   },
+  includeUnknownProperties: true,
 });
 
-export const SexSchema = coda.makeSchema({type: coda.ValueType.String});
+export const SexSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Female", value: "FEMALE"},
+    {display: "Male", value: "MALE"},
+    {display: "All", value: "ALL"},
+  ],
+});
 
-export const StandardAgeSchema = coda.makeSchema({type: coda.ValueType.String});
+export const StandardAgeSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Child", value: "CHILD"},
+    {display: "Adult", value: "ADULT"},
+    {display: "Older Adult", value: "OLDER_ADULT"},
+  ],
+});
 
 export const SamplingMethodSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Probability Sample", value: "PROBABILITY_SAMPLE"},
+    {display: "Non Probability Sample", value: "NON_PROBABILITY_SAMPLE"},
+  ],
 });
 
 export const EligibilityModuleSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    eligibilityCriteria: {type: coda.ValueType.String},
+    eligibilityCriteria: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Markdown,
+    },
     healthyVolunteers: {type: coda.ValueType.Boolean},
     sex: SexSchema,
     genderBased: {type: coda.ValueType.Boolean},
@@ -615,9 +921,20 @@ export const EligibilityModuleSchema = coda.makeSchema({
     studyPopulation: {type: coda.ValueType.String},
     samplingMethod: SamplingMethodSchema,
   },
+  includeUnknownProperties: true,
 });
 
-export const ContactRoleSchema = coda.makeSchema({type: coda.ValueType.String});
+export const ContactRoleSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Study Chair", value: "STUDY_CHAIR"},
+    {display: "Study Director", value: "STUDY_DIRECTOR"},
+    {display: "Principal Investigator", value: "PRINCIPAL_INVESTIGATOR"},
+    {display: "Sub Investigator", value: "SUB_INVESTIGATOR"},
+    {display: "Contact", value: "CONTACT"},
+  ],
+});
 
 export const ContactSchema = coda.makeSchema({
   type: coda.ValueType.Object,
@@ -628,10 +945,18 @@ export const ContactSchema = coda.makeSchema({
     phoneExt: {type: coda.ValueType.String},
     email: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const OfficialRoleSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Study Chair", value: "STUDY_CHAIR"},
+    {display: "Study Director", value: "STUDY_DIRECTOR"},
+    {display: "Principal Investigator", value: "PRINCIPAL_INVESTIGATOR"},
+    {display: "Sub Investigator", value: "SUB_INVESTIGATOR"},
+  ],
 });
 
 export const OfficialSchema = coda.makeSchema({
@@ -641,18 +966,32 @@ export const OfficialSchema = coda.makeSchema({
     affiliation: {type: coda.ValueType.String},
     role: OfficialRoleSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const RecruitmentStatusSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Active Not Recruiting", value: "ACTIVE_NOT_RECRUITING"},
+    {display: "Completed", value: "COMPLETED"},
+    {display: "Enrolling By Invitation", value: "ENROLLING_BY_INVITATION"},
+    {display: "Not Yet Recruiting", value: "NOT_YET_RECRUITING"},
+    {display: "Recruiting", value: "RECRUITING"},
+    {display: "Suspended", value: "SUSPENDED"},
+    {display: "Terminated", value: "TERMINATED"},
+    {display: "Withdrawn", value: "WITHDRAWN"},
+    {display: "Available", value: "AVAILABLE"},
+  ],
 });
 
 export const GeoPointSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    lat: {type: coda.ValueType.Number},
-    lon: {type: coda.ValueType.Number},
+    lat: {type: coda.ValueType.Number, required: true},
+    lon: {type: coda.ValueType.Number, required: true},
   },
+  includeUnknownProperties: true,
 });
 
 export const LocationSchema = coda.makeSchema({
@@ -667,6 +1006,7 @@ export const LocationSchema = coda.makeSchema({
     contacts: {type: coda.ValueType.Array, items: ContactSchema},
     geoPoint: GeoPointSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const ContactsLocationsModuleSchema = coda.makeSchema({
@@ -676,10 +1016,17 @@ export const ContactsLocationsModuleSchema = coda.makeSchema({
     overallOfficials: {type: coda.ValueType.Array, items: OfficialSchema},
     locations: {type: coda.ValueType.Array, items: LocationSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const ReferenceTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Background", value: "BACKGROUND"},
+    {display: "Result", value: "RESULT"},
+    {display: "Derived", value: "DERIVED"},
+  ],
 });
 
 export const RetractionSchema = coda.makeSchema({
@@ -688,6 +1035,7 @@ export const RetractionSchema = coda.makeSchema({
     pmid: {type: coda.ValueType.String},
     source: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const ReferenceSchema = coda.makeSchema({
@@ -698,6 +1046,7 @@ export const ReferenceSchema = coda.makeSchema({
     citation: {type: coda.ValueType.String},
     retractions: {type: coda.ValueType.Array, items: RetractionSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const SeeAlsoLinkSchema = coda.makeSchema({
@@ -706,6 +1055,7 @@ export const SeeAlsoLinkSchema = coda.makeSchema({
     label: {type: coda.ValueType.String},
     url: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const AvailIpdSchema = coda.makeSchema({
@@ -716,6 +1066,7 @@ export const AvailIpdSchema = coda.makeSchema({
     url: {type: coda.ValueType.String},
     comment: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const ReferencesModuleSchema = coda.makeSchema({
@@ -725,12 +1076,29 @@ export const ReferencesModuleSchema = coda.makeSchema({
     seeAlsoLinks: {type: coda.ValueType.Array, items: SeeAlsoLinkSchema},
     availIpds: {type: coda.ValueType.Array, items: AvailIpdSchema},
   },
+  includeUnknownProperties: true,
 });
 
-export const IpdSharingSchema = coda.makeSchema({type: coda.ValueType.String});
+export const IpdSharingSchema = coda.makeSchema({
+  type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Yes", value: "YES"},
+    {display: "No", value: "NO"},
+    {display: "Undecided", value: "UNDECIDED"},
+  ],
+});
 
 export const IpdSharingInfoTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Study Protocol", value: "STUDY_PROTOCOL"},
+    {display: "Sap", value: "SAP"},
+    {display: "Icf", value: "ICF"},
+    {display: "Csr", value: "CSR"},
+    {display: "Analytic Code", value: "ANALYTIC_CODE"},
+  ],
 });
 
 export const IpdSharingStatementModuleSchema = coda.makeSchema({
@@ -743,6 +1111,7 @@ export const IpdSharingStatementModuleSchema = coda.makeSchema({
     accessCriteria: {type: coda.ValueType.String},
     url: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const ProtocolSectionSchema = coda.makeSchema({
@@ -762,6 +1131,7 @@ export const ProtocolSectionSchema = coda.makeSchema({
     referencesModule: ReferencesModuleSchema,
     ipdSharingStatementModule: IpdSharingStatementModuleSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const FlowGroupSchema = coda.makeSchema({
@@ -771,6 +1141,7 @@ export const FlowGroupSchema = coda.makeSchema({
     title: {type: coda.ValueType.String},
     description: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const FlowStatsSchema = coda.makeSchema({
@@ -781,6 +1152,7 @@ export const FlowStatsSchema = coda.makeSchema({
     numSubjects: {type: coda.ValueType.String},
     numUnits: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const FlowMilestoneSchema = coda.makeSchema({
@@ -790,6 +1162,7 @@ export const FlowMilestoneSchema = coda.makeSchema({
     comment: {type: coda.ValueType.String},
     achievements: {type: coda.ValueType.Array, items: FlowStatsSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const DropWithdrawSchema = coda.makeSchema({
@@ -799,6 +1172,7 @@ export const DropWithdrawSchema = coda.makeSchema({
     comment: {type: coda.ValueType.String},
     reasons: {type: coda.ValueType.Array, items: FlowStatsSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const FlowPeriodSchema = coda.makeSchema({
@@ -808,6 +1182,7 @@ export const FlowPeriodSchema = coda.makeSchema({
     milestones: {type: coda.ValueType.Array, items: FlowMilestoneSchema},
     dropWithdraws: {type: coda.ValueType.Array, items: DropWithdrawSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const ParticipantFlowModuleSchema = coda.makeSchema({
@@ -819,6 +1194,7 @@ export const ParticipantFlowModuleSchema = coda.makeSchema({
     groups: {type: coda.ValueType.Array, items: FlowGroupSchema},
     periods: {type: coda.ValueType.Array, items: FlowPeriodSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const MeasureGroupSchema = coda.makeSchema({
@@ -828,6 +1204,7 @@ export const MeasureGroupSchema = coda.makeSchema({
     title: {type: coda.ValueType.String},
     description: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const DenomCountSchema = coda.makeSchema({
@@ -836,6 +1213,7 @@ export const DenomCountSchema = coda.makeSchema({
     groupId: {type: coda.ValueType.String},
     value: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const DenomSchema = coda.makeSchema({
@@ -844,14 +1222,45 @@ export const DenomSchema = coda.makeSchema({
     units: {type: coda.ValueType.String},
     counts: {type: coda.ValueType.Array, items: DenomCountSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const MeasureParamSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Geometric Mean", value: "GEOMETRIC_MEAN"},
+    {
+      display: "Geometric Least Squares Mean",
+      value: "GEOMETRIC_LEAST_SQUARES_MEAN",
+    },
+    {display: "Least Squares Mean", value: "LEAST_SQUARES_MEAN"},
+    {display: "Log Mean", value: "LOG_MEAN"},
+    {display: "Mean", value: "MEAN"},
+    {display: "Median", value: "MEDIAN"},
+    {display: "Number", value: "NUMBER"},
+    {display: "Count Of Participants", value: "COUNT_OF_PARTICIPANTS"},
+    {display: "Count Of Units", value: "COUNT_OF_UNITS"},
+  ],
 });
 
 export const MeasureDispersionTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Na", value: "NA"},
+    {display: "Standard Deviation", value: "STANDARD_DEVIATION"},
+    {display: "Standard Error", value: "STANDARD_ERROR"},
+    {display: "Inter Quartile Range", value: "INTER_QUARTILE_RANGE"},
+    {display: "Full Range", value: "FULL_RANGE"},
+    {display: "Confidence 80", value: "CONFIDENCE_80"},
+    {display: "Confidence 90", value: "CONFIDENCE_90"},
+    {display: "Confidence 95", value: "CONFIDENCE_95"},
+    {display: "Confidence 975", value: "CONFIDENCE_975"},
+    {display: "Confidence 99", value: "CONFIDENCE_99"},
+    {display: "Confidence Other", value: "CONFIDENCE_OTHER"},
+    {display: "Geometric Coefficient", value: "GEOMETRIC_COEFFICIENT"},
+  ],
 });
 
 export const MeasurementSchema = coda.makeSchema({
@@ -864,6 +1273,7 @@ export const MeasurementSchema = coda.makeSchema({
     upperLimit: {type: coda.ValueType.String},
     comment: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const MeasureCategorySchema = coda.makeSchema({
@@ -872,6 +1282,7 @@ export const MeasureCategorySchema = coda.makeSchema({
     title: {type: coda.ValueType.String},
     measurements: {type: coda.ValueType.Array, items: MeasurementSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const MeasureClassSchema = coda.makeSchema({
@@ -881,6 +1292,7 @@ export const MeasureClassSchema = coda.makeSchema({
     denoms: {type: coda.ValueType.Array, items: DenomSchema},
     categories: {type: coda.ValueType.Array, items: MeasureCategorySchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const BaselineMeasureSchema = coda.makeSchema({
@@ -897,6 +1309,7 @@ export const BaselineMeasureSchema = coda.makeSchema({
     denoms: {type: coda.ValueType.Array, items: DenomSchema},
     classes: {type: coda.ValueType.Array, items: MeasureClassSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const BaselineCharacteristicsModuleSchema = coda.makeSchema({
@@ -908,26 +1321,69 @@ export const BaselineCharacteristicsModuleSchema = coda.makeSchema({
     denoms: {type: coda.ValueType.Array, items: DenomSchema},
     measures: {type: coda.ValueType.Array, items: BaselineMeasureSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const OutcomeMeasureTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Primary", value: "PRIMARY"},
+    {display: "Secondary", value: "SECONDARY"},
+    {display: "Other Pre Specified", value: "OTHER_PRE_SPECIFIED"},
+    {display: "Post Hoc", value: "POST_HOC"},
+  ],
 });
 
 export const ReportingStatusSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Not Posted", value: "NOT_POSTED"},
+    {display: "Posted", value: "POSTED"},
+  ],
 });
 
 export const AnalysisDispersionTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Standard Deviation", value: "STANDARD_DEVIATION"},
+    {display: "Standard Error Of Mean", value: "STANDARD_ERROR_OF_MEAN"},
+  ],
 });
 
 export const ConfidenceIntervalNumSidesSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "One Sided", value: "ONE_SIDED"},
+    {display: "Two Sided", value: "TWO_SIDED"},
+  ],
 });
 
 export const NonInferiorityTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Superiority", value: "SUPERIORITY"},
+    {display: "Non Inferiority", value: "NON_INFERIORITY"},
+    {display: "Equivalence", value: "EQUIVALENCE"},
+    {display: "Other", value: "OTHER"},
+    {
+      display: "Non Inferiority Or Equivalence",
+      value: "NON_INFERIORITY_OR_EQUIVALENCE",
+    },
+    {display: "Superiority Or Other", value: "SUPERIORITY_OR_OTHER"},
+    {
+      display: "Non Inferiority Or Equivalence Legacy",
+      value: "NON_INFERIORITY_OR_EQUIVALENCE_LEGACY",
+    },
+    {
+      display: "Superiority Or Other Legacy",
+      value: "SUPERIORITY_OR_OTHER_LEGACY",
+    },
+  ],
 });
 
 export const MeasureAnalysisSchema = coda.makeSchema({
@@ -958,6 +1414,7 @@ export const MeasureAnalysisSchema = coda.makeSchema({
       items: {type: coda.ValueType.String},
     },
   },
+  includeUnknownProperties: true,
 });
 
 export const OutcomeMeasureSchema = coda.makeSchema({
@@ -981,6 +1438,7 @@ export const OutcomeMeasureSchema = coda.makeSchema({
     classes: {type: coda.ValueType.Array, items: MeasureClassSchema},
     analyses: {type: coda.ValueType.Array, items: MeasureAnalysisSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const OutcomeMeasuresModuleSchema = coda.makeSchema({
@@ -988,6 +1446,7 @@ export const OutcomeMeasuresModuleSchema = coda.makeSchema({
   properties: {
     outcomeMeasures: {type: coda.ValueType.Array, items: OutcomeMeasureSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const EventGroupSchema = coda.makeSchema({
@@ -1003,10 +1462,16 @@ export const EventGroupSchema = coda.makeSchema({
     otherNumAffected: {type: coda.ValueType.Number},
     otherNumAtRisk: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const EventAssessmentSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Non Systematic Assessment", value: "NON_SYSTEMATIC_ASSESSMENT"},
+    {display: "Systematic Assessment", value: "SYSTEMATIC_ASSESSMENT"},
+  ],
 });
 
 export const EventStatsSchema = coda.makeSchema({
@@ -1017,6 +1482,7 @@ export const EventStatsSchema = coda.makeSchema({
     numAffected: {type: coda.ValueType.Number},
     numAtRisk: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const AdverseEventSchema = coda.makeSchema({
@@ -1029,6 +1495,7 @@ export const AdverseEventSchema = coda.makeSchema({
     notes: {type: coda.ValueType.String},
     stats: {type: coda.ValueType.Array, items: EventStatsSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const AdverseEventsModuleSchema = coda.makeSchema({
@@ -1042,15 +1509,23 @@ export const AdverseEventsModuleSchema = coda.makeSchema({
     seriousEvents: {type: coda.ValueType.Array, items: AdverseEventSchema},
     otherEvents: {type: coda.ValueType.Array, items: AdverseEventSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const LimitationsAndCaveatsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {description: {type: coda.ValueType.String}},
+  includeUnknownProperties: true,
 });
 
 export const AgreementRestrictionTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Lte60", value: "LTE60"},
+    {display: "Gt60", value: "GT60"},
+    {display: "Other", value: "OTHER"},
+  ],
 });
 
 export const CertainAgreementSchema = coda.makeSchema({
@@ -1061,6 +1536,7 @@ export const CertainAgreementSchema = coda.makeSchema({
     restrictiveAgreement: {type: coda.ValueType.Boolean},
     otherDetails: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const PointOfContactSchema = coda.makeSchema({
@@ -1072,6 +1548,7 @@ export const PointOfContactSchema = coda.makeSchema({
     phone: {type: coda.ValueType.String},
     phoneExt: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const MoreInfoModuleSchema = coda.makeSchema({
@@ -1081,6 +1558,7 @@ export const MoreInfoModuleSchema = coda.makeSchema({
     certainAgreement: CertainAgreementSchema,
     pointOfContact: PointOfContactSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const ResultsSectionSchema = coda.makeSchema({
@@ -1092,19 +1570,27 @@ export const ResultsSectionSchema = coda.makeSchema({
     adverseEventsModule: AdverseEventsModuleSchema,
     moreInfoModule: MoreInfoModuleSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const UnpostedEventTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Reset", value: "RESET"},
+    {display: "Release", value: "RELEASE"},
+    {display: "Unrelease", value: "UNRELEASE"},
+  ],
 });
 
 export const UnpostedEventSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
     type: UnpostedEventTypeSchema,
-    date: {type: coda.ValueType.String},
+    date: {type: coda.ValueType.String, codaType: coda.ValueHintType.Date},
     dateUnknown: {type: coda.ValueType.Boolean},
   },
+  includeUnknownProperties: true,
 });
 
 export const UnpostedAnnotationSchema = coda.makeSchema({
@@ -1113,10 +1599,17 @@ export const UnpostedAnnotationSchema = coda.makeSchema({
     unpostedResponsibleParty: {type: coda.ValueType.String},
     unpostedEvents: {type: coda.ValueType.Array, items: UnpostedEventSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const ViolationEventTypeSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Violation Identified", value: "VIOLATION_IDENTIFIED"},
+    {display: "Correction Confirmed", value: "CORRECTION_CONFIRMED"},
+    {display: "Penalty Imposed", value: "PENALTY_IMPOSED"},
+  ],
 });
 
 export const ViolationEventSchema = coda.makeSchema({
@@ -1124,11 +1617,24 @@ export const ViolationEventSchema = coda.makeSchema({
   properties: {
     type: ViolationEventTypeSchema,
     description: {type: coda.ValueType.String},
-    creationDate: {type: coda.ValueType.String},
-    issuedDate: {type: coda.ValueType.String},
-    releaseDate: {type: coda.ValueType.String},
-    postedDate: {type: coda.ValueType.String},
+    creationDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    issuedDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    releaseDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    postedDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
   },
+  includeUnknownProperties: true,
 });
 
 export const ViolationAnnotationSchema = coda.makeSchema({
@@ -1136,6 +1642,7 @@ export const ViolationAnnotationSchema = coda.makeSchema({
   properties: {
     violationEvents: {type: coda.ValueType.Array, items: ViolationEventSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const AnnotationModuleSchema = coda.makeSchema({
@@ -1144,11 +1651,13 @@ export const AnnotationModuleSchema = coda.makeSchema({
     unpostedAnnotation: UnpostedAnnotationSchema,
     violationAnnotation: ViolationAnnotationSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const AnnotationSectionSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {annotationModule: AnnotationModuleSchema},
+  includeUnknownProperties: true,
 });
 
 export const DateTimeMinutesSchema = coda.makeSchema({
@@ -1163,11 +1672,12 @@ export const LargeDocSchema = coda.makeSchema({
     hasSap: {type: coda.ValueType.Boolean},
     hasIcf: {type: coda.ValueType.Boolean},
     label: {type: coda.ValueType.String},
-    date: {type: coda.ValueType.String},
+    date: {type: coda.ValueType.String, codaType: coda.ValueHintType.Date},
     uploadDate: DateTimeMinutesSchema,
     filename: {type: coda.ValueType.String},
     size: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const LargeDocumentModuleSchema = coda.makeSchema({
@@ -1176,36 +1686,50 @@ export const LargeDocumentModuleSchema = coda.makeSchema({
     noSap: {type: coda.ValueType.Boolean},
     largeDocs: {type: coda.ValueType.Array, items: LargeDocSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const DocumentSectionSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {largeDocumentModule: LargeDocumentModuleSchema},
+  includeUnknownProperties: true,
 });
 
 export const FirstMcpInfoSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {postDateStruct: DateStructSchema},
+  includeUnknownProperties: true,
 });
 
 export const SubmissionInfoSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    releaseDate: {type: coda.ValueType.String},
-    unreleaseDate: {type: coda.ValueType.String},
+    releaseDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
+    unreleaseDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     unreleaseDateUnknown: {type: coda.ValueType.Boolean},
-    resetDate: {type: coda.ValueType.String},
+    resetDate: {type: coda.ValueType.String, codaType: coda.ValueHintType.Date},
     mcpReleaseN: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const SubmissionTrackingSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    estimatedResultsFirstSubmitDate: {type: coda.ValueType.String},
+    estimatedResultsFirstSubmitDate: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     firstMcpInfo: FirstMcpInfoSchema,
     submissionInfos: {type: coda.ValueType.Array, items: SubmissionInfoSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const BmiLimitsSchema = coda.makeSchema({
@@ -1214,17 +1738,22 @@ export const BmiLimitsSchema = coda.makeSchema({
     minBmi: {type: coda.ValueType.Number},
     maxBmi: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const ModelPredictionsSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {bmiLimits: BmiLimitsSchema},
+  includeUnknownProperties: true,
 });
 
 export const MiscInfoModuleSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {
-    versionHolder: {type: coda.ValueType.String},
+    versionHolder: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Date,
+    },
     removedCountries: {
       type: coda.ValueType.Array,
       items: {type: coda.ValueType.String},
@@ -1232,6 +1761,7 @@ export const MiscInfoModuleSchema = coda.makeSchema({
     submissionTracking: SubmissionTrackingSchema,
     modelPredictions: ModelPredictionsSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const MeshSchema = coda.makeSchema({
@@ -1240,10 +1770,16 @@ export const MeshSchema = coda.makeSchema({
     id: {type: coda.ValueType.String},
     term: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const BrowseLeafRelevanceSchema = coda.makeSchema({
   type: coda.ValueType.String,
+  codaType: coda.ValueHintType.SelectList,
+  options: [
+    {display: "Low", value: "LOW"},
+    {display: "High", value: "HIGH"},
+  ],
 });
 
 export const BrowseLeafSchema = coda.makeSchema({
@@ -1254,6 +1790,7 @@ export const BrowseLeafSchema = coda.makeSchema({
     asFound: {type: coda.ValueType.String},
     relevance: BrowseLeafRelevanceSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const BrowseBranchSchema = coda.makeSchema({
@@ -1262,6 +1799,7 @@ export const BrowseBranchSchema = coda.makeSchema({
     abbrev: {type: coda.ValueType.String},
     name: {type: coda.ValueType.String},
   },
+  includeUnknownProperties: true,
 });
 
 export const BrowseModuleSchema = coda.makeSchema({
@@ -1272,6 +1810,7 @@ export const BrowseModuleSchema = coda.makeSchema({
     browseLeaves: {type: coda.ValueType.Array, items: BrowseLeafSchema},
     browseBranches: {type: coda.ValueType.Array, items: BrowseBranchSchema},
   },
+  includeUnknownProperties: true,
 });
 
 export const DerivedSectionSchema = coda.makeSchema({
@@ -1281,6 +1820,7 @@ export const DerivedSectionSchema = coda.makeSchema({
     conditionBrowseModule: BrowseModuleSchema,
     interventionBrowseModule: BrowseModuleSchema,
   },
+  includeUnknownProperties: true,
 });
 
 export const StudySchema = coda.makeSchema({
@@ -1293,6 +1833,7 @@ export const StudySchema = coda.makeSchema({
     derivedSection: DerivedSectionSchema,
     hasResults: {type: coda.ValueType.Boolean},
   },
+  includeUnknownProperties: true,
 });
 
 export const StudyListSchema = coda.makeSchema({
@@ -1326,6 +1867,7 @@ export const FieldValuesStatsSchema = coda.makeSchema({
     falseCount: {type: coda.ValueType.Number},
     trueCount: {type: coda.ValueType.Number},
   },
+  includeUnknownProperties: true,
 });
 
 export const FieldValuesStatsListSchema = coda.makeSchema({
@@ -1340,6 +1882,7 @@ export const StudiesZipSchema = coda.makeSchema({type: coda.ValueType.String});
 export const StudyFhirSchema = coda.makeSchema({
   type: coda.ValueType.Object,
   properties: {},
+  includeUnknownProperties: true,
 });
 
 export const errorMessageSchema = coda.makeSchema({

@@ -1,6 +1,16 @@
 import * as coda from "@codahq/packs-sdk";
 import {StudySchema} from "./gen-src/schemas";
 
+const StudySchemaWithId = coda.makeSchema({
+  ...StudySchema,
+  idProperty: "nctId",
+  displayProperty: "nctId",
+  properties: {
+    ...StudySchema.properties,
+    nctId: StudySchema.properties.protocolSection.properties.identificationModule.properties.nctId,
+  },
+});
+
 const ApiBaseUrl = "https://clinicaltrials.gov/api/v2";
 
 export const pack = coda.newPack();
@@ -18,7 +28,7 @@ pack.addFormula({
     }),
   ],
   resultType: coda.ValueType.Object,
-  schema: StudySchema,
+  schema: StudySchemaWithId,
   examples: [{params: ["NCT00841061"], result: "Hello World!"}],
   execute: async function ([nctId], context) {
     const url = coda.withQueryParams(`${ApiBaseUrl}/studies/${nctId}`, {
@@ -26,70 +36,70 @@ pack.addFormula({
       markupFormat: "markdown",
     });
     const response = await context.fetcher.fetch({method: "GET", url});
-    return response.body;
+    return Object.assign(response.body, {nctId: response.body.protocolSection.identificationModule.nctId});
   },
 });
 
 pack.addSyncTable({
   name: "Studies",
   identityName: "Study",
-  schema: StudySchema,
+  schema: StudySchemaWithId,
   formula: {
     name: "Studies",
     description: "Returns data of multiple studies.",
     parameters: [
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "cond",
-        description: '"Conditions or disease" query.',
+        name: "conditions",
+        description: "Conditions or disease",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "term",
-        description: '"Other terms" query.',
+        name: "terms",
+        description: "Other terms",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "locn",
-        description: '"Location terms" query.',
+        name: "location",
+        description: "Location terms.",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
         name: "titles",
-        description: '"Title / acronym" query.',
+        description: "Title / acronym",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "intr",
-        description: '"Intervention / treatment" query.',
+        name: "intervention",
+        description: "Intervention / treatment",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "outc",
-        description: '"Outcome measure" query.',
+        name: "outcome",
+        description: "Outcome measure",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
-        name: "spons",
-        description: '"Sponsor / collaborator" query.',
+        name: "sponsor",
+        description: "Sponsor / collaborator",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
         name: "lead",
-        description: 'Searches in "LeadSponsorName" field.',
+        description: "Lead sponsor name",
         optional: true,
       }),
       coda.makeParameter({
         type: coda.ParameterType.String,
         name: "id",
-        description: '"Study IDs" query.',
+        description: "Study ID",
         optional: true,
       }),
       coda.makeParameter({
@@ -129,20 +139,43 @@ pack.addSyncTable({
         description: "Filter by comma- or pipe-separated list of area:synonym_id pairs.",
         optional: true,
       }),
-      // TODO(oleg): add postFilter.
-      // TODO(oleg): add aggFilters, geoDecay, fields.
+      // filter.* and postFilter.* parameters have same effect as there is no aggregation calculation.
+      coda.makeParameter({
+        type: coda.ParameterType.String,
+        name: "aggFilters",
+        description:
+          "Apply aggregation filters, aggregation counts will not be provided. The value is comma- or pipe-separated list of pairs filter_id:space-separated list of option keys for the checked options.",
+        optional: true,
+      }),
+      coda.makeParameter({
+        type: coda.ParameterType.String,
+        name: "geoDecay",
+        description:
+          "Set proximity factor by distance from geo location to the closest LocationGeoPoint of a study. Ignored, if geo parameter is not set or response contains more than 10,000 studies.",
+        optional: true,
+      }),
+      coda.makeParameter({
+        type: coda.ParameterType.StringArray,
+        name: "fields",
+        description:
+          "If specified, must be non-empty comma- or pipe-separated list of fields to return. If unspecified, all fields will be returned. Order of the fields does not matter.",
+        optional: true,
+      }),
+      coda.makeParameter({
+        type: coda.ParameterType.StringArray,
+        name: "sort",
+        description:
+          "Comma- or pipe-separated list of sorting options of the studies. Every list item contains a field/piece name and an optional sort direction (asc for ascending or desc for descending) after colon character. List of eligible fields here: https://www.clinicaltrials.gov/data-api/about-api/study-data-structure",
+        optional: true,
+      }),
     ],
     execute: async function (
-      [cond, term, locn, titlesintr, outc, spons, lead, id, patient, overallStatus, geo, ids, advanced, synonyms],
-      context
-    ) {
-      const url = coda.withQueryParams(`${ApiBaseUrl}/studies`, {
-        format: "json",
-        markupFormat: "markdown",
+      [
         cond,
         term,
         locn,
-        titlesintr,
+        titles,
+        intr,
         outc,
         spons,
         lead,
@@ -153,11 +186,45 @@ pack.addSyncTable({
         ids,
         advanced,
         synonyms,
+        aggFilters,
+        geoDecay,
+        fields,
+        sort,
+      ],
+      context
+    ) {
+      const url = coda.withQueryParams(`${ApiBaseUrl}/studies`, {
+        format: "json",
+        markupFormat: "markdown",
+        "query.cond": cond,
+        "query.term": term,
+        "query.locn": locn,
+        "query.titles": titles,
+        "query.intr": intr,
+        "query.outc": outc,
+        "query.spons": spons,
+        "query.lead": lead,
+        "query.id": id,
+        "query.patient": patient,
+        "filter.overallStatus": overallStatus,
+        "filter.geo": geo,
+        "filter.ids": ids,
+        "filter.advanced": advanced,
+        "filter.synonyms": synonyms,
+        aggFilters: aggFilters,
+        geoDecay: geoDecay,
+        fields: fields?.join(",") || undefined,
+        sort: sort?.join(",") || undefined,
         pageToken: context.sync.continuation,
       });
       const response = await context.fetcher.fetch({method: "GET", url});
 
-      return {result: response.body.studies, continuation: response.body.nextPageToken};
+      return {
+        result: response.body.studies.map((s) =>
+          Object.assign(s, {nctId: s.protocolSection.identificationModule.nctId})
+        ),
+        continuation: response.body.nextPageToken,
+      };
     },
   },
 });
