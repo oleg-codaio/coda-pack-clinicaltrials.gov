@@ -78,7 +78,8 @@ function generateSchemaBody(context: Context, namePath: string[], field: FieldNo
       }
       output += "}";
 
-      const maybeDisplayChild = field.children.find((c) => c.name === "name");
+      const maybeDisplayChild =
+        field.children.find((c) => c.name === "name") || field.children.find((c) => c.name === "city");
       if (maybeDisplayChild) {
         output += `, displayProperty: "${maybeDisplayChild.piece}"`;
       }

@@ -1531,6 +1531,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Location Geo Point.",
                   },
                 },
+                displayProperty: "LocationCity",
               },
               fromKey: "locations",
               description:

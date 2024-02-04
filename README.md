@@ -1,9 +1,13 @@
-# Coda Pack Starter Template
+# Coda ClinicalTrials.gov Pack
 
-A starter project template for creating a Coda Pack. Learn how to get started by following one of the [tutorials](https://coda.io/packs/build/latest/tutorials/).
+Published here: https://coda.io/packs/clinicaltrials-gov-28331
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=585968849)
+See https://coda.io/d/Using-the-ClinicalTrials-gov-Pack_dLo-570UFN5
 
-[![Run on Repl.it](https://replit.com/badge/github/coda/packs-starter)](https://replit.com/new/github/coda/packs-starter)
+## Building
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/coda/packs-starter)
+Packs documentation here: https://coda.io/packs/build/latest/
+
+Use `npm run generate-api-types` and `npm run generate`.
+
+Upload the Pack using `npx coda upload pack.ts`.
