@@ -595,6 +595,7 @@ export const StudySchema = coda.makeSchema({
                     "Leas Sponsor Type. Sponsor organization type: Type of lead sponsor.",
                 },
               },
+              displayProperty: "LeadSponsorName",
               fromKey: "leadSponsor",
               description:
                 "Lead Sponsor. The organization or person who initiates the study and who has authority and control over the study..",
@@ -627,6 +628,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Collaborator Type. Type of collaborator.",
                   },
                 },
+                displayProperty: "CollaboratorName",
               },
               fromKey: "collaborators",
               description:
@@ -1119,6 +1121,7 @@ export const StudySchema = coda.makeSchema({
                       "Other Intervention Name. Other current and former name(s) or alias(es), if any, different from the Intervention Name(s), that the sponsor has used publicly to identify the intervention, including, but not limited to, past or present names such as brand name(s), or serial numbers..",
                   },
                 },
+                displayProperty: "InterventionName",
               },
               fromKey: "interventions",
               description:
@@ -1367,6 +1370,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Central Contact EMail.",
                   },
                 },
+                displayProperty: "CentralContactName",
               },
               fromKey: "centralContacts",
               description:
@@ -1404,6 +1408,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Overall Official Role.",
                   },
                 },
+                displayProperty: "OverallOfficialName",
               },
               fromKey: "overallOfficials",
               description:
@@ -1515,6 +1520,7 @@ export const StudySchema = coda.makeSchema({
                           description: "Location Contact EMail.",
                         },
                       },
+                      displayProperty: "LocationContactName",
                     },
                     fromKey: "contacts",
                     description: "Facility Contact.",
@@ -3576,6 +3582,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Relevance to Condition Leaf Topic.",
                   },
                 },
+                displayProperty: "ConditionBrowseLeafName",
               },
               fromKey: "browseLeaves",
               description:
@@ -3597,6 +3604,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Condition Branch Topic Name.",
                   },
                 },
+                displayProperty: "ConditionBrowseBranchName",
               },
               fromKey: "browseBranches",
               description:
@@ -3685,6 +3693,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Relevance to Intervention Leaf Topic.",
                   },
                 },
+                displayProperty: "InterventionBrowseLeafName",
               },
               fromKey: "browseLeaves",
               description:
@@ -3706,6 +3715,7 @@ export const StudySchema = coda.makeSchema({
                     description: "Intervention Branch Topic Name.",
                   },
                 },
+                displayProperty: "InterventionBrowseBranchName",
               },
               fromKey: "browseBranches",
               description:
