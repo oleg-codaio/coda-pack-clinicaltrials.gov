@@ -2,16 +2,31 @@ import * as coda from "@codahq/packs-sdk";
 import {StudySchema} from "./gen-src/schemas";
 import {components} from "./gen-src/api-types";
 
-const StudySchemaWithId = coda.makeSchema({
+const StudySchemaRefined = coda.makeSchema({
   ...StudySchema,
   idProperty: "NCTId",
   displayProperty: "NCTId",
-  featuredProperties: ["ProtocolSection"],
+  featuredProperties: ["Link"],
   properties: {
     ...StudySchema.properties,
     NCTId: StudySchema.properties.ProtocolSection.properties.IdentificationModule.properties.NCTId,
+    Link: {
+      type: coda.ValueType.String,
+      codaType: coda.ValueHintType.Url,
+      fromKey: "link",
+      required: true,
+    },
   },
 });
+
+function makeStudyRefined(study: coda.SchemaType<typeof StudySchema>): coda.SchemaType<typeof StudySchema> {
+  const nctId = study.protocolSection.identificationModule.nctId;
+  return {
+    ...study,
+    nctId,
+    link: `https://clinicaltrials.gov/study/${nctId}`,
+  };
+}
 
 const ApiBaseUrl = "https://clinicaltrials.gov/api/v2";
 
@@ -30,19 +45,19 @@ pack.addFormula({
     }),
   ],
   resultType: coda.ValueType.Object,
-  schema: StudySchemaWithId,
+  schema: StudySchemaRefined,
   examples: [{params: ["NCT00841061"], result: "Study"}],
   execute: async function ([nctId], context) {
     const url = coda.withQueryParams(`${ApiBaseUrl}/studies/${nctId}`, {format: "json", markupFormat: "markdown"});
     const response = await context.fetcher.fetch({method: "GET", url});
-    return Object.assign(response.body, {nctId: response.body.protocolSection.identificationModule.nctId});
+    return makeStudyRefined(response.body);
   },
 });
 
 pack.addSyncTable({
   name: "Studies",
   identityName: "Study",
-  schema: StudySchemaWithId,
+  schema: StudySchemaRefined,
   formula: {
     name: "Studies",
     description: "Returns data of multiple studies.",
@@ -220,9 +235,7 @@ pack.addSyncTable({
       const response = await context.fetcher.fetch<components["schemas"]["PagedStudies"]>({method: "GET", url});
 
       return {
-        result: response.body.studies.map((s) =>
-          Object.assign(s, {nctId: s.protocolSection.identificationModule.nctId})
-        ),
+        result: response.body.studies.map((s) => makeStudyRefined(s)),
         continuation: {nextPageToken: response.body.nextPageToken},
       };
     },
